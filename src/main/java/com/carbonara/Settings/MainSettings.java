@@ -1,6 +1,5 @@
 package com.carbonara.Settings;
 
-import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import com.simsilica.lemur.*;
@@ -14,7 +13,7 @@ public class MainSettings {
     private static final int RESOLUTION_HEIGHT = 720;
     private static final int FREQUENCY = 60;
 
-    private static AppSettings appSettings = new AppSettings(true);
+    private static final AppSettings appSettings = new AppSettings(true);
 
     static {
         appSettings.setTitle(TITLE);

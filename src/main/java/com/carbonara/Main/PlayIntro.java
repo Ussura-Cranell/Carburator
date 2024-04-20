@@ -6,11 +6,7 @@ import com.carbonara.jme.video.player.MovieSettings;
 import com.carbonara.jme.video.player.MovieState;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.state.AppStateManager;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.input.FlyByCamera;
-import com.jme3.input.InputManager;
-import com.jme3.renderer.Camera;
 
 import java.util.logging.Logger;
 

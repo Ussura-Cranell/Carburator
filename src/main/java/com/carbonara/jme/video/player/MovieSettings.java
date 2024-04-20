@@ -6,11 +6,11 @@ package com.carbonara.jme.video.player;
  */
 public class MovieSettings {
 
-    private String path;
-    private int width;
-    private int height;
-    private float zoomingFactor;
-    private boolean skippable;
+    private final String path;
+    private final int width;
+    private final int height;
+    private final float zoomingFactor;
+    private final boolean skippable;
 
     public MovieSettings(String path, int width, int height) {
         this(path, width, height, 1f, false);

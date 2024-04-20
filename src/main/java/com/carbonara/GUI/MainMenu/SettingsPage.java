@@ -52,12 +52,9 @@ public class SettingsPage extends BaseAppState {
 
         Button button = buttons.get(3);
         if (button.getText().equals("Back to menu")) {
-            button.addClickCommands(new Command<Button>() {
-                @Override
-                public void execute(Button button) {
-                    application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
-                    setEnabled(false);
-                }
+            button.addClickCommands(button1 -> {
+                application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
+                setEnabled(false);
             });
         } else logger.warning("invalid button name");
 
@@ -75,8 +72,8 @@ public class SettingsPage extends BaseAppState {
 
         Container myWindow = new Container();
         myWindow.setLocalTranslation(
-                (float) positionX,
-                (float) positionY, 0);
+                positionX,
+                positionY, 0);
 
         myWindow.setPreferredSize(new Vector3f(sizeX, sizeY, 0)); // Предпочтительный размер окна
         return myWindow;

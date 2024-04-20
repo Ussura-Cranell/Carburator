@@ -51,23 +51,16 @@ public class MainMenuPage extends BaseAppState {
 
         Button button = buttons.get(2);
         if (button.getText().equals("Settings")) {
-            button.addClickCommands(new Command<Button>() {
-                @Override
-                public void execute(Button button) {
-                    application.getStateManager().getState(SettingsPage.class).setEnabled(true);
-                    setEnabled(false);
-                }
+            button.addClickCommands(button1 -> {
+                application.getStateManager().getState(SettingsPage.class).setEnabled(true);
+                setEnabled(false);
             });
         } else logger.warning("invalid button name");
 
         button = buttons.get(3);
         if (button.getText().equals("Exit")) {
-            button.addClickCommands(new Command<Button>() {
-                @Override
-                public void execute(Button button) {
-                    //application.getStateManager().detach(application.getStateManager().getState(PageManager.class));
-                    application.stop();
-                }
+            button.addClickCommands(button12 -> {
+                application.stop();
             });
         } else logger.warning("invalid button name");
 
@@ -87,8 +80,8 @@ public class MainMenuPage extends BaseAppState {
 
         Container myWindow = new Container();
         myWindow.setLocalTranslation(
-                (float) positionX,
-                (float) positionY, 0);
+                positionX,
+                positionY, 0);
 
         myWindow.setPreferredSize(new Vector3f(sizeX, sizeY, 0)); // Предпочтительный размер окна
         return myWindow;
