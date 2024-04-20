@@ -7,9 +7,7 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.simsilica.lemur.*;
-import com.simsilica.lemur.component.SpringGridLayout;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class LoadingPage extends BaseAppState {

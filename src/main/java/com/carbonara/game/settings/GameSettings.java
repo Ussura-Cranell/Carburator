@@ -1,9 +1,6 @@
 package com.carbonara.game.settings;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
-import com.simsilica.lemur.*;
-import com.simsilica.lemur.style.BaseStyles;
 
 public class GameSettings {
 

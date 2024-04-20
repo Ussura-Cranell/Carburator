@@ -6,7 +6,9 @@ import com.jme3.app.state.BaseAppState;
 import java.util.logging.Logger;
 
 public class WorldGeneration extends BaseAppState {
-    private static final Logger logger = Logger.getLogger(WorldGeneration.class.getName());
+    static {
+        Logger.getLogger(WorldGeneration.class.getName());
+    }
 
     @Override
     protected void initialize(Application application) {

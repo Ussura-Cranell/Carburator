@@ -1,6 +1,5 @@
 package com.carbonara.game.main;
 
-import com.carbonara.game.gui.pages.LoadingPage;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.SimpleApplication;
