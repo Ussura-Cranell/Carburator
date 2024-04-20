@@ -1,4 +1,4 @@
-package com.carbonara.jme.video.player;
+package com.carbonara.game.jme.video.player;
 
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;

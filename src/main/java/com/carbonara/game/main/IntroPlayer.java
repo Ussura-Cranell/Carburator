@@ -1,19 +1,19 @@
-package com.carbonara.Main;
+package com.carbonara.game.main;
 
-import com.carbonara.GUI.MainMenu.PageManager;
-import com.carbonara.Settings.MainSettings;
-import com.carbonara.jme.video.player.MovieSettings;
-import com.carbonara.jme.video.player.MovieState;
+import com.carbonara.game.gui.managers.MainMenuPageManager;
+import com.carbonara.game.settings.GameSettings;
+import com.carbonara.game.jme.video.player.MovieSettings;
+import com.carbonara.game.jme.video.player.MovieState;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 
 import java.util.logging.Logger;
 
-public class PlayIntro extends BaseAppState {
+public class IntroPlayer extends BaseAppState {
 
     static {
-        Logger.getLogger(PlayIntro.class.getName());
+        Logger.getLogger(IntroPlayer.class.getName());
     }
 
     private MovieState movieState;
@@ -22,8 +22,8 @@ public class PlayIntro extends BaseAppState {
     @Override
     protected void initialize(Application application) {
 
-        MainSettings.cameraUnlock(false);
-        MainSettings.cursorVisible(false);
+        GameSettings.cameraUnlock(false);
+        GameSettings.cursorVisible(false);
 
         try {
             String path = "src/main/resources/Media/Video/Intro.mp4";
@@ -65,7 +65,7 @@ public class PlayIntro extends BaseAppState {
         if (movieState.isInitialized() && movieState.isStopped()){
             this.getApplication().getStateManager().detach(movieState);
             this.getApplication().getStateManager().detach(this);
-            this.getApplication().getStateManager().attach(new PageManager());
+            this.getApplication().getStateManager().attach(new MainMenuPageManager());
         }
     }
 }

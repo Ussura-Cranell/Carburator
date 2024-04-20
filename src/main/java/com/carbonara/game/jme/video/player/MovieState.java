@@ -1,4 +1,4 @@
-package com.carbonara.jme.video.player;
+package com.carbonara.game.jme.video.player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +35,9 @@ import javafx.scene.media.MediaPlayer;
  */
 public class MovieState extends BaseAppState {
 
-    private static final Logger logger = Logger.getLogger(MovieState.class.getName());
+    static {
+        Logger.getLogger(MovieState.class.getName());
+    }
 
     private static final String KEY_SKIP = "SKIP_VIDEO";
     private InputManager inputManager;

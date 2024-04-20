@@ -1,4 +1,4 @@
-package com.carbonara.jme.video.player;
+package com.carbonara.game.jme.video.player;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Callable;

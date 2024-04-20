@@ -1,6 +1,6 @@
-package com.carbonara.GUI.MainMenu;
+package com.carbonara.game.gui.pages;
 
-import com.carbonara.Settings.MainSettings;
+import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -11,8 +11,7 @@ import com.simsilica.lemur.component.SpringGridLayout;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class MainMenuPage extends BaseAppState {
-
+public class SettingsPage extends BaseAppState {
     private static final Logger logger = Logger.getLogger(MainMenuPage.class.getName());
     Container myWindow;
 
@@ -25,7 +24,7 @@ public class MainMenuPage extends BaseAppState {
         window.setPreferredSize(new Vector3f(0, 25, 0));
         myWindow.addChild(window);
 
-        Label label = new Label("Main Menu");
+        Label label = new Label("Setting Menu");
         label.setTextVAlignment(VAlignment.Center);
         label.setTextHAlignment(HAlignment.Center);
         label.setFontSize(30.0f);
@@ -37,10 +36,10 @@ public class MainMenuPage extends BaseAppState {
 
         ArrayList<Button> buttons = new ArrayList<>();
 
-        buttons.add(new Button("Continue"));
-        buttons.add(new Button("New Game"));
-        buttons.add(new Button("Settings"));
-        buttons.add(new Button("Exit"));
+        buttons.add(new Button("Customizing 1"));
+        buttons.add(new Button("Customizing 2"));
+        buttons.add(new Button("Customizing 3"));
+        buttons.add(new Button("Back to menu"));
 
         for (Button button : buttons) window.addChild(button);
         for (Button button : buttons) {
@@ -49,26 +48,21 @@ public class MainMenuPage extends BaseAppState {
             button.setFontSize(20.0f);
         }
 
-        Button button = buttons.get(2);
-        if (button.getText().equals("Settings")) {
+        this.myWindow = myWindow;
+
+        Button button = buttons.get(3);
+        if (button.getText().equals("Back to menu")) {
             button.addClickCommands(button1 -> {
-                application.getStateManager().getState(SettingsPage.class).setEnabled(true);
+                application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
                 setEnabled(false);
             });
         } else logger.warning("invalid button name");
 
-        button = buttons.get(3);
-        if (button.getText().equals("Exit")) {
-            button.addClickCommands(button12 -> application.stop());
-        } else logger.warning("invalid button name");
-
-        this.myWindow = myWindow;
-
     }
 
     private static Container getContainer() {
-        float width = MainSettings.getAppSettings().getWidth();
-        float height = MainSettings.getAppSettings().getHeight();
+        float width = GameSettings.getAppSettings().getWidth();
+        float height = GameSettings.getAppSettings().getHeight();
 
         float sizeX = width / 3;
         float sizeY = height / 3 + 50;

@@ -1,11 +1,11 @@
-package com.carbonara.Settings;
+package com.carbonara.game.settings;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import com.simsilica.lemur.*;
 import com.simsilica.lemur.style.BaseStyles;
 
-public class MainSettings {
+public class GameSettings {
 
     private static SimpleApplication app;
     private static final String TITLE = "NameOfGame";
@@ -22,7 +22,7 @@ public class MainSettings {
     }
 
     public static void initialize(SimpleApplication app){
-        MainSettings.app = app;
+        GameSettings.app = app;
     }
 
     public static AppSettings getAppSettings(){
