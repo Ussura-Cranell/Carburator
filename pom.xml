@@ -70,6 +70,79 @@
             <version>4.0.21</version>
             <type>pom</type>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.stephengold/Minie -->
+        <dependency>
+            <groupId>com.github.stephengold</groupId>
+            <artifactId>Minie</artifactId>
+            <version>8.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-plugins -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-plugins</artifactId>
+            <version>3.6.1-stable</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-jogg -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-jogg</artifactId>
+            <version>3.6.1-stable</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-awt-dialogs -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-awt-dialogs</artifactId>
+            <version>3.6.1-stable</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-terrain -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-terrain</artifactId>
+            <version>3.6.1-stable</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-effects -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-effects</artifactId>
+            <version>3.6.1-stable</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jmonkeyengine/jme3-testdata -->
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-testdata</artifactId>
+            <version>3.6.1-stable</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>22</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>22</version>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+        <!--dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>22</version>
+        </dependency-->
     </dependencies>
 
 </project>
