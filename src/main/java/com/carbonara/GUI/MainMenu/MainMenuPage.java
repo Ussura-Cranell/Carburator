@@ -59,9 +59,7 @@ public class MainMenuPage extends BaseAppState {
 
         button = buttons.get(3);
         if (button.getText().equals("Exit")) {
-            button.addClickCommands(button12 -> {
-                application.stop();
-            });
+            button.addClickCommands(button12 -> application.stop());
         } else logger.warning("invalid button name");
 
         this.myWindow = myWindow;

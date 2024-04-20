@@ -12,10 +12,6 @@ public class MovieSettings {
     private final float zoomingFactor;
     private final boolean skippable;
 
-    public MovieSettings(String path, int width, int height) {
-        this(path, width, height, 1f, false);
-    }
-
     public MovieSettings(String path, int width, int height, float zoomingFactor, boolean skippable) {
         this.path = path;
         this.width = width;

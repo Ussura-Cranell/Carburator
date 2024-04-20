@@ -12,7 +12,10 @@ import java.util.logging.Logger;
 
 public class PlayIntro extends BaseAppState {
 
-    private static final Logger logger = Logger.getLogger(PlayIntro.class.getName());
+    static {
+        Logger.getLogger(PlayIntro.class.getName());
+    }
+
     private MovieState movieState;
 
 

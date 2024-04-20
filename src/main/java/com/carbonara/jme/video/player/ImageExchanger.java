@@ -39,32 +39,28 @@ public class ImageExchanger {
     public void flushUpdate() {
         try {
             fxDataReady = true;
-            this.app.enqueue(new Callable<Void>() {
-
-                @Override
-                public Void call() throws Exception {
-                    final boolean updateImage = imageExchange.tryAcquire();
-                    /**
-                     * we update only if we can do that in nonblocking mode if
-                     * would need to block, it means that another callable with
-                     * newer data will be enqueued soon, so we can just ignore
-                     * this repaint
-                     */
-                    if (updateImage) {
-                        try {
-                            if (fxDataReady) {
-                                fxDataReady = false;
-                                final ByteBuffer tmp = jmeData;
-                                jmeData = fxData;
-                                fxData = tmp;
-                            }
-                        } finally {
-                            imageExchange.release();
+            this.app.enqueue((Callable<Void>) () -> {
+                final boolean updateImage = imageExchange.tryAcquire();
+                /**
+                 * we update only if we can do that in nonblocking mode if
+                 * would need to block, it means that another callable with
+                 * newer data will be enqueued soon, so we can just ignore
+                 * this repaint
+                 */
+                if (updateImage) {
+                    try {
+                        if (fxDataReady) {
+                            fxDataReady = false;
+                            final ByteBuffer tmp = jmeData;
+                            jmeData = fxData;
+                            fxData = tmp;
                         }
-                        jmeImage.setData(jmeData);
+                    } finally {
+                        imageExchange.release();
                     }
-                    return null;
+                    jmeImage.setData(jmeData);
                 }
+                return null;
             });
 
         } finally {
