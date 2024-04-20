@@ -1,9 +1,9 @@
 package com.carbonara.game.main;
 
+import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.gui.managers.MainMenuPageManager;
-import com.carbonara.game.settings.GameSettings;
-import com.carbonara.game.jme.video.player.MovieSettings;
-import com.carbonara.game.jme.video.player.MovieState;
+import com.carbonara.game.tools.video.player.MovieSettings;
+import com.carbonara.game.tools.video.player.MovieState;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -22,8 +22,8 @@ public class IntroPlayer extends BaseAppState {
     @Override
     protected void initialize(Application application) {
 
-        GameSettings.cameraUnlock(false);
-        GameSettings.cursorVisible(false);
+        GUIManager.cameraUnlock(false);
+        GUIManager.cursorVisible(false);
 
         try {
             String path = "src/main/resources/Media/Video/Intro.mp4";

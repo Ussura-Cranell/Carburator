@@ -1,5 +1,7 @@
 package com.carbonara.game.main;
 
+import com.carbonara.game.gui.pages.LoadingPage;
+import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.SimpleApplication;
 
@@ -11,23 +13,33 @@ public class GameLauncher extends SimpleApplication {
         Logger.getLogger(GameLauncher.class.getName());
     }
 
+    GUIManager guiManager;
+
     public static void main(String[] args) {
-
         GameLauncher gameLauncher = new GameLauncher();
-        GameSettings.initialize(gameLauncher);
-
-        gameLauncher.setSettings(GameSettings.getAppSettings());
-        gameLauncher.setShowSettings(false);
-        gameLauncher.setDisplayStatView(false);
-        gameLauncher.setDisplayFps(false);
-
+        setManualSetting(gameLauncher, true);
+        enableStatistics(gameLauncher, false);
         gameLauncher.start();
     }
     @Override
     public void simpleInitApp() {
 
-        GameSettings.initializeGUIGlobals();
+        guiManager = new GUIManager(this);
 
+        // code
         stateManager.attach(new IntroPlayer());
+
+        // debug
+        //stateManager.attach(new LoadingPage());
+    }
+
+    private static void setManualSetting(SimpleApplication app ,boolean value){
+        app.setSettings(GameSettings.getAppSettings());
+        app.setShowSettings(value);
+    }
+
+    private static void enableStatistics(SimpleApplication app ,boolean value){
+        app.setDisplayStatView(value);
+        app.setDisplayFps(value);
     }
 }

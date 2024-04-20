@@ -7,9 +7,8 @@ import com.simsilica.lemur.style.BaseStyles;
 
 public class GameSettings {
 
-    private static SimpleApplication app;
     private static final String TITLE = "NameOfGame";
-    private static final int RESOLUTION_WIDTH = 1200;
+    private static final int RESOLUTION_WIDTH = 1280;
     private static final int RESOLUTION_HEIGHT = 720;
     private static final int FREQUENCY = 60;
 
@@ -21,25 +20,7 @@ public class GameSettings {
         appSettings.setFrequency(FREQUENCY);
     }
 
-    public static void initialize(SimpleApplication app){
-        GameSettings.app = app;
-    }
-
     public static AppSettings getAppSettings(){
         return appSettings;
-    }
-
-    public static void initializeGUIGlobals(){
-        GuiGlobals.initialize(app);
-        BaseStyles.loadGlassStyle();
-        GuiGlobals.getInstance().getStyles().setDefaultStyle("glass");
-    }
-
-    public static void cameraUnlock(boolean value){
-        app.getFlyByCamera().setEnabled(value);
-    }
-
-    public static void cursorVisible(boolean value){
-        app.getInputManager().setCursorVisible(value);
     }
 }

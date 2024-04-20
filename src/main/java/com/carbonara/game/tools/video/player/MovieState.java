@@ -1,4 +1,4 @@
-package com.carbonara.game.jme.video.player;
+package com.carbonara.game.tools.video.player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
