@@ -1,4 +1,4 @@
-package com.carbonara.game.gui.pages;
+package com.carbonara.game.gui.menu.pages;
 
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;

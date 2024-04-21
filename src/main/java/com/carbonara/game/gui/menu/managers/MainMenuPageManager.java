@@ -1,8 +1,8 @@
-package com.carbonara.game.gui.managers;
+package com.carbonara.game.gui.menu.managers;
 
-import com.carbonara.game.gui.pages.MainMenuPage;
-import com.carbonara.game.gui.pages.NewGamePage;
-import com.carbonara.game.gui.pages.SettingsPage;
+import com.carbonara.game.gui.menu.pages.MainMenuPage;
+import com.carbonara.game.gui.menu.pages.NewGamePage;
+import com.carbonara.game.gui.menu.pages.SettingsPage;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;

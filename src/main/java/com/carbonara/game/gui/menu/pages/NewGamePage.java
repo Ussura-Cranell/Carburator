@@ -1,6 +1,7 @@
-package com.carbonara.game.gui.pages;
+package com.carbonara.game.gui.menu.pages;
 
-import com.carbonara.game.gui.managers.MainMenuPageManager;
+import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
+import com.carbonara.game.logic.GameController;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -54,7 +55,7 @@ public class NewGamePage extends BaseAppState {
         Button button = buttons.get(2);
         if (button.getText().equals("Create")) {
             button.addClickCommands(button1 -> {
-                application.getStateManager().attach(new LoadingPage());
+                application.getStateManager().attach(new GameController());
                 application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));
                 //application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
                // setEnabled(false);

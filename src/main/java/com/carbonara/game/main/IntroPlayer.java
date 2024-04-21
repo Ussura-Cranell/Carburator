@@ -1,7 +1,7 @@
 package com.carbonara.game.main;
 
 import com.carbonara.game.managers.GUIManager;
-import com.carbonara.game.gui.managers.MainMenuPageManager;
+import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.tools.video.player.MovieSettings;
 import com.carbonara.game.tools.video.player.MovieState;
 import com.jme3.app.Application;
@@ -11,10 +11,6 @@ import com.jme3.app.state.BaseAppState;
 import java.util.logging.Logger;
 
 public class IntroPlayer extends BaseAppState {
-
-    static {
-        Logger.getLogger(IntroPlayer.class.getName());
-    }
 
     private MovieState movieState;
 

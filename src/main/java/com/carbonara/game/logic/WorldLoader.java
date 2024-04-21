@@ -1,4 +1,4 @@
 package com.carbonara.game.logic;
 
-public class LoadingGameSaves {
+public class WorldLoader {
 }

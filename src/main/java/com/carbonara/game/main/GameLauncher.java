@@ -1,22 +1,16 @@
 package com.carbonara.game.main;
 
 import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.logic.GameController;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.SimpleApplication;
 
-import java.util.logging.Logger;
-
 public class GameLauncher extends SimpleApplication {
-
-    static {
-        Logger.getLogger(GameLauncher.class.getName());
-    }
-
     GUIManager guiManager;
 
     public static void main(String[] args) {
         GameLauncher gameLauncher = new GameLauncher();
-        setManualSetting(gameLauncher, true);
+        setManualSetting(gameLauncher, false);
         enableStatistics(gameLauncher, false);
         gameLauncher.start();
     }
@@ -30,6 +24,8 @@ public class GameLauncher extends SimpleApplication {
 
         // debug
         //stateManager.attach(new LoadingPage());
+
+        //stateManager.attach(new GameController());
     }
 
     private static void setManualSetting(SimpleApplication app ,boolean value){
