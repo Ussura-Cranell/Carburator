@@ -20,12 +20,12 @@ public class GameLauncher extends SimpleApplication {
         guiManager = new GUIManager(this);
 
         // code
-        stateManager.attach(new IntroPlayer());
+        //stateManager.attach(new IntroPlayer());
 
         // debug
         //stateManager.attach(new LoadingPage());
 
-        //stateManager.attach(new GameController());
+        stateManager.attach(new GameController());
     }
 
     private static void setManualSetting(SimpleApplication app ,boolean value){

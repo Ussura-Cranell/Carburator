@@ -7,8 +7,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.input.Joystick;
-import com.jme3.input.controls.Trigger;
+import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -19,6 +18,10 @@ import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
+import com.jme3.input.controls.ActionListener;
+
+import com.jme3.input.controls.KeyTrigger;
+
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -34,6 +37,9 @@ public class Player extends BaseAppState {
     Label labelPlayerPosition;
     Label labelCameraPosition;
     Label labelCameraRotation;
+
+    Vector3f playerWalkDirectionVector = Vector3f.ZERO;
+
 
     public Player(Node scene, Vector3f initPhysicsLocation){
         this.scene = scene;
@@ -57,8 +63,8 @@ public class Player extends BaseAppState {
         BulletManagerTest.getBulletAppState().getPhysicsSpace().add(player);
 
         // отображение игрока
-        int axisSamples = 5;
-        int radialSamples = 5;
+        int axisSamples = 10;
+        int radialSamples = 10;
         Cylinder playerCylinderShape = new Cylinder(axisSamples, radialSamples, radius, height, true, false);
         playerCylinderGeometry = new Geometry("A shape", playerCylinderShape);
         playerCylinderGeometry.rotate(FastMath.DEG_TO_RAD*90, 0, 0);
@@ -102,7 +108,40 @@ public class Player extends BaseAppState {
         playerInfoElements.addChild(labelCameraRotation);
 
         ((SimpleApplication) application).getGuiNode().attachChild(playerInfoElements);
+
+        application.getInputManager().addMapping("direction left", new KeyTrigger(KeyInput.KEY_J));
+        application.getInputManager().addMapping("direction right", new KeyTrigger(KeyInput.KEY_L));
+        application.getInputManager().addMapping("direction front", new KeyTrigger(KeyInput.KEY_I));
+        application.getInputManager().addMapping("direction back", new KeyTrigger(KeyInput.KEY_K));
+
+        ActionListener actionListener = new ActionListener() {
+            public void onAction(String name, boolean isPressed, float tpf) {
+                if (name.equals("direction left") && isPressed) {
+                    // Код для движения влево
+                }
+                if (name.equals("direction right") && isPressed) {
+                    // Код для движения вправо
+                }
+                if (name.equals("direction front") && isPressed) {
+                    // Код для движения вперед
+                    logger.info("движение впереёд");
+                    player.setWalkDirection(playerWalkDirectionVector);
+                    logger.info("(actionListener) playerWalkDirectionVector: " + playerWalkDirectionVector);
+                }
+                if (name.equals("direction back") && isPressed) {
+                    // Код для движения назад
+                }
+                if (!isPressed){
+                    // Код для остановки
+                    logger.info("движение остановленно");
+                    player.setWalkDirection(Vector3f.ZERO);
+                }
+            }
+        };
+        application.getInputManager().addListener(actionListener, "direction left", "direction right", "direction front", "direction back");
     }
+
+
 
     @Override
     protected void cleanup(Application application) {
@@ -112,13 +151,6 @@ public class Player extends BaseAppState {
     @Override
     protected void onEnable() {
 
-        // getApplication().getInputManager().clearMappings();
-        // getApplication().getInputManager().
-
-        if (getApplication().getInputManager().getJoysticks() != null)
-        for (Joystick joystick : getApplication().getInputManager().getJoysticks()){
-            logger.info("joystick: " + joystick.getName());
-        }
     }
 
     @Override
@@ -128,9 +160,12 @@ public class Player extends BaseAppState {
 
     static float timer = 0;
     static float timer2 = 0;
-
+    Geometry playerDirectionGeometry;
     @Override
     public void update(float tpf) {
+
+        playerWalkDirectionVector =
+                new Vector3f(getApplication().getCamera().getDirection().setY(0).normalize().mult(tpf*2));
 
         // цилиндр игрока следует за его физикой
         playerCylinderGeometry.setLocalTranslation(player.getPhysicsLocation());
@@ -144,27 +179,15 @@ public class Player extends BaseAppState {
         float z = player.getPhysicsLocation().getZ();
         labelPlayerPosition.setText("PlayerPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
 
-        x = getApplication().getCamera().getLocation().getX();
-        y = getApplication().getCamera().getLocation().getY();
-        z = getApplication().getCamera().getLocation().getZ();
-        labelCameraPosition.setText("CameraPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
-
-        x = getApplication().getCamera().getRotation().getX();
-        y = getApplication().getCamera().getRotation().getY();
-        z = getApplication().getCamera().getRotation().getZ();
-        labelCameraRotation.setText("CameraRotation:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
+        x = getApplication().getCamera().getDirection().getX();
+        y = getApplication().getCamera().getDirection().getY();
+        z = getApplication().getCamera().getDirection().getZ();
+        labelCameraPosition.setText("CameraDirection:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
 
         timer += tpf;
-        timer2 += tpf;
-
-        if (timer >= 0.5){
+        if (timer >= 1){
             timer = 0;
-            logger.info("Player Physics Location : " + player.getPhysicsLocation());
-        }
-
-        if (timer2 >= 2){
-            timer2 = 0;
-            player.setPhysicsLocation(player.getPhysicsLocation().add(0, 10, 0));
+            logger.info("(update cycle) playerWalkDirectionVector: " + playerWalkDirectionVector);
         }
     }
 }
