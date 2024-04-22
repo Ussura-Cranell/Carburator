@@ -11,7 +11,7 @@ public class GameLauncher extends SimpleApplication {
     public static void main(String[] args) {
         GameLauncher gameLauncher = new GameLauncher();
         setManualSetting(gameLauncher, false);
-        enableStatistics(gameLauncher, false);
+        enableStatistics(gameLauncher, true);
         gameLauncher.start();
     }
     @Override
@@ -20,12 +20,12 @@ public class GameLauncher extends SimpleApplication {
         guiManager = new GUIManager(this);
 
         // code
-        //stateManager.attach(new IntroPlayer());
+        stateManager.attach(new IntroPlayer());
 
         // debug
         //stateManager.attach(new LoadingPage());
 
-        stateManager.attach(new GameController());
+        // stateManager.attach(new GameController());
     }
 
     private static void setManualSetting(SimpleApplication app ,boolean value){

@@ -15,6 +15,7 @@ import com.simsilica.lemur.Label;
 
 
 public class MainMenuPageManager extends BaseAppState {
+    private Container panel;
     @Override
     protected void initialize(Application application) {
 
@@ -40,6 +41,8 @@ public class MainMenuPageManager extends BaseAppState {
         application.getStateManager().detach(application.getStateManager().getState(MainMenuPage.class));
         application.getStateManager().detach(application.getStateManager().getState(NewGamePage.class));
         application.getStateManager().detach(application.getStateManager().getState(SettingsPage.class));
+
+        ((SimpleApplication) application).getGuiNode().detachChild(this.panel);
     }
 
     @Override
@@ -54,16 +57,16 @@ public class MainMenuPageManager extends BaseAppState {
 
     private void windowResolutionTEst(Application app, boolean enable){
         if (enable) {
-            Container panel;
 
-            panel = new Container();
-            panel.setPreferredSize(new Vector3f(100, 40, 0));
-            panel.setLocalTranslation(0,
+
+            this.panel = new Container();
+            this.panel.setPreferredSize(new Vector3f(100, 40, 0));
+            this.panel.setLocalTranslation(0,
                     GameSettings.getAppSettings().getWindowHeight(), 0);
 
             Label label = new Label("click update");
             label.setFontSize(10.0f);
-            panel.addChild(label);
+            this.panel.addChild(label);
 
             Button button = new Button("update");
             button.setFontSize(10.0f);
@@ -71,9 +74,9 @@ public class MainMenuPageManager extends BaseAppState {
                 label.setText("Size: " + GameSettings.getAppSettings().getWindowWidth() + "x" +
                         GameSettings.getAppSettings().getHeight());
             });
-            panel.addChild(button);
+            this.panel.addChild(button);
 
-            ((SimpleApplication) app).getGuiNode().attachChild(panel);
+            ((SimpleApplication) app).getGuiNode().attachChild(this.panel);
         }
     }
 }

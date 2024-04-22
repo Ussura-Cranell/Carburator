@@ -10,9 +10,12 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
@@ -30,13 +33,13 @@ public class Player extends BaseAppState {
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     CharacterControl player;
-    Geometry playerCylinderGeometry;
+    Geometry playerBoxGeometry;
     Vector3f initPhysicsLocation;
     Node scene;
 
     Label labelPlayerPosition;
+    Label labelCameraDirection;
     Label labelCameraPosition;
-    Label labelCameraRotation;
 
     Vector3f playerWalkDirectionVector = Vector3f.ZERO;
 
@@ -52,8 +55,7 @@ public class Player extends BaseAppState {
         float radius = 1;
         float height = 3;
 
-        // физика игрока
-        CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(radius,height);
+        CapsuleCollisionShape playerCollisionShape = new CapsuleCollisionShape(radius, height);
         player = new CharacterControl(playerCollisionShape, 0.05f);
         player.setJumpSpeed(20);
         player.setFallSpeed(30);
@@ -65,13 +67,29 @@ public class Player extends BaseAppState {
         // отображение игрока
         int axisSamples = 10;
         int radialSamples = 10;
-        Cylinder playerCylinderShape = new Cylinder(axisSamples, radialSamples, radius, height, true, false);
-        playerCylinderGeometry = new Geometry("A shape", playerCylinderShape);
-        playerCylinderGeometry.rotate(FastMath.DEG_TO_RAD*90, 0, 0);
-        Material mat = new Material(application.getAssetManager(),
-                "Common/MatDefs/Misc/ShowNormals.j3md");
-        playerCylinderGeometry.setMaterial(mat);
-        ((SimpleApplication)application).getRootNode().attachChild(playerCylinderGeometry);
+        Box playerCylinderShape = new Box(radius, height-radius, radius);
+        playerBoxGeometry = new Geometry("A shape", playerCylinderShape);
+        // Quaternion quaternion = new Quaternion();
+        // quaternion.fromAngleAxis(FastMath.PI / 2, new Vector3f(1, 0, 0));
+
+// Применяем кватернион к геометрии цилиндра
+        //playerBoxGeometry.setLocalRotation(quaternion);
+        Material mat = new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
+        playerBoxGeometry.setMaterial(mat);
+        ((SimpleApplication)application).getRootNode().attachChild(playerBoxGeometry);
+
+        playerBoxGeometry.setCullHint(Spatial.CullHint.Always);
+        playerBoxGeometry.addControl(player);
+
+        // Устанавливаем поворот и позицию после добавления контроллера
+        // playerCylinderGeometry.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.DEG_TO_RAD * 90, new Vector3f(1, 0, 0)));
+        // playerCylinderGeometry.setLocalTranslation(14, 10, 15);
+
+        // player.getSpatial().setLocalRotation(new Quaternion().fromAngleAxis(FastMath.DEG_TO_RAD * 90, new Vector3f(1, 0, 0)));
+        // player.getSpatial().setLocalTranslation(14, 10, 15);
+
+        player.setPhysicsLocation(new Vector3f(14, 10, 15));
+        // player.getCharacter().set
 
         Label label;
 
@@ -97,48 +115,23 @@ public class Player extends BaseAppState {
         labelPlayerPosition.setTextHAlignment(HAlignment.Center);
         playerInfoElements.addChild(labelPlayerPosition);
 
+        labelCameraDirection = new Label("camera direction");
+        labelCameraDirection.setTextVAlignment(VAlignment.Center);
+        labelCameraDirection.setTextHAlignment(HAlignment.Center);
+        playerInfoElements.addChild(labelCameraDirection);
+
         labelCameraPosition = new Label("camera position");
         labelCameraPosition.setTextVAlignment(VAlignment.Center);
         labelCameraPosition.setTextHAlignment(HAlignment.Center);
         playerInfoElements.addChild(labelCameraPosition);
 
-        labelCameraRotation = new Label("camera rotation");
-        labelCameraRotation.setTextVAlignment(VAlignment.Center);
-        labelCameraRotation.setTextHAlignment(HAlignment.Center);
-        playerInfoElements.addChild(labelCameraRotation);
-
         ((SimpleApplication) application).getGuiNode().attachChild(playerInfoElements);
 
-        application.getInputManager().addMapping("direction left", new KeyTrigger(KeyInput.KEY_J));
-        application.getInputManager().addMapping("direction right", new KeyTrigger(KeyInput.KEY_L));
-        application.getInputManager().addMapping("direction front", new KeyTrigger(KeyInput.KEY_I));
-        application.getInputManager().addMapping("direction back", new KeyTrigger(KeyInput.KEY_K));
-
-        ActionListener actionListener = new ActionListener() {
-            public void onAction(String name, boolean isPressed, float tpf) {
-                if (name.equals("direction left") && isPressed) {
-                    // Код для движения влево
-                }
-                if (name.equals("direction right") && isPressed) {
-                    // Код для движения вправо
-                }
-                if (name.equals("direction front") && isPressed) {
-                    // Код для движения вперед
-                    logger.info("движение впереёд");
-                    player.setWalkDirection(playerWalkDirectionVector);
-                    logger.info("(actionListener) playerWalkDirectionVector: " + playerWalkDirectionVector);
-                }
-                if (name.equals("direction back") && isPressed) {
-                    // Код для движения назад
-                }
-                if (!isPressed){
-                    // Код для остановки
-                    logger.info("движение остановленно");
-                    player.setWalkDirection(Vector3f.ZERO);
-                }
-            }
-        };
-        application.getInputManager().addListener(actionListener, "direction left", "direction right", "direction front", "direction back");
+        PlayerPhysicalControl playerPhysicalControl =
+                new PlayerPhysicalControl(
+                        this.getApplication().getCamera(),
+                        this.getApplication().getInputManager());
+        playerBoxGeometry.addControl(playerPhysicalControl);
     }
 
 
@@ -159,35 +152,22 @@ public class Player extends BaseAppState {
     }
 
     static float timer = 0;
-    static float timer2 = 0;
-    Geometry playerDirectionGeometry;
     @Override
     public void update(float tpf) {
-
-        playerWalkDirectionVector =
-                new Vector3f(getApplication().getCamera().getDirection().setY(0).normalize().mult(tpf*2));
-
-        // цилиндр игрока следует за его физикой
-        playerCylinderGeometry.setLocalTranslation(player.getPhysicsLocation());
-
-        // String textlabelPlayerPosition = "PlayerPosition: " + player.getPhysicsLocation();
-        // String textlabelCameraPosition = "CameraPosition: " + getApplication().getCamera().getLocation();
-        // String textlabelCameraRotation = "CameraRotation: " + getApplication().getCamera().getRotation();
 
         float x = player.getPhysicsLocation().getX();
         float y = player.getPhysicsLocation().getY();
         float z = player.getPhysicsLocation().getZ();
         labelPlayerPosition.setText("PlayerPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
-
+//
         x = getApplication().getCamera().getDirection().getX();
         y = getApplication().getCamera().getDirection().getY();
         z = getApplication().getCamera().getDirection().getZ();
-        labelCameraPosition.setText("CameraDirection:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
+        labelCameraDirection.setText("CameraDirection:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
 
-        timer += tpf;
-        if (timer >= 1){
-            timer = 0;
-            logger.info("(update cycle) playerWalkDirectionVector: " + playerWalkDirectionVector);
-        }
+        x = getApplication().getCamera().getLocation().getX();
+        y = getApplication().getCamera().getLocation().getY();
+        z = getApplication().getCamera().getLocation().getZ();
+        labelCameraPosition.setText("CameraPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
     }
 }
