@@ -57,8 +57,6 @@ public class MainMenuPageManager extends BaseAppState {
 
     private void windowResolutionTEst(Application app, boolean enable){
         if (enable) {
-
-
             this.panel = new Container();
             this.panel.setPreferredSize(new Vector3f(100, 40, 0));
             this.panel.setLocalTranslation(0,

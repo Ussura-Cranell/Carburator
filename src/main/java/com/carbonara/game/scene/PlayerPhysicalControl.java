@@ -3,10 +3,8 @@ package com.carbonara.game.scene;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
-import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.KeyInput;
 import com.jme3.math.Vector3f;
@@ -63,7 +61,7 @@ public class PlayerPhysicalControl implements Control {
 
     private boolean left = false, right = false, up = false, down = false, jump = false;
 
-    private ActionListener actionListener = new ActionListener() {
+    private final ActionListener actionListener = new ActionListener() {
         @Override
         public void onAction(String s, boolean b, float v) {
             switch (s){
@@ -83,8 +81,8 @@ public class PlayerPhysicalControl implements Control {
                     jump = b;
                     break;
                 case "SwitchСameraСharacter":
-                    if (!b) {flagSwitchСameraСharacter = !flagSwitchСameraСharacter;
-                        if (flagSwitchСameraСharacter) logger.info("Захват камеры персонажем");
+                    if (!b) {flagSwitchCameraCharacter = !flagSwitchCameraCharacter;
+                        if (flagSwitchCameraCharacter) logger.info("Захват камеры персонажем");
                         else logger.info("Камера свободна");
                     }
                     break;
@@ -96,7 +94,7 @@ public class PlayerPhysicalControl implements Control {
         }
     };
 
-    boolean flagSwitchСameraСharacter = false;
+    boolean flagSwitchCameraCharacter = false;
 
     private void characterCamera(boolean value){
         if (value) camera.setLocation(entityCharacterControl.getPhysicsLocation().add(0, 1.5f, 0));
@@ -129,7 +127,7 @@ public class PlayerPhysicalControl implements Control {
             entityCharacterControl.jump();
         }
 
-        characterCamera(flagSwitchСameraСharacter);
+        characterCamera(flagSwitchCameraCharacter);
 
         entityCharacterControl.setWalkDirection(playerWalkDirectionVector.normalize().mult(playerSpeed * v));
     }

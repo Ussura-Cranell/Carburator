@@ -7,26 +7,16 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.input.KeyInput;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
-import com.jme3.input.controls.ActionListener;
-
-import com.jme3.input.controls.KeyTrigger;
-
-
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class Player extends BaseAppState {
@@ -40,9 +30,6 @@ public class Player extends BaseAppState {
     Label labelPlayerPosition;
     Label labelCameraDirection;
     Label labelCameraPosition;
-
-    Vector3f playerWalkDirectionVector = Vector3f.ZERO;
-
 
     public Player(Node scene, Vector3f initPhysicsLocation){
         this.scene = scene;
