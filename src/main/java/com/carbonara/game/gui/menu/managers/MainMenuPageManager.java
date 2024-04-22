@@ -13,7 +13,6 @@ import com.simsilica.lemur.Button;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.Label;
 
-
 public class MainMenuPageManager extends BaseAppState {
     private Container panel;
     @Override

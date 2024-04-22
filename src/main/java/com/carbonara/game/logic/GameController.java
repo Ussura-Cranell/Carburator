@@ -19,7 +19,7 @@ public class GameController extends BaseAppState {
     protected void initialize(Application application) {
         // инициализации физики
         BulletManagerTest.setBulletAppState(new BulletAppState());
-        BulletManagerTest.getBulletAppState().setDebugEnabled(true);
+        // BulletManagerTest.getBulletAppState().setDebugEnabled(true);
 
         // включение физики
         application.getStateManager().attach(BulletManagerTest.getBulletAppState());

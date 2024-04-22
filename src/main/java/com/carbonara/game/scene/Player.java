@@ -8,7 +8,12 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -31,6 +36,8 @@ public class Player extends BaseAppState {
     Label labelCameraDirection;
     Label labelCameraPosition;
 
+    Camera camera2;
+
     public Player(Node scene, Vector3f initPhysicsLocation){
         this.scene = scene;
         this.initPhysicsLocation = initPhysicsLocation;
@@ -38,6 +45,18 @@ public class Player extends BaseAppState {
 
     @Override
     protected void initialize(Application application) {
+
+        camera2 = application.getCamera().clone();
+        camera2.setViewPort(0f, 0.3f, 0.7f, 1f);
+        camera2.setLocation(new Vector3f(0, 15f, 14f));
+        ViewPort viewPort2 = application.getRenderManager().createMainView("PiP", camera2);
+        viewPort2.setClearFlags(true, true, true);
+        viewPort2.attachScene(((SimpleApplication)application).getRootNode());
+        viewPort2.setBackgroundColor(ColorRGBA.White);
+        // viewPort2.
+
+        // BulletManagerTest.getBulletAppState().setDebugEnabled(true);
+
 
         float radius = 1;
         float height = 3;
@@ -54,29 +73,18 @@ public class Player extends BaseAppState {
         // отображение игрока
         int axisSamples = 10;
         int radialSamples = 10;
-        Box playerCylinderShape = new Box(radius, height-radius, radius);
+        radius = 0.65f;
+        Box playerCylinderShape = new Box(radius, height-radius*1.5f, radius);
         playerBoxGeometry = new Geometry("A shape", playerCylinderShape);
-        // Quaternion quaternion = new Quaternion();
-        // quaternion.fromAngleAxis(FastMath.PI / 2, new Vector3f(1, 0, 0));
 
-// Применяем кватернион к геометрии цилиндра
-        //playerBoxGeometry.setLocalRotation(quaternion);
         Material mat = new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
         playerBoxGeometry.setMaterial(mat);
         ((SimpleApplication)application).getRootNode().attachChild(playerBoxGeometry);
 
-        playerBoxGeometry.setCullHint(Spatial.CullHint.Always);
+        // playerBoxGeometry.setCullHint(Spatial.CullHint.Always);
         playerBoxGeometry.addControl(player);
 
-        // Устанавливаем поворот и позицию после добавления контроллера
-        // playerCylinderGeometry.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.DEG_TO_RAD * 90, new Vector3f(1, 0, 0)));
-        // playerCylinderGeometry.setLocalTranslation(14, 10, 15);
-
-        // player.getSpatial().setLocalRotation(new Quaternion().fromAngleAxis(FastMath.DEG_TO_RAD * 90, new Vector3f(1, 0, 0)));
-        // player.getSpatial().setLocalTranslation(14, 10, 15);
-
         player.setPhysicsLocation(new Vector3f(14, 10, 15));
-        // player.getCharacter().set
 
         Label label;
 
@@ -119,6 +127,8 @@ public class Player extends BaseAppState {
                         this.getApplication().getCamera(),
                         this.getApplication().getInputManager());
         playerBoxGeometry.addControl(playerPhysicalControl);
+
+        BulletManagerTest.getBulletAppState().setDebugEnabled(true);
     }
 
 
@@ -146,7 +156,7 @@ public class Player extends BaseAppState {
         float y = player.getPhysicsLocation().getY();
         float z = player.getPhysicsLocation().getZ();
         labelPlayerPosition.setText("PlayerPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
-//
+
         x = getApplication().getCamera().getDirection().getX();
         y = getApplication().getCamera().getDirection().getY();
         z = getApplication().getCamera().getDirection().getZ();
@@ -156,5 +166,7 @@ public class Player extends BaseAppState {
         y = getApplication().getCamera().getLocation().getY();
         z = getApplication().getCamera().getLocation().getZ();
         labelCameraPosition.setText("CameraPosition:\n (%3.3f, %3.3f. %3.3f)".formatted(x, y, z));
+
+        camera2.lookAt(player.getPhysicsLocation(), new Vector3f(0, 1, 0));
     }
 }
