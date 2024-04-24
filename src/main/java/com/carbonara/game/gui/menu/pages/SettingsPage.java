@@ -75,7 +75,7 @@ public class SettingsPage extends BaseAppState {
                 positionX,
                 positionY, 0);
 
-        myWindow.setPreferredSize(new Vector3f(sizeX, sizeY, 0)); // Предпочтительный размер окна
+        myWindow.setPreferredSize(new Vector3f(sizeX, sizeY, 0));
         return myWindow;
     }
 

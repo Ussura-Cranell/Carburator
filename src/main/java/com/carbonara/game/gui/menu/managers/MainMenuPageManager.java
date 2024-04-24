@@ -3,7 +3,6 @@ package com.carbonara.game.gui.menu.managers;
 import com.carbonara.game.gui.menu.pages.MainMenuPage;
 import com.carbonara.game.gui.menu.pages.NewGamePage;
 import com.carbonara.game.gui.menu.pages.SettingsPage;
-import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -18,8 +17,8 @@ public class MainMenuPageManager extends BaseAppState {
     @Override
     protected void initialize(Application application) {
 
-        GUIManager.cameraUnlock(false);
-        GUIManager.cursorVisible(true);
+        // CameraManager.cameraUnlock(false);
+        // CameraManager.cursorVisible(true);
 
         application.getStateManager().attach(new MainMenuPage());
         application.getStateManager().attach(new NewGamePage());

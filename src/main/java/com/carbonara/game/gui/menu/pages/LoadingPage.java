@@ -44,12 +44,12 @@ public class LoadingPage extends BaseAppState {
 
     @Override
     protected void onEnable() {
-        // code
+
     }
 
     @Override
     protected void onDisable() {
-        // code
+
     }
 
     public void setLoadingBarValue(int value){
