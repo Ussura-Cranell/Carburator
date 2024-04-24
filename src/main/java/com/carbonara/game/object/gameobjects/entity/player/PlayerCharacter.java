@@ -16,8 +16,6 @@ import com.jme3.scene.shape.Box;
 import java.util.logging.Logger;
 
 public class PlayerCharacter {
-    /* Создаёт Spatial игрока и автоматически прекрепляет его к сцене */
-    Logger logger = Logger.getLogger(PlayerCharacter.class.getName());
     public static final Vector3f PLAYER_INIT_LOCATION = new Vector3f(15.0f, 15.0f,15.0f);
     public static final float CHARACTER_WIDTH  = 1;
     public static final float CHARACTER_HEIGHT = 3;

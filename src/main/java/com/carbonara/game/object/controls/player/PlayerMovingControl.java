@@ -55,29 +55,26 @@ public class PlayerMovingControl implements Control {
                 "CharRun");
     }
 
-    private final ActionListener actionListener = new ActionListener() {
-        @Override
-        public void onAction(String s, boolean b, float v) {
-            switch (s){
-                case "CharLeft":
-                    left = b;
-                    break;
-                case "CharRight":
-                    right = b;
-                    break;
-                case "CharForward":
-                    up = b;
-                    break;
-                case "CharBackward":
-                    down = b;
-                    break;
-                case "CharJump":
-                    jump = b;
-                    break;
-                case "CharRun":
-                    isRunning = b;
-                    break;
-            }
+    private final ActionListener actionListener = (s, b, v) -> {
+        switch (s){
+            case "CharLeft":
+                left = b;
+                break;
+            case "CharRight":
+                right = b;
+                break;
+            case "CharForward":
+                up = b;
+                break;
+            case "CharBackward":
+                down = b;
+                break;
+            case "CharJump":
+                jump = b;
+                break;
+            case "CharRun":
+                isRunning = b;
+                break;
         }
     };
 

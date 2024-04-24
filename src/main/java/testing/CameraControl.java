@@ -2,13 +2,8 @@ package testing;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
-
-import com.jme3.input.controls.InputListener;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.Camera;
-import com.jme3.input.MouseInput;
 
 public class CameraControl extends BaseAppState {
     Camera cam;

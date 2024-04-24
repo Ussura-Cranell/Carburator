@@ -32,8 +32,4 @@ public class GUIDebugManager {
     public static Container getContainer() {
         return container;
     }
-
-    public static void setContainer(Container container) {
-        GUIDebugManager.container = container;
-    }
 }

@@ -54,6 +54,6 @@ public class LoadingPage extends BaseAppState {
 
     public void setLoadingBarValue(int value){
         this.loadingBarValue = value;
-        logger.info("Сhanging the loading level: " + value);
+        logger.info("Changing the loading level: " + value);
     }
 }

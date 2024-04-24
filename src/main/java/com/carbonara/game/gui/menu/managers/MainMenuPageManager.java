@@ -66,10 +66,9 @@ public class MainMenuPageManager extends BaseAppState {
 
             Button button = new Button("update");
             button.setFontSize(10.0f);
-            button.addClickCommands(button1 -> {
-                label.setText("Size: " + GameSettings.getAppSettings().getWindowWidth() + "x" +
-                        GameSettings.getAppSettings().getHeight());
-            });
+            button.addClickCommands(button1 ->
+                    label.setText("Size: " + GameSettings.getAppSettings().getWindowWidth() + "x" +
+                    GameSettings.getAppSettings().getHeight()));
             this.panel.addChild(button);
 
             ((SimpleApplication) app).getGuiNode().attachChild(this.panel);

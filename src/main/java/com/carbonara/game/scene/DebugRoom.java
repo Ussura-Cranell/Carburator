@@ -22,7 +22,7 @@ import com.jme3.texture.Texture;
 
 public class DebugRoom{
     private Node debugSpace;
-    private BulletAppState debugSpaceBulletAppState;
+
     public DebugRoom(Node debugSpace){
 
         this.debugSpace = debugSpace;

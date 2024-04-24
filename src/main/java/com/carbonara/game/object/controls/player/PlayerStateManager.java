@@ -119,7 +119,7 @@ public class PlayerStateManager extends BaseAppState {
         public void onAction(String s, boolean b, float v) {
             if (s.equals("flag_FollowingCameraHead") && !b){
                 flag_FollowingCameraHead = !flag_FollowingCameraHead;
-                logger.info("Change camera tracking mode: " + String.valueOf(flag_FollowingCameraHead));
+                logger.info("Change camera tracking mode: " + flag_FollowingCameraHead);
             }
             if (s.equals("setPlayerToStartingPosition") && !b){
                 playerCharacter.getPlayerCharacterControl().setPhysicsLocation(
