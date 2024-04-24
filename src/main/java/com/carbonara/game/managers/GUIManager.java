@@ -7,8 +7,8 @@ import com.simsilica.lemur.style.BaseStyles;
 
 public class GUIManager {
 
-    public static final boolean INIT_CURSOR_VISIBLE = false; // виден ли курсор изначально
-    public static final boolean INIT_CURSOR_CURSOR_EVENTS = false; // обработка событий курсора
+    public static final boolean INIT_CURSOR_VISIBLE = true; // виден ли курсор изначально
+    public static final boolean INIT_CURSOR_CURSOR_EVENTS = true; // обработка событий курсора
 
     private static SimpleApplication app;
 

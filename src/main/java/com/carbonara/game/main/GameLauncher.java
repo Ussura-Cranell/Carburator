@@ -29,8 +29,8 @@ public class GameLauncher extends SimpleApplication {
         GUIDebugManager.init(guiNode);
 
         // code
-        // stateManager.attach(new IntroPlayer());
-        stateManager.attach(new SceneGuardian());
+        stateManager.attach(new IntroPlayer());
+        // stateManager.attach(new SceneGuardian());
     }
 
     private static void setManualSetting(SimpleApplication app, boolean value){
