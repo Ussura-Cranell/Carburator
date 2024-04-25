@@ -1,5 +1,6 @@
 package com.carbonara.game.main;
 
+import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
@@ -29,7 +30,7 @@ public class GameLauncher extends SimpleApplication {
         GUIDebugManager.init(guiNode);
 
         // code
-        stateManager.attach(new IntroPlayer());
+        stateManager.attach(new MainMenuPageManager());
         // stateManager.attach(new SceneGuardian());
     }
 
@@ -42,7 +43,6 @@ public class GameLauncher extends SimpleApplication {
         app.setDisplayStatView(value);
         app.setDisplayFps(value);
     }
-
     public static SimpleApplication getApp() {
         return GameLauncher.app;
     }

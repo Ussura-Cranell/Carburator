@@ -5,8 +5,8 @@ import com.jme3.system.AppSettings;
 public class GameSettings {
 
     private static final String TITLE = "NameOfGame";
-    private static final int RESOLUTION_WIDTH = 1280;
-    private static final int RESOLUTION_HEIGHT = 720;
+    private static final int RESOLUTION_WIDTH = 700;
+    private static final int RESOLUTION_HEIGHT = 400;
     private static final int FREQUENCY = 60; // кадры в секунду
 
     private static final AppSettings appSettings = new AppSettings(true);

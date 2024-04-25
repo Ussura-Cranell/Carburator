@@ -1,8 +1,9 @@
 package com.carbonara.game.logic;
 
+import com.carbonara.game.gui.menu.pages.LoadingPage;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
-import com.carbonara.game.object.controls.player.PlayerStateManager;
+import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -14,8 +15,11 @@ import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
 
+import java.util.logging.Logger;
+
 
 public class SceneGuardian extends BaseAppState {
+    Logger logger = Logger.getLogger(SceneGuardian.class.getName());
 
     private Node scene;
 
@@ -23,8 +27,8 @@ public class SceneGuardian extends BaseAppState {
     protected void initialize(Application application) {
 
         // debug
-        CameraManager.cameraUnlock(true);
-        application.getInputManager().setCursorVisible(false);
+        // CameraManager.cameraUnlock(true);
+        // application.getInputManager().setCursorVisible(false);
         debugLabelCamera(true);
         // debug
 
@@ -39,6 +43,14 @@ public class SceneGuardian extends BaseAppState {
         PlayerStateManager playerStateManager = new PlayerStateManager(this.scene);
         application.getStateManager().attach(playerStateManager);
 
+        // включаем панель отладки после общей загрузки
+        GUIDebugManager.setEnable(true);
+
+        // объявляем о загрузке сцены (перенесено в update для дебага)
+        // LoadingPage loadingPage = application.getStateManager().getState(LoadingPage.class);
+        // if (loadingPage != null) loadingPage.changeStatus();
+        // else logger.warning("No \"loading\" page found");
+
     }
 
     @Override
@@ -52,12 +64,13 @@ public class SceneGuardian extends BaseAppState {
 
     @Override
     protected void onEnable() {
+        logger.info("работает");
 
     }
 
     @Override
     protected void onDisable() {
-
+        logger.info("на паузе");
     }
 
     // debug
@@ -80,8 +93,23 @@ public class SceneGuardian extends BaseAppState {
         }
     }
 
+    float timer = 0;
+    boolean flag_loading = true;
+
     @Override
     public void update(float tpf) {
+
+        // debug loading page
+        if (flag_loading) {
+            timer += tpf;
+            if (timer >= 1) {
+                flag_loading = false;
+                LoadingPage loadingPage = getApplication().getStateManager().getState(LoadingPage.class);
+                if (loadingPage != null) loadingPage.changeStatus();
+                else logger.warning("No \"loading\" page found");
+            }
+        }
+
         if (flag_debugLabelCamera){
 
             debugLabelCameraContainerLabel.setText(

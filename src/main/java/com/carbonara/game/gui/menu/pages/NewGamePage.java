@@ -57,7 +57,9 @@ public class NewGamePage extends BaseAppState {
         if (button.getText().equals("Create")) {
             button.addClickCommands(button1 -> {
                 //logger.warning("GameController is deprecated!");
-                application.getStateManager().attach(new SceneGuardian());
+                // application.getStateManager().attach(new SceneGuardian());
+
+                application.getStateManager().attach(new LoadingPage());
                 application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));
             });
         } else logger.warning("invalid button name");
