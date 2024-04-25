@@ -2,7 +2,11 @@ package com.carbonara.game.scene;
 
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.BulletAppStateManager;
+import com.carbonara.game.object.player.general.InteractionControl;
+import com.carbonara.game.object.technique.TechniqueControl;
+import com.carbonara.game.object.technique.commands.TurnOnCommand;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -16,6 +20,7 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
@@ -42,6 +47,9 @@ public class DebugRoom{
         createGridSurface(this.debugSpace, 50,
                 new Vector3f(2.0f, 0.0f, 2.0f),
                 new Vector3f(-FastMath.DEG_TO_RAD*90.0f, 0.0f, 0.0f));
+
+        // создаём куб для тестирования
+        createTestingCube(this.debugSpace);
 
     }
     private void createGridSurface(Node attachNode, float size, Vector3f position, Vector3f rotation){
@@ -93,6 +101,8 @@ public class DebugRoom{
 
         // прикрепляем сетку к нашему ноду
         attachNode.attachChild(gridSurfaceSpatial);
+
+        this.debugSpace.getClass();
     }
     private void createRGBUnitAxes(Node attachNode){
 
@@ -125,6 +135,42 @@ public class DebugRoom{
         lineRGB.attachChild(lineZGeometry);
 
         attachNode.attachChild(lineRGB);
+    }
+    private void createTestingCube(Node attachNode){
+        Box testingBoxShape = new Box(3, 3, 3);
+        Geometry testingBoxGeometry = new Geometry("testingBoxGeometry", testingBoxShape);
+        testingBoxGeometry.move(25, 25, 25);
+        Material testingBoxMaterial = new Material(GameLauncher.getApp().getAssetManager(),
+                "Common/MatDefs/Misc/ShowNormals.j3md");
+        //testingBoxMaterial.setColor("Color", ColorRGBA.Magenta);
+        testingBoxMaterial.getAdditionalRenderState().setWireframe(true);
+        testingBoxGeometry.setMaterial(testingBoxMaterial);
+
+        //CollisionShape testingBoxCollisionShape = CollisionShapeFactory.createMeshShape(testingBoxGeometry);
+        CollisionShape testingBoxCollisionShape = new BoxCollisionShape(3, 3, 3);
+        RigidBodyControl testingBoxRigidBodyControl = new RigidBodyControl(testingBoxCollisionShape, 1);
+        testingBoxGeometry.addControl(testingBoxRigidBodyControl);
+
+        // ищём в менеджере управления физики нашу сцену
+        BulletAppState bulletAppState = BulletAppStateManager.getBulletAppState(attachNode);
+
+        // добавляем к сцене обработчик физики gridSurfaceRigidBodyControl
+        bulletAppState.getPhysicsSpace().add(testingBoxRigidBodyControl);
+
+        // прикрепляем куб к нашему ноду
+        attachNode.attachChild(testingBoxGeometry);
+
+        // добавляем кубу возможность для взаимодействия с ним
+        InteractionControl interactionControl = new InteractionControl();
+        testingBoxGeometry.addControl(interactionControl);
+
+        // добавляем ему поведение "техники"
+        TechniqueControl techniqueControl = new TechniqueControl();
+        testingBoxGeometry.addControl(techniqueControl);
+
+        // ~ регистрируем действия доступные изначально
+        interactionControl.addAction("turnOn", new TurnOnCommand(techniqueControl));
+
     }
     public Node getDebugSpace(){
         return this.debugSpace;

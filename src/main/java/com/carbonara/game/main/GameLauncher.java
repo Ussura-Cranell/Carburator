@@ -1,6 +1,5 @@
 package com.carbonara.game.main;
 
-import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
@@ -42,7 +41,6 @@ public class GameLauncher extends SimpleApplication {
         app.setDisplayStatView(value);
         app.setDisplayFps(value);
     }
-
     public static SimpleApplication getApp() {
         return GameLauncher.app;
     }

@@ -1,7 +1,7 @@
-package com.carbonara.game.object.controls.player;
+package com.carbonara.game.object.player.controls;
 
 import com.carbonara.game.managers.GUIDebugManager;
-import com.carbonara.game.object.gameobjects.entity.player.PlayerCharacter;
+import com.carbonara.game.object.player.PlayerCharacter;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.input.KeyInput;
@@ -27,6 +27,7 @@ public class PlayerStateManager extends BaseAppState {
     Node space;
     PlayerCharacter playerCharacter;
     PlayerMovingControl playerMovingControl;
+    CameraInteraction cameraInteraction;
 
     public PlayerStateManager(Node space){
         this.space = space;
@@ -45,10 +46,18 @@ public class PlayerStateManager extends BaseAppState {
         addDebugPlayerInfo(); // панель если добавили, то надо удалить при очистке
         // шарик камеры персонажа
         this.positionPoinCameraSparial = createPointCameraSpatial();
+
+        //
+        this.cameraInteraction = new CameraInteraction(this.space);
+        application.getStateManager().attach(this.cameraInteraction);
     }
 
     @Override
     protected void cleanup(Application application) {
+
+        // взаимодействие камеры с другими объектами
+        application.getStateManager().detach(this.cameraInteraction);
+
         // удаляем шарик представлющий собой положение камеры
         delDebugPlayerInfo();
         this.space.detachChild(this.positionPoinCameraSparial);
@@ -98,8 +107,7 @@ public class PlayerStateManager extends BaseAppState {
     }
 
     private void delDebugPlayerInfo(){
-        if (debugPlayerInfoContainer != null)
-        GUIDebugManager.getContainer().detachChild(debugPlayerInfoContainer);
+        if (debugPlayerInfoContainer != null) GUIDebugManager.getContainer().detachChild(debugPlayerInfoContainer);
     }
 
     private void addButtonControl(){
@@ -146,8 +154,7 @@ public class PlayerStateManager extends BaseAppState {
 
     private void followingCameraHead(){
         // debug шарик камеры персонажа
-        if (this.positionPoinCameraSparial != null)
-        this.positionPoinCameraSparial.setLocalTranslation(
+        if (this.positionPoinCameraSparial != null) this.positionPoinCameraSparial.setLocalTranslation(
                 this.playerCharacter.getPlayerCharacterControl().getPhysicsLocation().add(CAMERA_RELATIVE_CHARACTER));
 
         // передвижение камеры

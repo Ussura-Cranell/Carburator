@@ -25,11 +25,16 @@ public class GUIDebugManager {
         GUIDebugManager.container = new Container();
         container.setPreferredSize(GUIDebugManager.INIT_PREFERRED_SIZE);
         container.setLocalTranslation(GUIDebugManager.INIT_PANEL_TOP_RIGHT);
+        container.setAlpha(0.0f);
 
         guiNode.attachChild(container);
     }
 
     public static Container getContainer() {
         return container;
+    }
+    public static void setEnable(boolean value){
+        if (value) container.setAlpha(1.0f);
+        else container.setAlpha(0.0f);
     }
 }

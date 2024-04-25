@@ -1,4 +1,4 @@
-package com.carbonara.game.object.gameobjects.entity.player;
+package com.carbonara.game.object.player;
 
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.BulletAppStateManager;
@@ -12,8 +12,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-
-import java.util.logging.Logger;
 
 public class PlayerCharacter {
     public static final Vector3f PLAYER_INIT_LOCATION = new Vector3f(15.0f, 15.0f,15.0f);

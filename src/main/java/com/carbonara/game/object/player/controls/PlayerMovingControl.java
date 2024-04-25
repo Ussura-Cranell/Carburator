@@ -1,4 +1,4 @@
-package com.carbonara.game.object.controls.player;
+package com.carbonara.game.object.player.controls;
 
 import com.carbonara.game.main.GameLauncher;
 import com.jme3.bullet.control.CharacterControl;

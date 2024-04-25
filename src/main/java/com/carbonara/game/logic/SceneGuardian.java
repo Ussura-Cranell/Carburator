@@ -2,7 +2,7 @@ package com.carbonara.game.logic;
 
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
-import com.carbonara.game.object.controls.player.PlayerStateManager;
+import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -38,6 +38,9 @@ public class SceneGuardian extends BaseAppState {
         // создаём персонажа на этой сцене
         PlayerStateManager playerStateManager = new PlayerStateManager(this.scene);
         application.getStateManager().attach(playerStateManager);
+
+        // включаем панель отладки после общей загрузки
+        GUIDebugManager.setEnable(true);
 
     }
 
