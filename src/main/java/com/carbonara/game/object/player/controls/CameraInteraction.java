@@ -1,6 +1,8 @@
 package com.carbonara.game.object.player.controls;
 
+import com.carbonara.game.logic.interaction.AbstractInteraction;
 import com.carbonara.game.main.GameLauncher;
+import com.carbonara.game.logic.interaction.interfaces.IInteraction;
 import com.carbonara.game.object.player.general.InteractionControl;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
@@ -19,7 +21,11 @@ import com.simsilica.lemur.Container;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-public class CameraInteraction extends BaseAppState {
+public class CameraInteraction extends AbstractInteraction {
+
+    // подприложение отвечающее за взаимодействие
+    // летающа камера может взаимодействовать с выбранным подпростанством
+
     Logger logger = Logger.getLogger(CameraInteraction.class.getName());
     Node space;
     Container cameraDirectionPoint;
@@ -96,5 +102,10 @@ public class CameraInteraction extends BaseAppState {
             String nameCommandForExecute = scanner.nextLine();
             interactionControl.interact(nameCommandForExecute);
         }
+    }
+
+    @Override
+    public BaseAppState getInteraction() {
+        return this;
     }
 }

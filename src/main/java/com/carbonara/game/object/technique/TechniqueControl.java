@@ -1,5 +1,6 @@
 package com.carbonara.game.object.technique;
 
+import com.carbonara.game.logic.interaction.AbstractInteraction;
 import com.carbonara.game.object.player.general.InteractionControl;
 import com.carbonara.game.object.technique.commands.TurnOffCommand;
 import com.carbonara.game.object.technique.commands.TurnOnCommand;
@@ -14,10 +15,13 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class TechniqueControl implements Control {
+    // контроллер который можно зарегистрировать с помщью InteractionControl на сущности
     Logger logger = Logger.getLogger(TechniqueControl.class.getName());
     private boolean techniqueEnabled;
     Spatial spatial;
     InteractionControl interactionControl;
+
+    AbstractInteraction interactingObject;
 
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -31,6 +35,7 @@ public class TechniqueControl implements Control {
         if (interactionControl != null){
             this.spatial = spatial;
             this.interactionControl = interactionControl;
+            // this.interactingObject = interactionControl.getInteractionObject();
         } else {
             // если у объекта нет интерфейса для взаимодействия, удалить контроллер
             spatial.removeControl(this);
@@ -72,5 +77,9 @@ public class TechniqueControl implements Control {
 
         this.interactionControl.deleteAction("turnOn");
         this.interactionControl.addAction("turnOff", new TurnOffCommand(this));
+    }
+
+    public void getIntegration(){
+
     }
 }
