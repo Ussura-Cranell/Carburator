@@ -1,6 +1,7 @@
 package com.carbonara.game.main;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
+import com.carbonara.game.logic.CheckMemory;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
@@ -38,9 +39,13 @@ public class GameLauncher extends SimpleApplication {
         app.setShowSettings(value);
     }
 
-    private static void enableStatistics(SimpleApplication app ,boolean value){
+    private static void enableStatistics(SimpleApplication app, boolean value){
         app.setDisplayStatView(value);
         app.setDisplayFps(value);
+
+        // debug
+        // отображение потребления памяти приложением
+        app.getStateManager().attach(new CheckMemory());
     }
     public static SimpleApplication getApp() {
         return GameLauncher.app;

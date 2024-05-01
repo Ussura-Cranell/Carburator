@@ -37,4 +37,6 @@ public class GUIDebugManager {
         if (value) container.setAlpha(1.0f);
         else container.setAlpha(0.0f);
     }
+
+    public static void clearContainer(){ container.detachAllChildren(); }
 }

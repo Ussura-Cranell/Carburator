@@ -1,13 +1,18 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
+import com.carbonara.game.gui.pause.managers.PauseGameManager;
+import com.carbonara.game.managers.BulletAppStateManager;
+import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
+import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
@@ -21,9 +26,12 @@ public class SceneGuardian extends BaseAppState {
     Logger logger = Logger.getLogger(SceneGuardian.class.getName());
 
     private Node scene;
+    PlayerStateManager playerStateManager;
 
     @Override
     protected void initialize(Application application) {
+
+        application.getCamera().lookAtDirection(Vector3f.UNIT_Z, Vector3f.UNIT_Y);
 
         // debug
         // CameraManager.cameraUnlock(true);
@@ -39,7 +47,7 @@ public class SceneGuardian extends BaseAppState {
         ((SimpleApplication)application).getRootNode().attachChild(this.scene);
 
         // создаём персонажа на этой сцене
-        PlayerStateManager playerStateManager = new PlayerStateManager(this.scene);
+        playerStateManager = new PlayerStateManager(this.scene);
         application.getStateManager().attach(playerStateManager);
 
         // включаем панель отладки после общей загрузки
@@ -54,22 +62,57 @@ public class SceneGuardian extends BaseAppState {
 
     @Override
     protected void cleanup(Application application) {
+        // отлючаем обработчик паузы
+        // application.getStateManager().getState(PauseGameManager.class).cleanup();
+        application.getStateManager().detach(application.getStateManager().getState(PauseGameManager.class));
 
-        // открепляем обработку физики сцены, так как у этой сцены была физика
-        application.getStateManager().detach(this.scene.getUserData(BulletAppState.class.toString()));
+        // удялем игрока
+        application.getStateManager().detach(playerStateManager);
+
         // открепляем нашу сцену от главного узла
+        // this.scene.detachAllChildren();
         ((SimpleApplication)application).getRootNode().detachChild(this.scene);
+
+        // очищаем отладчик
+        GUIDebugManager.clearContainer();
+
+        // другой подход к удалению физики (удаляем абсолютно всю физику в приложении)
+        for (BulletAppState bulletAppState: BulletAppStateManager.getAllBulletAppState()){
+            application.getStateManager().detach(bulletAppState);
+        }
+        BulletAppStateManager.clearAllBulletAppState();
     }
 
     @Override
     protected void onEnable() {
         logger.info("работает");
+        // включение всей физики
+        BulletAppStateManager.enableAllBulletAppState(true);
+        // камера может вертеться
+        CameraManager.cameraUnlock(true);
+        // курсор виден
+        GUIManager.setCursorVisible(false);
 
     }
 
     @Override
     protected void onDisable() {
+
         logger.info("на паузе");
+        // когда игра на паузе должно прекратится выполнение многих вещей
+
+        /*
+        физика, игрок, камера,
+        */
+
+        // отключение всей физики
+        BulletAppStateManager.enableAllBulletAppState(false);
+        // камере нельзя вертеться
+        CameraManager.cameraUnlock(false);
+        // курсор скрыт
+        GUIManager.setCursorVisible(true);
+
+
     }
 
     // debug
