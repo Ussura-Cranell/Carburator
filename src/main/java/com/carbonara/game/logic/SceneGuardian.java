@@ -1,7 +1,6 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
-import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;

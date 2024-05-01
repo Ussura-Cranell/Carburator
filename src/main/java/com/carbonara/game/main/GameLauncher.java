@@ -1,7 +1,6 @@
 package com.carbonara.game.main;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
-import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;

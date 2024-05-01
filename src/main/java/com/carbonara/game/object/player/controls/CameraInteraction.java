@@ -2,7 +2,6 @@ package com.carbonara.game.object.player.controls;
 
 import com.carbonara.game.logic.interaction.AbstractInteraction;
 import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.logic.interaction.interfaces.IInteraction;
 import com.carbonara.game.object.player.general.InteractionControl;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
@@ -50,12 +49,9 @@ public class CameraInteraction extends AbstractInteraction {
         GameLauncher.getApp().getGuiNode().attachChild(cameraDirectionPoint);
     }
 
-    private InputListener inputListener = new ActionListener() {
-        @Override
-        public void onAction(String s, boolean b, float v) {
-            if (s.equals("InteractionButton") && b){
-                testing();
-            }
+    private InputListener inputListener = (ActionListener) (s, b, v) -> {
+        if (s.equals("InteractionButton") && b){
+            testing();
         }
     };
 

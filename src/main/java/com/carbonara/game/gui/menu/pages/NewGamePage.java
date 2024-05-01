@@ -2,7 +2,6 @@ package com.carbonara.game.gui.menu.pages;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 
-import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;

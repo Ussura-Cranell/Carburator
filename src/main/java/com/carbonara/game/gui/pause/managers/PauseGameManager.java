@@ -24,14 +24,11 @@ public class PauseGameManager extends BaseAppState {
         application.getInputManager().addListener(inputListener, "GamePause");
     }
 
-    InputListener inputListener  = new ActionListener() {
-        @Override
-        public void onAction(String s, boolean b, float v) {
-            if (s.equals("GamePause") && b){
-                // временная реализация "ставим всю сцену на паузу, или наоборот"
-                flag_pause = !flag_pause;
-                getApplication().getStateManager().getState(SceneGuardian.class).setEnabled(!flag_pause);
-            }
+    InputListener inputListener  = (ActionListener) (s, b, v) -> {
+        if (s.equals("GamePause") && b){
+            // временная реализация "ставим всю сцену на паузу, или наоборот"
+            flag_pause = !flag_pause;
+            getApplication().getStateManager().getState(SceneGuardian.class).setEnabled(!flag_pause);
         }
     };
 
