@@ -1,9 +1,6 @@
 package com.carbonara.game.gui.pause.pages;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
-import com.carbonara.game.gui.menu.pages.MainMenuPage;
-import com.carbonara.game.gui.menu.pages.NewGamePage;
-import com.carbonara.game.gui.menu.pages.SettingsPage;
 import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
@@ -57,14 +54,11 @@ public class PausePage extends BaseAppState {
 
         button = buttons.get(3);
         if (button.getText().equals("Exit to Main Menu")) {
-            button.addClickCommands(new Command<Button>() {
-                @Override
-                public void execute(Button button) {
-                    // освобождаем все загруженные ресурсы сцены
-                    application.getStateManager().detach(application.getStateManager().getState(SceneGuardian.class));
-                    // отображаем главное меню
-                    application.getStateManager().attach(new MainMenuPageManager());
-                }
+            button.addClickCommands(button1 -> {
+                // освобождаем все загруженные ресурсы сцены
+                application.getStateManager().detach(application.getStateManager().getState(SceneGuardian.class));
+                // отображаем главное меню
+                application.getStateManager().attach(new MainMenuPageManager());
             });
         } else logger.warning("invalid button name");
 

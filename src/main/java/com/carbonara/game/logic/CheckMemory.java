@@ -1,13 +1,10 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
