@@ -1,7 +1,7 @@
 package com.carbonara.game.object.technique.commands;
 
 import com.carbonara.game.object.technique.TechniqueControl;
-import com.carbonara.game.object.interfaces.IActionCommand;
+import com.carbonara.game.logic.interaction.interfaces.IActionCommand;
 
 public class TurnOnCommand implements IActionCommand {
     private TechniqueControl technique;

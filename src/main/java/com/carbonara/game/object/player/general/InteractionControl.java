@@ -1,6 +1,6 @@
 package com.carbonara.game.object.player.general;
 
-import com.carbonara.game.object.interfaces.IActionCommand;
+import com.carbonara.game.logic.interaction.interfaces.IActionCommand;
 
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class InteractionControl implements Control {
+    // класс который висит на сущности и регистрирует все контроллеры
     Logger logger = Logger.getLogger(InteractionControl.class.getName());
     private Spatial interactionObject;
     private HashMap<String, IActionCommand> availableActions = new HashMap<>();

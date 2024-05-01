@@ -8,7 +8,6 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 
 public class IntroPlayer extends BaseAppState {
-
     private MovieState movieState;
 
     @Override
