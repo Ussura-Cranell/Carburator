@@ -8,6 +8,7 @@ import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
+import com.carbonara.game.scene.OuterSpaceCreate;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -25,38 +26,37 @@ import java.util.logging.Logger;
 public class SceneGuardian extends BaseAppState {
     Logger logger = Logger.getLogger(SceneGuardian.class.getName());
 
-    private Node scene;
+    private Node scene; // сцена с игроком
+    private Node outerSpace; // сцена с кораблями
     PlayerStateManager playerStateManager;
 
     @Override
     protected void initialize(Application application) {
+        // debug room
+            application.getCamera().lookAtDirection(Vector3f.UNIT_Z, Vector3f.UNIT_Y);
 
-        application.getCamera().lookAtDirection(Vector3f.UNIT_Z, Vector3f.UNIT_Y);
+            debugLabelCamera(true);
 
-        // debug
-        // CameraManager.cameraUnlock(true);
-        // application.getInputManager().setCursorVisible(false);
-        debugLabelCamera(true);
-        // debug
+            // создаём сцену и передаём ей узел к которому она будет прикрепляться
+            DebugRoom debugRoom = new DebugRoom(new Node("space"));
+            this.scene = debugRoom.getDebugSpace();
 
-        // создаём сцену и передаём ей узел к которому она будет прикрепляться
-        DebugRoom debugRoom = new DebugRoom(new Node("space"));
-        this.scene = debugRoom.getDebugSpace();
+            // прикрепляем узел к сцене
+            ((SimpleApplication)application).getRootNode().attachChild(this.scene);
 
-        // прикрепляем узел к сцене
-        ((SimpleApplication)application).getRootNode().attachChild(this.scene);
+            // создаём персонажа на этой сцене
+            playerStateManager = new PlayerStateManager(this.scene);
+            application.getStateManager().attach(playerStateManager);
 
-        // создаём персонажа на этой сцене
-        playerStateManager = new PlayerStateManager(this.scene);
-        application.getStateManager().attach(playerStateManager);
+            // включаем панель отладки после общей загрузки
+            GUIDebugManager.setEnable(true);
 
-        // включаем панель отладки после общей загрузки
-        GUIDebugManager.setEnable(true);
+        // outer space
+            OuterSpaceCreate outerSpaceCreate = new OuterSpaceCreate(new Node("outerSpace"));
+            this.outerSpace = outerSpaceCreate.getOuterSpace();
 
-        // объявляем о загрузке сцены (перенесено в update для дебага)
-        // LoadingPage loadingPage = application.getStateManager().getState(LoadingPage.class);
-        // if (loadingPage != null) loadingPage.changeStatus();
-        // else logger.warning("No \"loading\" page found");
+            ((SimpleApplication)application).getRootNode().attachChild(this.outerSpace);
+
 
     }
 
@@ -72,6 +72,7 @@ public class SceneGuardian extends BaseAppState {
         // открепляем нашу сцену от главного узла
         // this.scene.detachAllChildren();
         ((SimpleApplication)application).getRootNode().detachChild(this.scene);
+        ((SimpleApplication)application).getRootNode().detachChild(this.outerSpace);
 
         // очищаем отладчик
         GUIDebugManager.clearContainer();
