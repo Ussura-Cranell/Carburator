@@ -88,7 +88,7 @@ public class PlayerMovingControl implements Control {
 
             float playerSpeed = 10;
 
-            if (isRunning) playerSpeed *= 1.5f;
+            if (isRunning && playerCharacterControl.onGround()) playerSpeed *= 1.5f;
 
             Vector3f camDir = camera.getDirection().clone();
             Vector3f camLeft = camera.getLeft().clone();

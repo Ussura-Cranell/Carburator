@@ -1,10 +1,10 @@
 package com.carbonara.game.gui.menu.pages;
 
-import com.carbonara.game.gui.pause.managers.PauseGameManager;
 import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.managers.PauseGameManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -94,7 +94,12 @@ public class LoadingPage extends BaseAppState {
         GameLauncher.getApp().getGuiNode().detachChild(myPage);
 
         // включение обработчика паузы
-        application.getStateManager().attach(new PauseGameManager());
+        // application.getStateManager().attach(new PauseGameManager());
+        // application.getStateManager().attach(new PauseGameManager());
+
+        PauseGameManager pauseGameManager = application.getStateManager().getState(PauseGameManager.class);
+        if (pauseGameManager!= null) pauseGameManager.setEnabled(true);
+        else logger.warning("No pause manager detected !");
     }
 
     @Override

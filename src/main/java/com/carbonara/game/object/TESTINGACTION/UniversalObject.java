@@ -1,9 +1,6 @@
-package com.carbonara.game.object.technique;
+package com.carbonara.game.object.TESTINGACTION;
 
-import com.carbonara.game.logic.interaction.AbstractInteraction;
 import com.carbonara.game.object.player.general.InteractionControl;
-import com.carbonara.game.object.technique.commands.TurnOffCommand;
-import com.carbonara.game.object.technique.commands.TurnOnCommand;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.renderer.RenderManager;
@@ -14,10 +11,10 @@ import com.jme3.scene.control.Control;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TechniqueControl implements Control {
-    // контроллер который можно зарегистрировать с помщью InteractionControl на сущности
-    Logger logger = Logger.getLogger(TechniqueControl.class.getName());
-    private boolean techniqueEnabled;
+public class UniversalObject implements Control {
+
+    Logger logger = Logger.getLogger(UniversalObject.class.getName());
+
     Spatial spatial;
     InteractionControl interactionControl;
 
@@ -39,6 +36,7 @@ public class TechniqueControl implements Control {
             spatial.removeControl(this);
             logger.warning("The object" + spatial.getName() + " does not have an+" + InteractionControl.class.getName() + "!");
         }
+
     }
 
     @Override
@@ -61,19 +59,36 @@ public class TechniqueControl implements Control {
 
     }
 
-    public void turnOff(){
-        logger.info("turnOff");
-        techniqueEnabled = false;
+    private boolean someting1 = false;
+    private boolean someting2 = false;
+    private boolean someting3 = false;
+    private boolean someting4 = false;
+    private boolean someting5 = false;
+    private boolean someting6 = false;
 
-        this.interactionControl.deleteAction("turnOff");
-        this.interactionControl.addAction("turnOn", new TurnOnCommand(this));
+    public void changeSomething1(){
+        someting1 = !someting1;
+        logger.info("someting1 changed!");
+    }
+    public void changeSomething2(){
+        someting2 = !someting2;
+        logger.info("someting2 changed!");
+    }
+    public void changeSomething3(){
+        someting3 = !someting3;
+        logger.info("someting3 changed!");
+    }
+    public void changeSomething4(){
+        someting4 = !someting4;
+        logger.info("someting4 changed!");
+    }
+    public void changeSomething5(){
+        someting5 = !someting5;
+        logger.info("someting5 changed!");
+    }
+    public void changeSomething6(){
+        someting6 = !someting6;
+        logger.info("someting6 changed!");
     }
 
-    public void turnOn(){
-        logger.info("turnOn");
-        techniqueEnabled = true;
-
-        this.interactionControl.deleteAction("turnOn");
-        this.interactionControl.addAction("turnOff", new TurnOffCommand(this));
-    }
 }

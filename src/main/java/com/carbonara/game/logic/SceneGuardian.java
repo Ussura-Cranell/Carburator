@@ -1,11 +1,7 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
-import com.carbonara.game.gui.pause.managers.PauseGameManager;
-import com.carbonara.game.managers.BulletAppStateManager;
-import com.carbonara.game.managers.CameraManager;
-import com.carbonara.game.managers.GUIDebugManager;
-import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.managers.*;
 import com.carbonara.game.object.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
 import com.carbonara.game.scene.OuterSpaceCreate;
@@ -29,9 +25,15 @@ public class SceneGuardian extends BaseAppState {
     private Node scene; // сцена с игроком
     private Node outerSpace; // сцена с кораблями
     PlayerStateManager playerStateManager;
+    PauseGameManager pauseGameManager;
 
     @Override
     protected void initialize(Application application) {
+
+        // добавляем обработчика паузы
+        pauseGameManager = new PauseGameManager();
+        application.getStateManager().attach(pauseGameManager);
+
         // debug room
             application.getCamera().lookAtDirection(Vector3f.UNIT_Z, Vector3f.UNIT_Y);
 
@@ -56,15 +58,15 @@ public class SceneGuardian extends BaseAppState {
             this.outerSpace = outerSpaceCreate.getOuterSpace();
 
             ((SimpleApplication)application).getRootNode().attachChild(this.outerSpace);
-
-
     }
 
     @Override
     protected void cleanup(Application application) {
-        // отлючаем обработчик паузы
+        // открепляем обработчик паузы
         // application.getStateManager().getState(PauseGameManager.class).cleanup();
-        application.getStateManager().detach(application.getStateManager().getState(PauseGameManager.class));
+        // application.getStateManager().detach(application.getStateManager().getState(PauseGameManager.class));
+        application.getStateManager().detach(pauseGameManager);
+
 
         // удялем игрока
         application.getStateManager().detach(playerStateManager);
