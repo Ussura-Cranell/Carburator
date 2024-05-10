@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 public abstract class AbstractSystem implements Control, ISystem {
-    private static Logger logger = Logger.getLogger(AbstractSystem.class.getName());
+    protected Logger logger;
 
     protected Spatial spatial;
 
@@ -27,6 +27,8 @@ public abstract class AbstractSystem implements Control, ISystem {
     @Override
     public void setSpatial(Spatial spatial) {
         this.spatial = spatial;
+
+        logger = Logger.getLogger(getClass().getName());
     }
 
     @Override
@@ -50,7 +52,7 @@ public abstract class AbstractSystem implements Control, ISystem {
     }
 
     Set<AbstractSystemComponent> systemComponents = new HashSet<>();
-    protected int totalSpaceUnits = 3; // кол-во условных единиц площади для размещения AbstractSystemComponent
+    protected int totalSpaceUnits = 1; // кол-во условных единиц площади для размещения AbstractSystemComponent
     protected int unitsSpaceSpent = 0; // кол-во потраченых единиц площади для размещения компонетов
 
     @Override

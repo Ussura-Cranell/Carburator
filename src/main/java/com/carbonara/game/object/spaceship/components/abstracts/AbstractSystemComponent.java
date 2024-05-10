@@ -14,6 +14,5 @@ public abstract class AbstractSystemComponent implements ISystemComponent {
     @Override
     public String getName() {
         return getClass().getSimpleName();
-        // return getClass().getName();
     }
 }

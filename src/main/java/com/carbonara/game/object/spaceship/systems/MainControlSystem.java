@@ -1,10 +1,14 @@
 package com.carbonara.game.object.spaceship.systems;
 
 import com.carbonara.game.object.spaceship.components.abstracts.AbstractSystemComponent;
+import com.carbonara.game.object.spaceship.managers.SpaceShipServiceLocator;
+import com.carbonara.game.object.spaceship.systems.commands.AbstractSpaceShipCommand;
+import com.carbonara.game.object.spaceship.systems.commands.flight.TeleportationByCoordinatesCommand;
 import com.carbonara.game.object.spaceship.systems.interfaces.IRegisterSystem;
 import com.carbonara.game.object.spaceship.systems.abstracts.AbstractSystem;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
@@ -12,6 +16,7 @@ import com.jme3.scene.control.Control;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class MainControlSystem implements Control, IRegisterSystem {
@@ -20,6 +25,7 @@ public class MainControlSystem implements Control, IRegisterSystem {
     private static final Logger logger = Logger.getLogger(MainControlSystem.class.getName());
     private final HashMap<String, AbstractSystem> systems = new HashMap<>();
     Spatial spaceShipSpatial;
+
     @Override
     public void registerSystem(String nameSystem, AbstractSystem system) {
         /* регистрирует системы корабля */
@@ -47,7 +53,10 @@ public class MainControlSystem implements Control, IRegisterSystem {
 
     @Override
     public void setSpatial(Spatial spatial) {
+        // при подключении MainControlSystem к кораблю
+
         this.spaceShipSpatial = spatial;
+        SpaceShipServiceLocator.initialize(); // инициализировать работу ServiceLocator
     }
 
     @Override
@@ -78,5 +87,13 @@ public class MainControlSystem implements Control, IRegisterSystem {
 
     public HashMap<String, AbstractSystem> getSystems() {
         return systems;
+    }
+
+    public void executeCommand(AbstractSpaceShipCommand command){
+        // проверяем подключена ли соответствующая система для выполнения команды
+        if (systems.containsKey(command.getTypeSystem())){
+            command.setSystem(systems.get(command.getTypeSystem()));
+            command.execute();
+        }
     }
 }

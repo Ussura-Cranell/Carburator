@@ -1,6 +1,8 @@
 package com.carbonara.game.object.spaceship.abstracts;
 
+import com.carbonara.game.object.spaceship.components.abstracts.AbstractSystemComponent;
 import com.carbonara.game.object.spaceship.systems.MainControlSystem;
+import com.carbonara.game.object.spaceship.systems.abstracts.AbstractSystem;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
@@ -26,7 +28,12 @@ public class AbstractSpaceShip implements AppState {
     protected boolean isEnabled = false;
     protected final String Id = String.valueOf(AbstractSpaceShip.class.hashCode());
 
+    private static AbstractSpaceShip abstractSpaceShip;
+
     public AbstractSpaceShip(Spatial SpaceShipSpatial, Node spaceNode){
+
+        if (abstractSpaceShip!=null) throw new RuntimeException("You can't create a second player ship!");
+
         this.SpaceShipSpatial = SpaceShipSpatial;
         this.spaceNode = spaceNode;
 
@@ -35,6 +42,9 @@ public class AbstractSpaceShip implements AppState {
 
         // прикрепляем модель к сцене
         spaceNode.attachChild(SpaceShipSpatial);
+
+        // нужно для того, чтобы нельзя было создать второй класс AbstractSpaceShip!
+        abstractSpaceShip = this;
     }
 
     @Override
@@ -103,5 +113,22 @@ public class AbstractSpaceShip implements AppState {
     }
     public MainControlSystem getMainControlSystem(){
         return this.mainControlSystem;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("\n\tSystems:\n");
+
+        int index = 0;
+        for (String systemName : this.mainControlSystem.getSystems().keySet())
+            s.append("[%d] ".formatted(index++)).append(systemName).append('\n');
+        s.append("\tComponents:\n");
+
+        index = 0;
+        for (AbstractSystem system : this.mainControlSystem.getSystems().values())
+            for (AbstractSystemComponent systemComponent : system.getSystemComponents())
+                s.append("[%d] ".formatted(index++)).append(systemComponent.getName()).append('\n');
+        return String.valueOf(s);
     }
 }

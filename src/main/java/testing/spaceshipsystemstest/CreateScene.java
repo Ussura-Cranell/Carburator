@@ -2,20 +2,29 @@ package testing.spaceshipsystemstest;
 
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.object.spaceship.CreateTestSpaceShip;
-import com.carbonara.game.object.spaceship.components.abstracts.AbstractSystemComponent;
 import com.carbonara.game.object.spaceship.components.engine.Engine;
 import com.carbonara.game.object.spaceship.components.reactor.Reactor;
+import com.carbonara.game.object.spaceship.components.shield.Shield;
+import com.carbonara.game.object.spaceship.components.weapon.Weapon;
 import com.carbonara.game.object.spaceship.systems.FlightControlSystem;
 import com.carbonara.game.object.spaceship.systems.ReactorControlSystem;
-import com.carbonara.game.object.spaceship.systems.abstracts.AbstractSystem;
+import com.carbonara.game.object.spaceship.systems.ShieldControlSystem;
+import com.carbonara.game.object.spaceship.systems.WeaponControlSystem;
+import com.carbonara.game.object.spaceship.systems.commands.AbstractSpaceShipCommand;
+import com.carbonara.game.object.spaceship.systems.commands.flight.TeleportationByCoordinatesCommand;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+
+import java.util.Random;
 
 public class CreateScene extends BaseAppState {
 
@@ -36,6 +45,9 @@ public class CreateScene extends BaseAppState {
         testSpaceShipAppState = new CreateTestSpaceShip(spaceShipSpatial, spaceShipScene);
         app.getStateManager().attach(testSpaceShipAppState);
 
+        // тестовый куб для тестирования коммандера
+        addRedCube(spaceShipScene);
+
         // прикрепляем сцену к главному ноду
         app.getRootNode().attachChild(spaceShipScene);
 
@@ -51,11 +63,16 @@ public class CreateScene extends BaseAppState {
         testSpaceShipAppState.getMainControlSystem().registerSystem(
                 FlightControlSystem.class.getName(), new FlightControlSystem());
 
+        // добавление системы орудий
+        testSpaceShipAppState.getMainControlSystem().registerSystem(
+                WeaponControlSystem.class.getName(), new WeaponControlSystem());
+
+        // добавление системы щитов
+        testSpaceShipAppState.getMainControlSystem().registerSystem(
+                ShieldControlSystem.class.getName(), new ShieldControlSystem());
+
         // добавляем к кораблю кучу реакторов
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Reactor());
-        AbstractSystemComponent component =  new Reactor();
-        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(component);
-        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(component);
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Reactor());
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Reactor());
 
@@ -63,18 +80,18 @@ public class CreateScene extends BaseAppState {
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
-        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
-        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
-        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Engine());
 
-        System.out.println("Systems:");
-        for (String systemName : testSpaceShipAppState.getMainControlSystem().getSystems().keySet())
-            System.out.println(systemName);
+        // добавляем к кораблю кучу орудий
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Weapon());
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Weapon());
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Weapon());
 
-        System.out.println("\nComponents:");
-        for (AbstractSystem system : testSpaceShipAppState.getMainControlSystem().getSystems().values())
-            for (AbstractSystemComponent systemComponent : system.getSystemComponents())
-                System.out.println(systemComponent.getName());
+        // добавляем к кораблю кучу щитов
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Shield());
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Shield());
+        testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Shield());
+
+        System.out.println(testSpaceShipAppState); // отобразит системы корабля + части систем
     }
 
     private Spatial spaceShipSpatial;
@@ -88,6 +105,22 @@ public class CreateScene extends BaseAppState {
         boxGeometry.setMaterial(boxMaterial);
 
         return boxGeometry;
+    }
+
+    private void addRedCube(Node node){
+        Box boxShape = new Box(2,2,2);
+        Geometry boxGeometry = new Geometry("redCube", boxShape);
+
+        float offset = 1f;
+        boxGeometry.setLocalTranslation(new Vector3f(0.0f, 0.0f, 0.0f).add(offset, offset, offset));
+
+        Material boxMaterial = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        boxMaterial.setColor("Color", ColorRGBA.Red);
+        boxMaterial.getAdditionalRenderState().setWireframe(true);
+        boxMaterial.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.Off);
+        boxGeometry.setMaterial(boxMaterial);
+
+        node.attachChild(boxGeometry);
     }
 
     @Override
@@ -104,5 +137,22 @@ public class CreateScene extends BaseAppState {
     @Override
     protected void onDisable() {
 
+    }
+
+    // testing commander
+    private float testTimer = 0.0f;
+    private final Random random = new Random();
+    @Override
+    public void update(float v) {
+        testTimer += v;
+        if (testTimer >= 0.5){
+            testTimer = 0.0f;
+            AbstractSpaceShipCommand command =
+                    new TeleportationByCoordinatesCommand(new Vector3f(
+                            random.nextInt(0,3),
+                            random.nextInt(0,3),
+                            random.nextInt(0,3)));
+            testSpaceShipAppState.getMainControlSystem().executeCommand(command);
+        }
     }
 }
