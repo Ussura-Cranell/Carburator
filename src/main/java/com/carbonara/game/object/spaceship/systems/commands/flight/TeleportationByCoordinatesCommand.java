@@ -9,7 +9,6 @@ public class TeleportationByCoordinatesCommand extends AbstractSpaceShipCommand 
     private FlightControlSystem flightControlSystem;
     private Vector3f coordinates;
     public TeleportationByCoordinatesCommand(Vector3f coordinates){
-        // this.flightControlSystem = flightControlSystem;
         this.coordinates = coordinates;
     }
     @Override

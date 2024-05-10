@@ -152,7 +152,7 @@ public class DebugRoom{
 
         //CollisionShape testingBoxCollisionShape = CollisionShapeFactory.createMeshShape(testingBoxGeometry);
         CollisionShape testingBoxCollisionShape = new BoxCollisionShape(3, 3, 3);
-        RigidBodyControl testingBoxRigidBodyControl = new RigidBodyControl(testingBoxCollisionShape, 1);
+        RigidBodyControl testingBoxRigidBodyControl = new RigidBodyControl(testingBoxCollisionShape, 2);
         testingBoxGeometry.addControl(testingBoxRigidBodyControl);
 
         // ищём в менеджере управления физики нашу сцену

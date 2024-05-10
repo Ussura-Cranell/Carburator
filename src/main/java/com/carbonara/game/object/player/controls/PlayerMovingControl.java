@@ -1,7 +1,14 @@
 package com.carbonara.game.object.player.controls;
 
 import com.carbonara.game.main.GameLauncher;
+import com.carbonara.game.managers.BulletAppStateManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.input.KeyInput;
@@ -15,6 +22,7 @@ import com.jme3.scene.control.Control;
 import com.jme3.renderer.Camera;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class PlayerMovingControl implements Control {
 
@@ -36,6 +44,9 @@ public class PlayerMovingControl implements Control {
         this.playerCharacterControl = spatial.getControl(CharacterControl.class);
 
         addButtonControl();
+        physicsCollisionListener = createPhysicsCollisionListener();
+        BulletAppStateManager.getBulletAppState(playerSpatial.getParent()).
+                getPhysicsSpace().addCollisionListener(physicsCollisionListener);
     }
     private boolean left = false, right = false, up = false, down = false, jump = false;
     private boolean isRunning = false;
@@ -79,6 +90,7 @@ public class PlayerMovingControl implements Control {
     };
 
     Vector3f playerWalkDirectionVector = new Vector3f(0.0f ,0.0f, 0.0f);
+    Vector3f playerWalkDirectionVectorOld = playerWalkDirectionVector;
 
     private boolean flag_movingControl = false;
 
@@ -107,7 +119,11 @@ public class PlayerMovingControl implements Control {
             if (jump && playerCharacterControl.onGround()) playerCharacterControl.jump();
 
             // characterCamera(flagSwitchCameraCharacter);
-            playerCharacterControl.setWalkDirection(playerWalkDirectionVector.normalize().mult(playerSpeed * v));
+
+            playerWalkDirectionVector = playerWalkDirectionVector.normalize().mult(playerSpeed * v);
+            playerWalkDirectionVectorOld = playerWalkDirectionVector.clone();
+            playerCharacterControl.setWalkDirection(playerWalkDirectionVector);
+
         }
     }
 
@@ -132,4 +148,36 @@ public class PlayerMovingControl implements Control {
     public void read(JmeImporter jmeImporter) throws IOException {
 
     }
+
+    private PhysicsCollisionListener createPhysicsCollisionListener(){
+        return event -> {
+            PhysicsCollisionObject objectA = event.getObjectA();
+            PhysicsCollisionObject objectB = event.getObjectB();
+
+            System.out.println((objectA instanceof RigidBodyControl) + " | " + (objectB instanceof RigidBodyControl));
+
+            System.out.println(objectA.getClass());
+            System.out.println(objectB.getClass());
+
+            float force = 190.0f;
+
+            if (objectA.getClass().getName().equals(PhysicsCharacter.class.getName()) ||
+                    objectB.getClass().getName().equals(PhysicsCharacter.class.getName())) {
+
+                if (objectA instanceof RigidBodyControl) {
+                    ((RigidBodyControl) objectA).applyCentralForce(playerWalkDirectionVector.mult(force));
+                    Logger.getLogger(PhysicsCollisionListener.class.getName())
+                            .info(playerWalkDirectionVector.toString());
+                } else if (objectB instanceof RigidBodyControl) {
+                    ((RigidBodyControl) objectB).applyCentralForce(playerWalkDirectionVector.mult(force));
+                    Logger.getLogger(PhysicsCollisionListener.class.getName())
+                            .info(playerWalkDirectionVector.toString());
+                }
+            }
+            else Logger.getLogger(PhysicsCollisionListener.class.getName()).info("Not Character!");
+            playerWalkDirectionVectorOld.set(Vector3f.ZERO);
+        };
+    }
+
+    PhysicsCollisionListener physicsCollisionListener;
 }
