@@ -3,7 +3,7 @@ package com.carbonara.game.managers;
 import com.carbonara.game.gui.pause.pages.PausePage;
 import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.object.player.controls.CameraInteraction;
+import com.carbonara.game.object.gameobjects.categories.player.controls.CameraInteraction;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
@@ -18,6 +18,7 @@ import com.jme3.renderer.RenderManager;
 import java.util.*;
 import java.util.logging.Logger;
 
+@Deprecated
 public class PauseGameManager extends Observable implements AppState {
 
     private static Logger logger = Logger.getLogger(PauseGameManager.class.getName());

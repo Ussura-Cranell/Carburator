@@ -2,7 +2,7 @@ package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
 import com.carbonara.game.managers.*;
-import com.carbonara.game.object.player.controls.PlayerStateManager;
+import com.carbonara.game.object.gameobjects.categories.player.controls.PlayerStateManager;
 import com.carbonara.game.scene.DebugRoom;
 import com.carbonara.game.scene.OuterSpaceCreate;
 import com.jme3.app.Application;
@@ -18,14 +18,13 @@ import com.simsilica.lemur.VAlignment;
 
 import java.util.logging.Logger;
 
-
+@Deprecated
 public class SceneGuardian extends BaseAppState {
     Logger logger = Logger.getLogger(SceneGuardian.class.getName());
-
     private Node scene; // сцена с игроком
     private Node outerSpace; // сцена с кораблями
-    PlayerStateManager playerStateManager;
-    PauseGameManager pauseGameManager;
+    private PlayerStateManager playerStateManager;
+    private PauseGameManager pauseGameManager;
 
     @Override
     protected void initialize(Application application) {
@@ -173,4 +172,6 @@ public class SceneGuardian extends BaseAppState {
                             getApplication().getCamera().getDirection().getZ()));
         }
     }
+
+
 }

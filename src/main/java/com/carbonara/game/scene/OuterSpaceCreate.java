@@ -2,13 +2,11 @@ package com.carbonara.game.scene;
 
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.PauseGameManager;
-import com.carbonara.game.object.spaceship.SpaceShipControl;
+import com.carbonara.game.object.other.spaceship.SpaceShipControl;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-
-import java.util.logging.Logger;
 
 public class OuterSpaceCreate {
     // модель перевернута, поэтому летает задом наперёд

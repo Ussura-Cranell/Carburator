@@ -2,6 +2,7 @@ package com.carbonara.game.main;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.logic.CheckMemory;
+import com.carbonara.game.logic.NewSceneGuardian;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
@@ -16,7 +17,7 @@ public class GameLauncher extends SimpleApplication {
     public static void main(String[] args) {
         GameLauncher gameLauncher = new GameLauncher();
         setManualSetting(gameLauncher, false);
-        enableStatistics(gameLauncher, true);
+        enableStatistics(gameLauncher, false);
         gameLauncher.start();
 
         GameLauncher.app = gameLauncher;
@@ -27,12 +28,9 @@ public class GameLauncher extends SimpleApplication {
         guiManager = new GUIManager(this);
         cameraManager = new CameraManager(this);
 
-        GUIDebugManager.init(guiNode);
-
-        // code
+        // stateManager.attach(new MainMenuPageManager());
+        stateManager.attach(new NewSceneGuardian());
         // stateManager.attach(new IntroPlayer());
-        stateManager.attach(new MainMenuPageManager());
-        // stateManager.attach(new SceneGuardian());
     }
 
     private static void setManualSetting(SimpleApplication app, boolean value){

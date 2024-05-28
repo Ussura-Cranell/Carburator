@@ -1,6 +1,7 @@
 package com.carbonara.game.gui.pause.pages;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
+import com.carbonara.game.logic.NewSceneGuardian;
 import com.carbonara.game.logic.SceneGuardian;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
@@ -56,7 +57,7 @@ public class PausePage extends BaseAppState {
         if (button.getText().equals("Exit to Main Menu")) {
             button.addClickCommands(button1 -> {
                 // освобождаем все загруженные ресурсы сцены
-                application.getStateManager().detach(application.getStateManager().getState(SceneGuardian.class));
+                application.getStateManager().detach(application.getStateManager().getState(NewSceneGuardian.class));
                 // отображаем главное меню
                 application.getStateManager().attach(new MainMenuPageManager());
             });

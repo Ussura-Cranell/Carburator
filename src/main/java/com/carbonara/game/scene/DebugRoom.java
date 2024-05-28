@@ -1,13 +1,12 @@
 package com.carbonara.game.scene;
 
-import com.carbonara.game.logic.interaction.interfaces.IActionCommand;
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.BulletAppStateManager;
-import com.carbonara.game.object.TESTINGACTION.UniversalObject;
-import com.carbonara.game.object.TESTINGACTION.commands.*;
-import com.carbonara.game.object.player.general.InteractionControl;
-import com.carbonara.game.object.technique.TechniqueControl;
-import com.carbonara.game.object.technique.commands.TurnOnCommand;
+import com.carbonara.game.object.gameobjects.states.TESTINGACTION.UniversalObject;
+import com.carbonara.game.object.gameobjects.categories.player.general.InteractionControl;
+import com.carbonara.game.object.gameobjects.states.TESTINGACTION.commands.*;
+import com.carbonara.game.object.gameobjects.states.technique.TechniqueControl;
+import com.carbonara.game.object.gameobjects.states.technique.commands.TurnOnCommand;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
