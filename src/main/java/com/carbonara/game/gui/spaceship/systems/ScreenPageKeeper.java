@@ -1,6 +1,7 @@
 package com.carbonara.game.gui.spaceship.systems;
 
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
+import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.jme3.scene.Node;
 
 import java.util.HashMap;

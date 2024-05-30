@@ -1,5 +1,6 @@
 package testing.guispaceshiptesting;
 
+import com.carbonara.game.logic.CheckMemory;
 import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
@@ -41,7 +42,7 @@ import com.jme3.app.SimpleApplication;
             app.setDisplayStatView(value);
             app.setDisplayFps(value);
 
-            // app.getStateManager().attach(new CheckMemory());
+            app.getStateManager().attach(new CheckMemory());
         }
         public static SimpleApplication getApp() {
             return app;

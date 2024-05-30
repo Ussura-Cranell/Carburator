@@ -1,6 +1,7 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.main.GameLauncher;
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
@@ -35,7 +36,7 @@ public class CheckMemory extends BaseAppState {
         container.setLocalTranslation(CheckMemory.INIT_PANEL_TOP_LEFT);
         container.setAlpha(0.0f);
 
-        GameLauncher.getApp().getGuiNode().attachChild(container);
+        GlobalSimpleApplication.getApp().getGuiNode().attachChild(container);
 
         debugMemoryInfoContainer = new Container();
         debugMemoryInfoContainer.setName("debugMemoryInfoContainer");
@@ -49,7 +50,7 @@ public class CheckMemory extends BaseAppState {
 
     @Override
     protected void cleanup(Application application) {
-        GameLauncher.getApp().getGuiNode().detachChild(container);
+        GlobalSimpleApplication.getApp().getGuiNode().detachChild(container);
     }
 
     @Override

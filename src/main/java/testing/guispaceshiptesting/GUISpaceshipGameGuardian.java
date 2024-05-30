@@ -3,6 +3,7 @@ package testing.guispaceshiptesting;
 import com.carbonara.game.gui.spaceship.systems.FlightControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.ScreenPageKeeper;
+import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
@@ -113,6 +114,9 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
         flightControlSystemPage = screenPageKeeper.getSpaceshipSystemPage(FlightControlSystemPage.class);
         flightControlSystemPageContainer = flightControlSystemPage.getScreenForGUI();
 
+        terminalControlSystemPage = screenPageKeeper.getSpaceshipSystemPage(TerminalControlSystemPage.class);
+        terminalControlSystemPageContainer = terminalControlSystemPage.getScreenForGUI();
+
         scanningControlSystemPage = screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class);
         scanningControlSystemPageContainer = scanningControlSystemPage.getScreenForGUI();
 
@@ -167,9 +171,10 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
              ...
             */
             if (b) switch (s){
-                case "screen_8": { interfaceMappingLogic(flightControlSystemPageContainer); } break;
+                case "screen_8": { interfaceMappingLogic(flightControlSystemPageContainer, true); } break;
+                case "screen_7": { interfaceMappingLogic(terminalControlSystemPageContainer, true); } break;
                 case "screen_3": {
-                    interfaceMappingLogic(scanningControlSystemPageContainer);
+                    interfaceMappingLogic(scanningControlSystemPageContainer, false);
                     GUIManager.setCursorVisible(false);
                     CameraManager.cameraUnlock(true);
                 } break;
@@ -177,7 +182,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
             }
         }
     };
-    private void interfaceMappingLogic(Container page){
+    private void interfaceMappingLogic(Container page, boolean cursorChange){
         if (pageOn) {
             // уже есть страница
             // logger.info("Есть какой-то интерфейс");
@@ -188,8 +193,10 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
                 app.getGuiNode().detachChild(selectPage);
                 selectPage = null;
 
-                GUIManager.setCursorVisible(false);
-                CameraManager.cameraUnlock(true);
+                if (cursorChange) {
+                    GUIManager.setCursorVisible(false);
+                    CameraManager.cameraUnlock(true);
+                }
 
             } else {
                 // это другая страница - меняем страницу
@@ -206,12 +213,17 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
             selectPage = page;
             app.getGuiNode().attachChild(selectPage);
 
-            GUIManager.setCursorVisible(true);
-            CameraManager.cameraUnlock(false);
+            if (cursorChange) {
+                GUIManager.setCursorVisible(true);
+                CameraManager.cameraUnlock(false);
+            }
         }
     }
     private FlightControlSystemPage flightControlSystemPage;
     private Container flightControlSystemPageContainer;
+
+    private TerminalControlSystemPage terminalControlSystemPage;
+    private Container terminalControlSystemPageContainer;
 
     private ScanningControlSystemPage scanningControlSystemPage;
     private Container scanningControlSystemPageContainer;

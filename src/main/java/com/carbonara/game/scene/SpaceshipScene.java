@@ -181,7 +181,7 @@ public class SpaceshipScene implements Observer {
     }*/
 
     private void loadSpaseShipRoom(Node scene, Vector3f position, float scale){
-        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/room.j3o");
+        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/room/room.j3o");
         scene.attachChild(spaceShipRoomSpatial);
         spaceShipRoomSpatial.setLocalTranslation(position);
         spaceShipRoomSpatial.scale(scale);

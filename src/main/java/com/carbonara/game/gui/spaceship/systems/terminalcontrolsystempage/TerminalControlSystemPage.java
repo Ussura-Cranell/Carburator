@@ -1,5 +1,7 @@
-package com.carbonara.game.gui.spaceship.systems;
+package com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage;
 
+import com.carbonara.game.gui.spaceship.systems.AbstractSpaceshipSystemPage;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
@@ -7,8 +9,9 @@ import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
 
-public class TerminalControlSystemPage extends AbstractSpaceshipSystemPage{
+public class TerminalControlSystemPage extends AbstractSpaceshipSystemPage {
 
+    Terminal terminal;
 
     public TerminalControlSystemPage(Node point, float scale) {
         super(point, scale);
@@ -32,5 +35,12 @@ public class TerminalControlSystemPage extends AbstractSpaceshipSystemPage{
 
         labelContainer.addChild(label);
         this.screen.addChild(labelContainer);
+
+        terminal = new Terminal(new Vector2f(sizeX, sizeY));
+        this.screen.attachChild(terminal.getTerminalContainer());
+    }
+
+    public Terminal getTerminal() {
+        return terminal;
     }
 }
