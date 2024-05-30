@@ -1,21 +1,28 @@
 package com.carbonara.game.gui.spaceship.systems;
 
+import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
 
+import java.util.logging.Logger;
+
 public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPage {
+    protected final Logger logger = Logger.getLogger(getClass().getName());
     protected Container screen; // контейнер для GUI
     protected Node point;       // точка к которой прикпепляется контейнер
     protected float scale;
     protected float mul = 1000f;
     protected float sizeX;
     protected float sizeY;
+    protected Vector2f sizePage;
 
     public AbstractSpaceshipSystemPage(Node point, float scale){
         this.point = point;
         this.scale = scale;
 
         initialize();
+        // addScreenToNode();
     }
 
     @Override
@@ -29,18 +36,44 @@ public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPa
         // point.scale(scale * 0.0003f);
         point.scale(scale * 0.000285f);
     }
-    public void addScreenToGUI(){
-        // добавляет интерфейс на экран игрока
-        this.screen.setLocalTranslation(
-                0f,
-                sizeY,
-                1f
-        );
-        point.attachChild(this.screen);
+    private boolean isGUI = false;
+    public Container getScreenForGUI(){
+        return getScreenForGUI(Vector3f.ZERO);
+    }
+
+    public Container getScreenForGUI(Vector3f position){
+        if (!isGUI) {
+            isGUI = true;
+            // добавляет интерфейс на экран игрока
+            this.screen.setLocalTranslation(new Vector3f(0f,sizeY,1f).add(position));
+            return this.screen;
+        }
+        logger.warning("Already taken for the GUI");
+        return null;
+    }
+
+    public void pullScreenBack(){
+        // предпологается что экран сразу будет расположен на сцене, поэтому после
+        // getScreenForGUI он пропадёт со сцены и его нужно будет прикрепить обратно
+        if (isGUI) {
+            isGUI = false;
+            // добавляет интерфейс на экран игрока
+            this.screen.setLocalTranslation(
+                    0f,
+                    0f,
+                    1f
+            );
+            point.attachChild(screen);
+        } else logger.warning("The screen is already in position");
     }
 
     @Override
     public void cleanup() {
         point.detachChild(this.screen);
+    }
+
+    @Override
+    public void update() {
+
     }
 }

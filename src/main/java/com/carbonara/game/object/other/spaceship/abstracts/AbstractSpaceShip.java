@@ -115,14 +115,18 @@ public class AbstractSpaceShip implements AppState {
         return this.mainControlSystem;
     }
 
+    public Spatial getSpaceShipSpatial() {
+        return SpaceShipSpatial;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append("\n\tSystems:\n");
 
         int index = 0;
-        for (String systemName : this.mainControlSystem.getSystems().keySet())
-            s.append("[%d] ".formatted(index++)).append(systemName).append('\n');
+        for (Class<? extends AbstractSystem> classSystem : this.mainControlSystem.getSystems().keySet())
+            s.append("[%d] ".formatted(index++)).append(classSystem.getSimpleName()).append('\n');
         s.append("\tComponents:\n");
 
         index = 0;

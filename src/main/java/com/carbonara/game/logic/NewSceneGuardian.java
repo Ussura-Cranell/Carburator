@@ -1,6 +1,7 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
+import com.carbonara.game.gui.spaceship.systems.AbstractSpaceshipSystemPage;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.managers.NewPauseGameManager;
@@ -12,6 +13,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.scene.Node;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class NewSceneGuardian extends BaseAppState {

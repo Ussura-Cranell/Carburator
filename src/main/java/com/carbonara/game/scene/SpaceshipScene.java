@@ -1,16 +1,13 @@
 package com.carbonara.game.scene;
 import com.carbonara.game.gui.spaceship.systems.*;
-import com.carbonara.game.logic.NewSceneGuardian;
+import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.managers.BulletAppStateManager;
 import com.carbonara.game.managers.NewPauseGameManager;
 import com.carbonara.game.managers.ServiceLocatorManagers;
 import com.carbonara.game.object.gameobjects.categories.player.controls.PlayerStateManager;
 import com.carbonara.game.object.gameobjects.categories.player.general.InteractionControl;
 import com.carbonara.game.object.gameobjects.states.TESTINGACTION.UniversalObject;
 import com.carbonara.game.object.gameobjects.states.TESTINGACTION.commands.*;
-import com.carbonara.game.settings.GameSettings;
-import com.jme3.app.state.BaseAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -26,9 +23,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
-import com.jme3.scene.shape.Sphere;
 import com.jme3.texture.Texture;
-import com.simsilica.lemur.*;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -82,123 +77,30 @@ public class SpaceshipScene implements Observer {
         spotLight.setSpotRange(10.0f*scale);
         scene.addLight(spotLight);
 
-        //Node screenNodes = loadScreenNodes(scene, offset, scale);
-        // for (Spatial child : screenNodes.getChildren()){
-        //     System.out.println("child name: " + child.getName());
-        //     System.out.println("child world translation: " + child.getWorldTranslation());
-        //     System.out.println("child world rotation: " + child.getWorldRotation());
-        //     System.out.println();
-//
-        //     Node childNode = (Node) child;
-        //     childNode.attachChild(createScreenBox(0.5f));
-        // }
-
-        // экраны с проставленными размерами
-        // ((Node)screenNodes.getChild("Screen_1")).attachChild(createScreenBox(0.333895f, 0.236017f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_2")).attachChild(createScreenBox(0.456416f, 0.322345f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_3")).attachChild(createScreenBox(0.797655f, 0.56383f,   0.5f));
-        // ((Node)screenNodes.getChild("Screen_4")).attachChild(createScreenBox(0.333895f, 0.236017f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_5")).attachChild(createScreenBox(0.456416f, 0.322345f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_6")).attachChild(createScreenBox(0.563866f, 0.250746f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_7")).attachChild(createScreenBox(0.350185f, 0.317938f,  0.5f));
-        // ((Node)screenNodes.getChild("Screen_8")).attachChild(createScreenBox(0.987689f, 0.346177f,  0.5f));
-
-        /*
-        1. 0.333895 0.236017 | 0.333895f / 2 = 0.1669475 | 0.236017f / 2 = 0.1180085
-        2. 0.456416 0.322345 | 0.456416f / 2 = 0.2282080 | 0.322345f / 2 = 0.1611725
-        3. 0.797655 0.563830 | 0.797655f / 2 = 0.3988275 | 0.563830f / 2 = 0.2819150
-        6. 0.563868 0.250746 | 0.563868f / 2 = 0.2819340 | 0.250746f / 2 = 0.1253730
-        7. 0.350185 0.317938 | 0.350185f / 2 = 0.1750925 | 0.317938f / 2 = 0.1589690
-        8. 0.987689 0.346177 | 0.987689f / 2 = 0.4938445 | 0.346177f / 2 = 0.1730885
+        /* размеры экранов
+        1. 0.333895f 0.236017f | 0.333895f / 2 = 0.1669475f | 0.236017f / 2 = 0.1180085f
+        2. 0.456416f 0.322345f | 0.456416f / 2 = 0.2282080f | 0.322345f / 2 = 0.1611725f
+        3. 0.797655f 0.563830f | 0.797655f / 2 = 0.3988275f | 0.563830f / 2 = 0.2819150f
+        6. 0.563868f 0.250746f | 0.563868f / 2 = 0.2819340f | 0.250746f / 2 = 0.1253730f
+        7. 0.350185f 0.317938f | 0.350185f / 2 = 0.1750925f | 0.317938f / 2 = 0.1589690f
+        8. 0.987689f 0.346177f | 0.987689f / 2 = 0.4938445f | 0.346177f / 2 = 0.1730885f
         */
 
-        // WeaponControlSystemPage
-        if (true){
-            WeaponControlSystemPage weaponControlSystemPage =
-                    new WeaponControlSystemPage(((Node)screenNodes.getChild("Screen_1")), scale);
-            weaponControlSystemPage.addScreenToNode();
-        } else {
-            WeaponControlSystemPage weaponControlSystemPage =
-                    new WeaponControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            weaponControlSystemPage.addScreenToGUI();
-        }
+        ScreenPageKeeper screenPageKeeper = new ScreenPageKeeper(scale,
+                ((Node)screenNodes.getChild("Screen_1")),
+                ((Node)screenNodes.getChild("Screen_2")),
+                ((Node)screenNodes.getChild("Screen_3")),
+                ((Node)screenNodes.getChild("Screen_4")),
+                ((Node)screenNodes.getChild("Screen_5")),
+                ((Node)screenNodes.getChild("Screen_6")),
+                ((Node)screenNodes.getChild("Screen_7")),
+                ((Node)screenNodes.getChild("Screen_8")));
+        screenPageKeeper.soutAllPages();
 
-        // ShieldControlSystemPage
-        if (true){
-            ShieldControlSystemPage shieldControlSystemPage =
-                    new ShieldControlSystemPage(((Node)screenNodes.getChild("Screen_2")), scale);
-            shieldControlSystemPage.addScreenToNode();
-        } else {
-            ShieldControlSystemPage shieldControlSystemPage =
-                    new ShieldControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            shieldControlSystemPage.addScreenToGUI();
-        }
+        GameLauncher.getApp().getGuiNode().attachChild(
+                screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).getScreenForGUI());
 
-        // ScanningControlSystemPage
-        if (true){
-            ScanningControlSystemPage scanningControlSystemPage =
-                    new ScanningControlSystemPage(((Node)screenNodes.getChild("Screen_3")), scale);
-            scanningControlSystemPage.addScreenToNode();
-        } else {
-            ScanningControlSystemPage scanningControlSystemPage =
-                    new ScanningControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            scanningControlSystemPage.addScreenToGUI();
-        }
-
-        // StorageControlSystemPage
-        if (true){
-            StorageControlSystemPage storageControlSystemPage =
-                    new StorageControlSystemPage(((Node)screenNodes.getChild("Screen_4")), scale);
-            storageControlSystemPage.addScreenToNode();
-        } else {
-            StorageControlSystemPage storageControlSystemPage =
-                    new StorageControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            storageControlSystemPage.addScreenToGUI();
-        }
-
-        // RepairControlSystemPage
-        if (true){
-            RepairControlSystemPage repairControlSystemPage =
-                    new RepairControlSystemPage(((Node)screenNodes.getChild("Screen_5")), scale);
-            repairControlSystemPage.addScreenToNode();
-        } else {
-            RepairControlSystemPage repairControlSystemPage =
-                    new RepairControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            repairControlSystemPage.addScreenToGUI();
-        }
-
-        // ReactorControlSystemPage
-        if (true){
-            ReactorControlSystemPage reactorControlSystemPage =
-                    new ReactorControlSystemPage(((Node)screenNodes.getChild("Screen_6")), scale);
-            reactorControlSystemPage.addScreenToNode();
-        } else {
-            ReactorControlSystemPage reactorControlSystemPage =
-                    new ReactorControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            reactorControlSystemPage.addScreenToGUI();
-        }
-
-        // TerminalControlSystemPage
-        if (true){
-            TerminalControlSystemPage terminalControlSystemPage =
-                    new TerminalControlSystemPage(((Node)screenNodes.getChild("Screen_7")), scale);
-            terminalControlSystemPage.addScreenToNode();
-        } else {
-            TerminalControlSystemPage terminalControlSystemPage =
-                    new TerminalControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            terminalControlSystemPage.addScreenToGUI();
-        }
-
-        // FlightControlSystemPage
-        if (true){
-            FlightControlSystemPage flightControlSystemPage =
-                    new FlightControlSystemPage(((Node)screenNodes.getChild("Screen_8")), scale);
-            flightControlSystemPage.addScreenToNode();
-        } else {
-            FlightControlSystemPage flightControlSystemPage =
-                    new FlightControlSystemPage(GameLauncher.getApp().getGuiNode(), scale);
-            flightControlSystemPage.addScreenToGUI();
-        }
+        screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).pullScreenBack();
 
         return scene;
     }
@@ -279,7 +181,7 @@ public class SpaceshipScene implements Observer {
     }*/
 
     private void loadSpaseShipRoom(Node scene, Vector3f position, float scale){
-        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/room/room.j3o");
+        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/room.j3o");
         scene.attachChild(spaceShipRoomSpatial);
         spaceShipRoomSpatial.setLocalTranslation(position);
         spaceShipRoomSpatial.scale(scale);

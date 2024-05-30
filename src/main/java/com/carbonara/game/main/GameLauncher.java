@@ -21,6 +21,7 @@ public class GameLauncher extends SimpleApplication {
         gameLauncher.start();
 
         GameLauncher.app = gameLauncher;
+        GlobalSimpleApplication.setApp(app);
     }
     @Override
     public void simpleInitApp() {

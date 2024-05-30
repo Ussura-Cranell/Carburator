@@ -12,8 +12,9 @@ public class TeleportationByCoordinatesCommand extends AbstractSpaceShipCommand 
         this.coordinates = coordinates;
     }
     @Override
-    public String getTypeSystem() {
-        return FlightControlSystem.class.getName();
+    public Class<? extends AbstractSystem> getClassSystem() {
+
+        return FlightControlSystem.class;
     }
 
     @Override

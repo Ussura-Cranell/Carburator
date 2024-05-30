@@ -57,19 +57,19 @@ public class CreateScene extends BaseAppState {
     private void registerSystems(){
         // добавление системы реактора
         testSpaceShipAppState.getMainControlSystem().registerSystem(
-                ReactorControlSystem.class.getName(), new ReactorControlSystem());
+                ReactorControlSystem.class, new ReactorControlSystem());
 
         // добавление системы двигателей
         testSpaceShipAppState.getMainControlSystem().registerSystem(
-                FlightControlSystem.class.getName(), new FlightControlSystem());
+                FlightControlSystem.class, new FlightControlSystem());
 
         // добавление системы орудий
         testSpaceShipAppState.getMainControlSystem().registerSystem(
-                WeaponControlSystem.class.getName(), new WeaponControlSystem());
+                WeaponControlSystem.class, new WeaponControlSystem());
 
         // добавление системы щитов
         testSpaceShipAppState.getMainControlSystem().registerSystem(
-                ShieldControlSystem.class.getName(), new ShieldControlSystem());
+                ShieldControlSystem.class, new ShieldControlSystem());
 
         // добавляем к кораблю кучу реакторов
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Reactor());

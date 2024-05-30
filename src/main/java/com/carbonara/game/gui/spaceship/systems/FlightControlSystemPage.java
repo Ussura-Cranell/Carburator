@@ -32,4 +32,5 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage{
         labelContainer.addChild(label);
         this.screen.addChild(labelContainer);
     }
+
 }

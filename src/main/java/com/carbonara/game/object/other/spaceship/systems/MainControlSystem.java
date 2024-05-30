@@ -20,11 +20,11 @@ public class MainControlSystem implements Control, IRegisterSystem {
     /* отвечает за управление другими системами */
 
     private static final Logger logger = Logger.getLogger(MainControlSystem.class.getName());
-    private final HashMap<String, AbstractSystem> systems = new HashMap<>();
+    private final HashMap<Class<? extends AbstractSystem>, AbstractSystem> systems = new HashMap<>();
     Spatial spaceShipSpatial;
 
     @Override
-    public void registerSystem(String nameSystem, AbstractSystem system) {
+    public void registerSystem(Class<? extends AbstractSystem> classSystem, AbstractSystem system) {
         /* регистрирует системы корабля */
 
         // если на корабле уже висит такая система, генерируется ошибка
@@ -33,7 +33,7 @@ public class MainControlSystem implements Control, IRegisterSystem {
                     .formatted(system.getClass().getName()));
 
         this.spaceShipSpatial.addControl(system);
-        this.systems.put(nameSystem, system);
+        this.systems.put(classSystem, system);
     }
 
     public void unregisterSystem(String nameSystem){
@@ -77,19 +77,19 @@ public class MainControlSystem implements Control, IRegisterSystem {
     }
 
     public void registerSystemComponent(AbstractSystemComponent systemComponent){
-        if (systems.containsKey(systemComponent.getTypeSystem()))
-            systems.get(systemComponent.getTypeSystem()).registerSystemComponent(systemComponent);
+        if (systems.containsKey(systemComponent.getClassSystem()))
+            systems.get(systemComponent.getClassSystem()).registerSystemComponent(systemComponent);
         else logger.warning("There is no control system for the \"%s\" component!".formatted(systemComponent.getName()));
     }
 
-    public HashMap<String, AbstractSystem> getSystems() {
+    public HashMap<Class<? extends AbstractSystem>, AbstractSystem> getSystems() {
         return systems;
     }
 
     public void executeCommand(AbstractSpaceShipCommand command){
         // проверяем подключена ли соответствующая система для выполнения команды
-        if (systems.containsKey(command.getTypeSystem())){
-            command.setSystem(systems.get(command.getTypeSystem()));
+        if (systems.containsKey(command.getClassSystem())){
+            command.setSystem(systems.get(command.getClassSystem()));
             command.execute();
         }
     }
