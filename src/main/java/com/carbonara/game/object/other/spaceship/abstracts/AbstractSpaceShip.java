@@ -132,7 +132,7 @@ public class AbstractSpaceShip implements AppState {
         index = 0;
         for (AbstractSystem system : this.mainControlSystem.getSystems().values())
             for (AbstractSystemComponent systemComponent : system.getSystemComponents())
-                s.append("[%d] ".formatted(index++)).append(systemComponent.getName()).append('\n');
+                s.append("[%d] ".formatted(index++)).append(systemComponent.getClassSimpleName()).append('\n');
         return String.valueOf(s);
     }
 }

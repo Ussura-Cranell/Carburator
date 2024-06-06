@@ -1,4 +1,4 @@
-package testing.guispaceshiptesting;
+package testing.completespaceshipassemblytest;
 
 import com.carbonara.game.logic.CheckMemory;
 import com.carbonara.game.main.GlobalSimpleApplication;
@@ -8,13 +8,13 @@ import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.SimpleApplication;
 
-    public class GUISpaceshipTest extends SimpleApplication {
+public class CompleteSpaceshipAssembly extends SimpleApplication {
         GUIManager guiManager;
         CameraManager cameraManager;
         private static SimpleApplication app;
 
         public static void main(String[] args) {
-            GUISpaceshipTest guiSpaceshipTest = new GUISpaceshipTest();
+            CompleteSpaceshipAssembly guiSpaceshipTest = new CompleteSpaceshipAssembly();
             setManualSetting(guiSpaceshipTest, false);
             enableStatistics(guiSpaceshipTest, true);
             guiSpaceshipTest.start();
@@ -30,7 +30,7 @@ import com.jme3.app.SimpleApplication;
 
             GUIDebugManager.init(getGuiNode());
 
-            getStateManager().attach(new GUISpaceshipGameGuardian());
+            getStateManager().attach(new CSASGameGuardian());
         }
 
         private static void setManualSetting(SimpleApplication app, boolean value){

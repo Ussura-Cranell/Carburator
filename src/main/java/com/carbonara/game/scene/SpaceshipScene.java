@@ -1,6 +1,7 @@
 package com.carbonara.game.scene;
 import com.carbonara.game.gui.spaceship.systems.*;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
+import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.NewPauseGameManager;
 import com.carbonara.game.managers.ServiceLocatorManagers;
@@ -97,10 +98,11 @@ public class SpaceshipScene implements Observer {
                 ((Node)screenNodes.getChild("Screen_8")));
         screenPageKeeper.soutAllPages();
 
-        GameLauncher.getApp().getGuiNode().attachChild(
-                screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).getScreenForGUI());
 
-        screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).pullScreenBack();
+        screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(FlightControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(TerminalControlSystemPage.class).addScreenToNode();
+        //screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).pullScreenBack();
 
         return scene;
     }

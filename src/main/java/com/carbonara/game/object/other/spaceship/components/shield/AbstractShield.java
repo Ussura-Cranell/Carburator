@@ -9,4 +9,14 @@ public abstract class AbstractShield extends AbstractSystemComponent {
     public Class<? extends AbstractSystem> getClassSystem() {
         return ShieldControlSystem.class;
     }
+
+    protected float durability = 0.0f; // - прочность щита
+
+    public float getDurability() {
+        return durability;
+    }
+
+    public void setDurability(float durability) {
+        this.durability = durability;
+    }
 }

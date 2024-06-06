@@ -63,8 +63,8 @@ public abstract class AbstractSystem implements Control, ISystem {
             if (totalSpaceUnits-unitsSpaceSpent-component.getOccupiesUnitsSpace() >= 0){
                 unitsSpaceSpent += component.getOccupiesUnitsSpace();
                 systemComponents.add(component);
-            } else logger.warning("There is not enough space to accommodate the \"%s\" component!".formatted(component.getName()));
-        else logger.warning("You cannot place the same \"%s\" in the system twice!".formatted(component.getName()));
+            } else logger.warning("There is not enough space to accommodate the \"%s\" component!".formatted(component.getClassSimpleName()));
+        else logger.warning("You cannot place the same \"%s\" in the system twice!".formatted(component.getClassSimpleName()));
     }
 
     @Override

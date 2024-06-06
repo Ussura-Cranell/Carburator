@@ -79,7 +79,7 @@ public class MainControlSystem implements Control, IRegisterSystem {
     public void registerSystemComponent(AbstractSystemComponent systemComponent){
         if (systems.containsKey(systemComponent.getClassSystem()))
             systems.get(systemComponent.getClassSystem()).registerSystemComponent(systemComponent);
-        else logger.warning("There is no control system for the \"%s\" component!".formatted(systemComponent.getName()));
+        else logger.warning("There is no control system for the \"%s\" component!".formatted(systemComponent.getClassSimpleName()));
     }
 
     public HashMap<Class<? extends AbstractSystem>, AbstractSystem> getSystems() {

@@ -4,6 +4,7 @@ import com.carbonara.game.object.other.spaceship.systems.abstracts.AbstractSyste
 
 public interface ISystemComponent {
     int getOccupiesUnitsSpace();
+    int getOccupiesUnitsEnergy();
     Class<? extends AbstractSystem> getClassSystem();
-    String getName();
+    String getClassSimpleName();
 }
