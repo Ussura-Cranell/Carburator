@@ -79,9 +79,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
         app.getStateManager().attach(spaceship);
 
         // добавляем систему полёта на корабль
-        spaceship.getMainControlSystem().registerSystem(
-                FlightControlSystem.class,
-                new FlightControlSystem());
+        spaceship.getMainControlSystem().registerSystem(new FlightControlSystem());
 
         // добавляем интерфейсы для взаимодействия
         float offset = 1.0f;
@@ -261,10 +259,8 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
                     enemySet,
                     250.0f - 25.0f,
                     3.0f);
-            List<Enemy> enemies = enemySet.stream().sorted((o1, o2) -> {
-                return (int) (o1.getModel().getLocalTranslation().distance(app.getCamera().getLocation()) -
-                                    o2.getModel().getLocalTranslation().distance(app.getCamera().getLocation()));
-                    }
+            List<Enemy> enemies = enemySet.stream().sorted((o1, o2) -> (int) (o1.getModel().getLocalTranslation().distance(app.getCamera().getLocation()) -
+                                o2.getModel().getLocalTranslation().distance(app.getCamera().getLocation()))
                     ).toList();
             scanningControlSystemPage.getTargetPanel().updateTargets(
                     app.getCamera().getLocation(),
@@ -304,7 +300,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
             debugLabelCameraContainerLabel.setTextVAlignment(VAlignment.Center);
 
             debugLabelCameraContainer.addChild(debugLabelCameraContainerLabel);
-            GUIDebugManager.getContainer().addChild(debugLabelCameraContainer);
+            // GUIDebugManager.getContainer().addChild(debugLabelCameraContainer);
         }
     }
 

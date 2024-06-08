@@ -7,4 +7,6 @@ public interface ISystemComponent {
     int getOccupiesUnitsEnergy();
     Class<? extends AbstractSystem> getClassSystem();
     String getClassSimpleName();
+    void update(float v);
+    void initialize();
 }

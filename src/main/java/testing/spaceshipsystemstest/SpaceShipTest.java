@@ -1,5 +1,6 @@
 package testing.spaceshipsystemstest;
 
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
@@ -12,6 +13,7 @@ public class SpaceShipTest extends SimpleApplication {
     public static void main(String[] args) {
         SpaceShipTest app = new SpaceShipTest();
         app.start();
+        GlobalSimpleApplication.setApp(app);
     }
 
     @Override

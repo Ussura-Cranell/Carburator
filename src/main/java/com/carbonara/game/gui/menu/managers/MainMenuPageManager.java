@@ -31,7 +31,7 @@ public class MainMenuPageManager extends BaseAppState {
         application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
 
         // ###
-        windowResolutionTEst(application, true);
+        windowResolutionTEst(application, false);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MainMenuPageManager extends BaseAppState {
         application.getStateManager().detach(application.getStateManager().getState(NewGamePage.class));
         application.getStateManager().detach(application.getStateManager().getState(SettingsPage.class));
 
-        ((SimpleApplication) application).getGuiNode().detachChild(this.panel);
+        if (panel != null) ((SimpleApplication) application).getGuiNode().detachChild(this.panel);
     }
 
     @Override

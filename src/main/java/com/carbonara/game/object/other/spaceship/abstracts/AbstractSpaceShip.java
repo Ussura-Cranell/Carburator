@@ -1,5 +1,7 @@
 package com.carbonara.game.object.other.spaceship.abstracts;
 
+import com.carbonara.game.object.other.interfaces.ITakeDamage;
+import com.carbonara.game.object.other.spaceship.components.weapon.AbstractWeapon;
 import com.carbonara.game.object.other.spaceship.systems.abstracts.AbstractSystem;
 import com.carbonara.game.object.other.spaceship.components.abstracts.AbstractSystemComponent;
 import com.carbonara.game.object.other.spaceship.systems.MainControlSystem;
@@ -13,7 +15,7 @@ import com.jme3.scene.Spatial;
 
 import java.util.logging.Logger;
 
-public class AbstractSpaceShip implements AppState {
+public class AbstractSpaceShip implements AppState, ITakeDamage {
     // двух подприложений AbstractSpaceShip не может быть в игре!
     protected static final Logger logger = Logger.getLogger(AbstractSpaceShip.class.getName());
     protected Spatial SpaceShipSpatial;       // модель корабля
@@ -111,7 +113,7 @@ public class AbstractSpaceShip implements AppState {
         if (b) onEnable();
         else onDisable();
     }
-    public MainControlSystem getMainControlSystem(){
+    public MainControlSystem getMainControlSystem() {
         return this.mainControlSystem;
     }
 
@@ -134,5 +136,25 @@ public class AbstractSpaceShip implements AppState {
             for (AbstractSystemComponent systemComponent : system.getSystemComponents())
                 s.append("[%d] ".formatted(index++)).append(systemComponent.getClassSimpleName()).append('\n');
         return String.valueOf(s);
+    }
+
+    public static AbstractSpaceShip getAbstractSpaceShip() {
+        if (abstractSpaceShip == null) logger.warning("The class is not initialized!");
+        return abstractSpaceShip;
+    }
+
+    private float ShipResources = 100;
+
+    @Override
+    public void takeDamage(AbstractWeapon weapon) {
+        float damage = weapon.getDamage();
+        String message = "";
+        message += "weapon_id: " + weapon.hashCode() + " inflicted " + damage + " damage to the spaceship";
+
+        System.out.println(message);
+    }
+
+    public void addShipResources(float shipResources) {
+        ShipResources += shipResources;
     }
 }

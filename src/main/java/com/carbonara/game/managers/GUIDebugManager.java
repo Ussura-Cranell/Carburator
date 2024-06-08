@@ -5,6 +5,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
 
+import java.util.Optional;
+
 public class GUIDebugManager {
 
     private static final Vector3f INIT_PREFERRED_SIZE = new Vector3f(300.0f, 150, 1.0f);
@@ -19,24 +21,34 @@ public class GUIDebugManager {
             new Vector3f(GameSettings.getAppSettings().getWidth() - INIT_PREFERRED_SIZE.getX(),
                     INIT_PREFERRED_SIZE.getY(), 1);
 
-    private static Container container;
+    private static Optional<Container> container = Optional.empty();
+    private static boolean isInitialize = false;
 
     public static void init(Node guiNode) {
-        GUIDebugManager.container = new Container();
-        container.setPreferredSize(GUIDebugManager.INIT_PREFERRED_SIZE);
-        container.setLocalTranslation(GUIDebugManager.INIT_PANEL_TOP_RIGHT);
-        container.setAlpha(0.0f);
+        container = Optional.of(new Container());
 
-        guiNode.attachChild(container);
+        container.get().setPreferredSize(GUIDebugManager.INIT_PREFERRED_SIZE);
+        container.get().setLocalTranslation(GUIDebugManager.INIT_PANEL_TOP_RIGHT);
+        container.get().setAlpha(0.0f);
+
+        guiNode.attachChild(container.get());
+
+
+
+        isInitialize = true;
     }
 
-    public static Container getContainer() {
+    public static Optional<Container> getContainer() {
         return container;
     }
     public static void setEnable(boolean value){
-        if (value) container.setAlpha(1.0f);
-        else container.setAlpha(0.0f);
+        container.ifPresent(container -> {
+            if (value) container.setAlpha(1.0f);
+            else container.setAlpha(0.0f);
+        });
     }
 
-    public static void clearContainer(){ container.detachAllChildren(); }
+    public static void clearContainer(){
+        container.ifPresent(Container::detachAllChildren);
+    }
 }

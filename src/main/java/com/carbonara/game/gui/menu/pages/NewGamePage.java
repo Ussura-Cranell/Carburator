@@ -2,6 +2,7 @@ package com.carbonara.game.gui.menu.pages;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 
+import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -15,7 +16,8 @@ import java.util.logging.Logger;
 
 public class NewGamePage extends BaseAppState {
     private static final Logger logger = Logger.getLogger(NewGamePage.class.getName());
-    Container myWindow;
+    private Container myWindow;
+    private boolean selectDifficulty = false;
 
     @Override
     protected void initialize(Application application) {
@@ -38,32 +40,92 @@ public class NewGamePage extends BaseAppState {
 
         ArrayList<Button> buttons = new ArrayList<>();
 
-        buttons.add(new Button("Something 1"));
-        buttons.add(new Button("Something 2"));
-        buttons.add(new Button("Create"));
-        buttons.add(new Button("Back to menu"));
+        Button Bbutton;
 
-        for (Button button : buttons) window.addChild(button);
+        Bbutton = new Button("Something 1");
+        buttons.add(Bbutton);
+        window.addChild(Bbutton);
+
+        Container container = new Container(new SpringGridLayout(Axis.X, Axis.Y));
+        window.addChild(container);
+        {
+            Bbutton = new Button(GameSettings.Difficulty.EASY.name());
+            buttons.add(Bbutton);
+            container.addChild(Bbutton);
+            // window.addChild(Bbutton);
+
+            Bbutton = new Button(GameSettings.Difficulty.NORMAL.name());
+            buttons.add(Bbutton);
+            container.addChild(Bbutton);
+            // window.addChild(Bbutton);
+
+            Bbutton = new Button(GameSettings.Difficulty.HARD.name());
+            buttons.add(Bbutton);
+            container.addChild(Bbutton);
+            // window.addChild(Bbutton);
+        }
+
+        Bbutton = new Button("Create");
+        buttons.add(Bbutton);
+        window.addChild(Bbutton);
+
+        Bbutton = new Button("Back to menu");
+        buttons.add(Bbutton);
+        window.addChild(Bbutton);
+
+        // buttons.add(new Button("Something 2"));
+        // buttons.add(new Button("Create"));
+        // buttons.add(new Button("Back to menu"));
+
+        // for (Button button : buttons) window.addChild(button);
         for (Button button : buttons) {
             button.setTextHAlignment(HAlignment.Center);
             button.setTextVAlignment(VAlignment.Center);
             button.setFontSize(20.0f);
+            button.addClickCommands(GUIManager.getclickSoundCommand());
         }
 
         this.myWindow = myWindow;
 
-        Button button = buttons.get(2);
-        if (button.getText().equals("Create")) {
+        Button button = buttons.get(1);
+        if (button.getText().equals(GameSettings.Difficulty.EASY.name())) {
             button.addClickCommands(button1 -> {
-                //logger.warning("GameController is deprecated!");
-                // application.getStateManager().attach(new SceneGuardian());
+                GameSettings.difficulty = GameSettings.Difficulty.EASY;
+                selectDifficulty = true;
+            });
+        } else logger.warning("invalid button name");
 
-                application.getStateManager().attach(new LoadingPage());
-                application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));
+        button = buttons.get(2);
+        if (button.getText().equals(GameSettings.Difficulty.NORMAL.name())) {
+            button.addClickCommands(button1 -> {
+                GameSettings.difficulty = GameSettings.Difficulty.NORMAL;
+                selectDifficulty = true;
             });
         } else logger.warning("invalid button name");
 
         button = buttons.get(3);
+        if (button.getText().equals(GameSettings.Difficulty.HARD.name())) {
+            button.addClickCommands(button1 -> {
+                GameSettings.difficulty = GameSettings.Difficulty.HARD;
+                selectDifficulty = true;
+            });
+        } else logger.warning("invalid button name");
+
+        button = buttons.get(4);
+        if (button.getText().equals("Create")) {
+            button.addClickCommands(button1 -> {
+                //logger.warning("GameController is deprecated!");
+                // application.getStateManager().attach(new SceneGuardian());
+                if (selectDifficulty){
+                application.getStateManager().attach(new LoadingPage());
+                application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));}
+                else {
+                    logger.info("The game difficulty is not selected!");
+                }
+            });
+        } else logger.warning("invalid button name");
+
+        button = buttons.get(5);
         if (button.getText().equals("Back to menu")) {
             button.addClickCommands(button1 -> {
                 application.getStateManager().getState(MainMenuPage.class).setEnabled(true);

@@ -4,4 +4,5 @@ import com.carbonara.game.object.other.spaceship.systems.abstracts.AbstractSyste
 
 public class WeaponControlSystem extends AbstractSystem {
     /* система управления орудиями*/
+
 }

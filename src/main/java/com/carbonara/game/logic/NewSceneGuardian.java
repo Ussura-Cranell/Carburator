@@ -1,20 +1,15 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
-import com.carbonara.game.gui.spaceship.systems.AbstractSpaceshipSystemPage;
-import com.carbonara.game.managers.CameraManager;
-import com.carbonara.game.managers.GUIManager;
-import com.carbonara.game.managers.NewPauseGameManager;
-import com.carbonara.game.managers.ServiceLocatorManagers;
+import com.carbonara.game.managers.*;
 import com.carbonara.game.scene.OuterSpaceScene;
 import com.carbonara.game.scene.SpaceshipScene;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.audio.AudioNode;
 import com.jme3.scene.Node;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class NewSceneGuardian extends BaseAppState {
@@ -42,6 +37,10 @@ public class NewSceneGuardian extends BaseAppState {
 
         app = (SimpleApplication) application;
 
+        // менеджер для отображения всего подряд
+        GUIDebugManager.init(app.getGuiNode());
+        // setEnable(false);
+
         newPauseGameManager = ServiceLocatorManagers.getNewPauseGameManager();
         newPauseGameManager.initialize();
 
@@ -55,10 +54,14 @@ public class NewSceneGuardian extends BaseAppState {
         app.getRootNode().attachChild(outerSpaceScene);
 
         app.getStateManager().detach(app.getStateManager().getState(LoadingPage.class));
+
+        SoundManager.get("main_environment").ifPresent(AudioNode::play);
     }
 
     @Override
     protected void cleanup(Application application) {
+
+        SoundManager.get("main_environment").ifPresent(AudioNode::stop);
 
         logger.info("cleanup");
 

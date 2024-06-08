@@ -133,7 +133,7 @@ public class SceneGuardian extends BaseAppState {
             debugLabelCameraContainerLabel.setTextVAlignment(VAlignment.Center);
 
             debugLabelCameraContainer.addChild(debugLabelCameraContainerLabel);
-            GUIDebugManager.getContainer().addChild(debugLabelCameraContainer);
+            // GUIDebugManager.getContainer().addChild(debugLabelCameraContainer);
         }
     }
 

@@ -14,6 +14,7 @@ import com.jme3.scene.control.Control;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class MainControlSystem implements Control, IRegisterSystem {
@@ -24,7 +25,7 @@ public class MainControlSystem implements Control, IRegisterSystem {
     Spatial spaceShipSpatial;
 
     @Override
-    public void registerSystem(Class<? extends AbstractSystem> classSystem, AbstractSystem system) {
+    public void registerSystem(AbstractSystem system) {
         /* регистрирует системы корабля */
 
         // если на корабле уже висит такая система, генерируется ошибка
@@ -33,7 +34,7 @@ public class MainControlSystem implements Control, IRegisterSystem {
                     .formatted(system.getClass().getName()));
 
         this.spaceShipSpatial.addControl(system);
-        this.systems.put(classSystem, system);
+        this.systems.put(system.getClass(), system);
     }
 
     public void unregisterSystem(String nameSystem){
@@ -91,6 +92,17 @@ public class MainControlSystem implements Control, IRegisterSystem {
         if (systems.containsKey(command.getClassSystem())){
             command.setSystem(systems.get(command.getClassSystem()));
             command.execute();
+        }
+    }
+
+    public <T extends AbstractSystem> Optional<T> getSystem(Class<T> systemClass){
+        AbstractSystem system = systems.get(systemClass);
+        return Optional.of((T) system);
+    }
+
+    public void setEnableSystems(boolean enable){
+        for (AbstractSystem system :systems.values()){
+            system.setEnable(enable);
         }
     }
 }

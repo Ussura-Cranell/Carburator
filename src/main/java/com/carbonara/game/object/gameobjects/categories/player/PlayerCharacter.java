@@ -1,7 +1,7 @@
 package com.carbonara.game.object.gameobjects.categories.player;
 
-import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.managers.BulletAppStateManager;
+import com.carbonara.game.main.GlobalSimpleApplication;
+import com.carbonara.game.managers.GameSavesManager;
 import com.carbonara.game.scene.SpaceshipScene;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -15,7 +15,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 public class PlayerCharacter {
-    public static final Vector3f PLAYER_INIT_LOCATION = new Vector3f(15.0f, 15.0f,15.0f);
+    public static final Vector3f PLAYER_INIT_LOCATION = new Vector3f(36.0f, 5.0f,36.0f);
     public static final float CHARACTER_WIDTH  = 1;
     public static final float CHARACTER_HEIGHT = 3;
 
@@ -38,10 +38,23 @@ public class PlayerCharacter {
                 CHARACTER_WIDTH);
         Geometry playerBoxGeometry = new Geometry("playerBoxGeometry", playerBoxShape);
 
-        // устанавливаем начальное положение игрока
-        playerBoxGeometry.setLocalTranslation(PlayerCharacter.PLAYER_INIT_LOCATION);
 
-        Material wireframeMaterial = new Material(GameLauncher.getApp().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        Vector3f initialLocation = GameSavesManager.isLoadSavePoint()
+                ? (Vector3f) GameSavesManager.getDataLoaded().map(node -> node.getUserData("physicLocation"))
+                .orElse(PlayerCharacter.PLAYER_INIT_LOCATION)
+                : PlayerCharacter.PLAYER_INIT_LOCATION;
+
+        Vector3f initialDirection = GameSavesManager.isLoadSavePoint()
+                ? (Vector3f) GameSavesManager.getDataLoaded().map(node -> node.getUserData("direction"))
+                .orElse(Vector3f.UNIT_X.clone())
+                : Vector3f.UNIT_X.clone();
+
+        playerBoxGeometry.setLocalTranslation(initialLocation);
+        GlobalSimpleApplication.getApp().getCamera().lookAtDirection(initialDirection, Vector3f.UNIT_Y);
+
+        // playerBoxGeometry.setLocalTranslation(PlayerCharacter.PLAYER_INIT_LOCATION);
+
+        Material wireframeMaterial = new Material(GlobalSimpleApplication.getApp().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         wireframeMaterial.setColor("Color", ColorRGBA.Green);
         wireframeMaterial.getAdditionalRenderState().setWireframe(true);
         playerBoxGeometry.setMaterial(wireframeMaterial);

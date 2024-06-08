@@ -2,6 +2,8 @@ package com.carbonara.game.managers;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
+import com.simsilica.lemur.Button;
+import com.simsilica.lemur.Command;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.style.BaseStyles;
 
@@ -31,5 +33,13 @@ public class GUIManager {
 
     public static void setCursorVisible(boolean value){
         app.getInputManager().setCursorVisible(value);
+    }
+
+    private static final Command<Button> clickSoundCommand = button -> {
+        SoundManager.click_button();
+    };
+
+    public static Command<Button> getclickSoundCommand() {
+        return clickSoundCommand;
     }
 }

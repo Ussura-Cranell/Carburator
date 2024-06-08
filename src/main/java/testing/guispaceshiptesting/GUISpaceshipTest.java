@@ -3,7 +3,6 @@ package testing.guispaceshiptesting;
 import com.carbonara.game.logic.CheckMemory;
 import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
-import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.SimpleApplication;
@@ -28,7 +27,7 @@ import com.jme3.app.SimpleApplication;
             guiManager = new GUIManager(this);
             cameraManager = new CameraManager(this);
 
-            GUIDebugManager.init(getGuiNode());
+            // GUIDebugManager.init(getGuiNode());
 
             getStateManager().attach(new GUISpaceshipGameGuardian());
         }

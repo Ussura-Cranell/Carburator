@@ -2,15 +2,21 @@ package com.carbonara.game.gui.pause.pages;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.logic.NewSceneGuardian;
-import com.carbonara.game.logic.SceneGuardian;
+import com.carbonara.game.main.GlobalSimpleApplication;
+import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.managers.GameSavesManager;
+import com.carbonara.game.object.gameobjects.categories.player.controls.PlayerStateManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.scene.Node;
 import com.simsilica.lemur.*;
 import com.simsilica.lemur.component.SpringGridLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -50,8 +56,31 @@ public class PausePage extends BaseAppState {
             button.setTextHAlignment(HAlignment.Center);
             button.setTextVAlignment(VAlignment.Center);
             button.setFontSize(20.0f);
+            button.addClickCommands(GUIManager.getclickSoundCommand());
         }
         Button button;
+
+        button = buttons.get(1);
+        if (button.getText().equals("Save Game")) {
+            button.addClickCommands(button1 -> {
+                Node data = new Node();
+
+                PlayerStateManager playerStateManager = GlobalSimpleApplication.getApp().getStateManager().getState(PlayerStateManager.class);
+                Camera camera = GlobalSimpleApplication.getApp().getCamera();
+
+                Vector3f physicLocation = playerStateManager.getPlayerCharacter().getPlayerCharacterControl().getPhysicsLocation();
+                Vector3f direction = camera.getDirection();
+
+                data.setUserData("physicLocation", playerStateManager.getPlayerCharacter().getPlayerCharacterControl().getPhysicsLocation());
+                data.setUserData("direction",direction);
+
+                try {
+                    GameSavesManager.save(data);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } else logger.warning("invalid button name");
 
         button = buttons.get(3);
         if (button.getText().equals("Exit to Main Menu")) {

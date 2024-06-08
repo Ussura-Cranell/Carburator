@@ -18,6 +18,7 @@ public abstract class AbstractSystem implements Control, ISystem {
     protected Logger logger;
 
     protected Spatial spatial;
+    protected boolean isEnable = true;
 
     @Override
     public Control cloneForSpatial(Spatial spatial) {
@@ -33,7 +34,7 @@ public abstract class AbstractSystem implements Control, ISystem {
 
     @Override
     public void update(float v) {
-
+        if (isEnable) updateSystem(v);
     }
 
     @Override
@@ -54,6 +55,14 @@ public abstract class AbstractSystem implements Control, ISystem {
     Set<AbstractSystemComponent> systemComponents = new HashSet<>();
     protected int totalSpaceUnits = 1; // кол-во условных единиц площади для размещения AbstractSystemComponent
     protected int unitsSpaceSpent = 0; // кол-во потраченых единиц площади для размещения компонетов
+
+    public void setTotalSpaceUnits(int totalSpaceUnits) {
+        this.totalSpaceUnits = totalSpaceUnits;
+    }
+
+    public void setUnitsSpaceSpent(int unitsSpaceSpent) {
+        this.unitsSpaceSpent = unitsSpaceSpent;
+    }
 
     @Override
     public void registerSystemComponent(AbstractSystemComponent component) {
@@ -79,5 +88,17 @@ public abstract class AbstractSystem implements Control, ISystem {
     @Override
     public Set<AbstractSystemComponent> getSystemComponents() {
         return systemComponents;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
+    @Override
+    public void updateSystem(float v) {
+        // logger.info("update");
+        for (AbstractSystemComponent component : this.getSystemComponents()){
+            component.update(v);
+        }
     }
 }

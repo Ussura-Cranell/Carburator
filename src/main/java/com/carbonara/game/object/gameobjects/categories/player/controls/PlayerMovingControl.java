@@ -1,14 +1,7 @@
 package com.carbonara.game.object.gameobjects.categories.player.controls;
 
-import com.carbonara.game.main.GameLauncher;
-import com.carbonara.game.managers.BulletAppStateManager;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.PhysicsCollisionEvent;
-import com.jme3.bullet.collision.PhysicsCollisionListener;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.objects.PhysicsCharacter;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.input.KeyInput;
@@ -22,7 +15,6 @@ import com.jme3.scene.control.Control;
 import com.jme3.renderer.Camera;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class PlayerMovingControl implements Control {
 
@@ -48,14 +40,14 @@ public class PlayerMovingControl implements Control {
     private boolean left = false, right = false, up = false, down = false, jump = false;
     private boolean isRunning = false;
     public void addButtonControl(){
-        GameLauncher.getApp().getInputManager().addMapping("CharLeft"       ,new KeyTrigger(KeyInput.KEY_A));
-        GameLauncher.getApp().getInputManager().addMapping("CharRight"      ,new KeyTrigger(KeyInput.KEY_D));
-        GameLauncher.getApp().getInputManager().addMapping("CharForward"    ,new KeyTrigger(KeyInput.KEY_W));
-        GameLauncher.getApp().getInputManager().addMapping("CharBackward"   ,new KeyTrigger(KeyInput.KEY_S));
-        GameLauncher.getApp().getInputManager().addMapping("CharJump"       ,new KeyTrigger(KeyInput.KEY_SPACE));
-        GameLauncher.getApp().getInputManager().addMapping("CharRun"       ,new KeyTrigger(KeyInput.KEY_LSHIFT));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharLeft"       ,new KeyTrigger(KeyInput.KEY_A));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharRight"      ,new KeyTrigger(KeyInput.KEY_D));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharForward"    ,new KeyTrigger(KeyInput.KEY_W));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharBackward"   ,new KeyTrigger(KeyInput.KEY_S));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharJump"       ,new KeyTrigger(KeyInput.KEY_SPACE));
+        GlobalSimpleApplication.getApp().getInputManager().addMapping("CharRun"       ,new KeyTrigger(KeyInput.KEY_LSHIFT));
 
-        GameLauncher.getApp().getInputManager().addListener(actionListener, "CharLeft",
+        GlobalSimpleApplication.getApp().getInputManager().addListener(actionListener, "CharLeft",
                 "CharRight",
                 "CharForward",
                 "CharBackward",
@@ -93,6 +85,7 @@ public class PlayerMovingControl implements Control {
 
     @Override
     public void update(float v) {
+
         if (flag_movingControl) {
 
             float playerSpeed = 10;
@@ -113,7 +106,8 @@ public class PlayerMovingControl implements Control {
 
             if (right) playerWalkDirectionVector.addLocal(camLeft.negate());
 
-            if (jump && playerCharacterControl.onGround()) playerCharacterControl.jump();
+            // временно отключили прыжок
+            // if (jump && playerCharacterControl.onGround()) playerCharacterControl.jump();
 
             // characterCamera(flagSwitchCameraCharacter);
 

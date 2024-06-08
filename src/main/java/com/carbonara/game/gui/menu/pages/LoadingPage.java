@@ -1,11 +1,9 @@
 package com.carbonara.game.gui.menu.pages;
 
 import com.carbonara.game.logic.NewSceneGuardian;
-import com.carbonara.game.logic.SceneGuardian;
-import com.carbonara.game.main.GameLauncher;
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIManager;
-import com.carbonara.game.managers.PauseGameManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -20,8 +18,9 @@ public class LoadingPage extends BaseAppState {
     private final int  LOADING_BAR_START_VALUE = 0;
     private final int LOADING_BAR_END_VALUE = 100;
     private int loadingBarValue = LOADING_BAR_START_VALUE;
-
     private boolean loading = false;
+
+    private String hintText = "HINT"; // для подсказок
 
     Container myPage;
     Container myWindow;
@@ -62,13 +61,18 @@ public class LoadingPage extends BaseAppState {
         loadingLabel.setTextVAlignment(VAlignment.Center);
         myWindow.addChild(loadingLabel);
 
+        loadingLabel = new Label(this.hintText);
+        loadingLabel.setTextHAlignment(HAlignment.Center);
+        loadingLabel.setTextVAlignment(VAlignment.Center);
+        myWindow.addChild(loadingLabel);
+
         // кнопка для продолжения
         continueButton = new Button("Continue");
         continueButton.setTextHAlignment(HAlignment.Center);
         continueButton.setTextVAlignment(VAlignment.Center);
 
         // при нажатии закрывается страница загрузки и выключается взаимодействие пользователя
-        continueButton.addClickCommands(new Action() {
+        /*continueButton.addClickCommands(new Action() {
             @Override
             public void execute(Button button) {
                 application.getStateManager().detach(
@@ -77,7 +81,7 @@ public class LoadingPage extends BaseAppState {
                 application.getInputManager().setCursorVisible(false);
 
             }
-        });
+        });*/
 
         // начало загрузки сцены!!!
         // application.getStateManager().attach(new SceneGuardian());
@@ -93,7 +97,7 @@ public class LoadingPage extends BaseAppState {
         GUIManager.setCursorVisible(false);
 
         // открепляем экран загрузки при выходе
-        GameLauncher.getApp().getGuiNode().detachChild(myPage);
+        GlobalSimpleApplication.getApp().getGuiNode().detachChild(myPage);
 
         // включение обработчика паузы
         // application.getStateManager().attach(new PauseGameManager());

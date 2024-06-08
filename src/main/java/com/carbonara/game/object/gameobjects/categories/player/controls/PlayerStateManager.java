@@ -23,7 +23,7 @@ import com.simsilica.lemur.VAlignment;
 import java.util.logging.Logger;
 
 public class PlayerStateManager extends BaseAppState {
-    private Logger logger = Logger.getLogger(PlayerStateManager.class.getName());
+    private final Logger logger = Logger.getLogger(PlayerStateManager.class.getName());
     private Node space;
     private PlayerCharacter playerCharacter;
     private PlayerMovingControl playerMovingControl;
@@ -43,7 +43,7 @@ public class PlayerStateManager extends BaseAppState {
         addButtonControl();
 
         // debug
-        // addDebugPlayerInfo(); // панель если добавили, то надо удалить при очистке
+        addDebugPlayerInfo(); // панель если добавили, то надо удалить при очистке
         // шарик камеры персонажа
         this.positionPoinCameraSparial = createPointCameraSpatial();
 
@@ -80,7 +80,7 @@ public class PlayerStateManager extends BaseAppState {
 
         // System.out.println(playerCharacter.getPlayerCharacterControl().getPhysicsLocation());
 
-        // debugPlayerInfo();
+        debugPlayerInfo();
     }
 
     private boolean flag_FollowingCameraHead = true; // по-умолчанию камера сразу прикреплена к игроку
@@ -94,7 +94,8 @@ public class PlayerStateManager extends BaseAppState {
         debugPlayerInfoLabel.setTextHAlignment(HAlignment.Center);
         debugPlayerInfoContainer.addChild(debugPlayerInfoLabel);
 
-        // GUIDebugManager.getContainer().addChild(debugPlayerInfoContainer);
+        GUIDebugManager.getContainer().ifPresent(container -> container.addChild(debugPlayerInfoContainer));
+        GUIDebugManager.setEnable(false);
     }
     private void debugPlayerInfo(){
         if (this.debugPlayerInfoLabel != null) // если debug есть
@@ -110,7 +111,8 @@ public class PlayerStateManager extends BaseAppState {
     }
 
     private void delDebugPlayerInfo(){
-        if (debugPlayerInfoContainer != null); //GUIDebugManager.getContainer().detachChild(debugPlayerInfoContainer);
+        if (debugPlayerInfoContainer != null) //GUIDebugManager.getContainer().detachChild(debugPlayerInfoContainer);
+        GUIDebugManager.getContainer().ifPresent(container -> container.detachChild(debugPlayerInfoContainer));
     }
 
     private void addButtonControl(){

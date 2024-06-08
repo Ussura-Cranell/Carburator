@@ -2,7 +2,7 @@ package com.carbonara.game.scene;
 import com.carbonara.game.gui.spaceship.systems.*;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
-import com.carbonara.game.main.GameLauncher;
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.NewPauseGameManager;
 import com.carbonara.game.managers.ServiceLocatorManagers;
 import com.carbonara.game.object.gameobjects.categories.player.controls.PlayerStateManager;
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 
 public class SpaceshipScene implements Observer {
 
-    private static Logger logger = Logger.getLogger(SpaceshipScene.class.getName());
+    private static final Logger logger = Logger.getLogger(SpaceshipScene.class.getName());
     private static BulletAppState bulletAppState;
     private PlayerStateManager playerStateManager;
     private Node scene;
@@ -49,7 +49,7 @@ public class SpaceshipScene implements Observer {
         // создаём персонажа на сцене
         playerStateManager = new PlayerStateManager(scene);
         // включаем его
-        GameLauncher.getApp().getStateManager().attach(playerStateManager);
+        GlobalSimpleApplication.getApp().getStateManager().attach(playerStateManager);
 
         createTestingCube2(scene);
 
@@ -106,40 +106,23 @@ public class SpaceshipScene implements Observer {
 
         return scene;
     }
-
-    private Spatial createScreenBox(float sizeX, float sizeZ, float scale){
-        float x = sizeX * scale;
-        float y = 0.025f * scale;
-        float z = sizeZ * scale;
-        Box testingBoxShape = new Box(x, y, z);
-        Geometry testingBoxGeometry = new Geometry("testingBox2Geometry", testingBoxShape);
-        Material testingBoxMaterial = new Material(GameLauncher.getApp().getAssetManager(),
-                "Common/MatDefs/Misc/ShowNormals.j3md");
-        testingBoxMaterial.getAdditionalRenderState().setWireframe(true);
-        testingBoxGeometry.setMaterial(testingBoxMaterial);
-        testingBoxGeometry.rotate(FastMath.DEG_TO_RAD * -90, 0, 0);
-        /*testingBoxGeometry.rotate(rotation);*/
-
-        return testingBoxGeometry;
-    }
-
     public void initialize(){
         bulletAppState = new BulletAppState();
         bulletAppState.setDebugEnabled(true);
-        GameLauncher.getApp().getStateManager().attach(bulletAppState);
+        GlobalSimpleApplication.getApp().getStateManager().attach(bulletAppState);
 
         ServiceLocatorManagers.getNewPauseGameManager().addObserver(this);
     }
 
     private void loadBarrier(Node scene, Vector3f position, float scale){
-        Spatial barrierSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/capitanroom/barrier/barrier.j3o");
+        Spatial barrierSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/capitanroom/barrier/barrier.j3o");
         scene.attachChild(barrierSpatial);
         barrierSpatial.setLocalTranslation(position);
         barrierSpatial.scale(scale);
 
-       // Material testingBarrierMaterial = new Material(GameLauncher.getApp().getAssetManager(),
+       // Material testingBarrierMaterial = new Material(GlobalSimpleApplication.getApp().getAssetManager(),
        //         "Common/Materials/RedColor.j3m");
-        Material testingBarrierMaterial = GameLauncher.getApp().getAssetManager().loadMaterial("Common/Materials/RedColor.j3m");
+        Material testingBarrierMaterial = GlobalSimpleApplication.getApp().getAssetManager().loadMaterial("Common/Materials/RedColor.j3m");
         //testingBoxMaterial.setColor("Color", ColorRGBA.Magenta);
         testingBarrierMaterial.getAdditionalRenderState().setWireframe(true);
         testingBarrierMaterial.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.Off);
@@ -159,7 +142,7 @@ public class SpaceshipScene implements Observer {
         scene.attachChild(barrierSpatial);
     }
     /*private Node loadScreenNodes(Node scene, Vector3f position, float scale){
-        Node screenNodes = (Node) GameLauncher.getApp().getAssetManager().loadModel("Models/screenNode/ScreenNode.j3o");
+        Node screenNodes = (Node) GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/screenNode/ScreenNode.j3o");
         scene.attachChild(screenNodes);
         screenNodes.setLocalTranslation(position);
         screenNodes.scale(scale);
@@ -168,22 +151,22 @@ public class SpaceshipScene implements Observer {
     }*/
 
     public void cleanup(){
-        GameLauncher.getApp().getStateManager().detach(bulletAppState);
+        GlobalSimpleApplication.getApp().getStateManager().detach(bulletAppState);
         bulletAppState = null;
         scene = null;
         // отключаем обработку персонажа
-        GameLauncher.getApp().getStateManager().detach(playerStateManager);
+        GlobalSimpleApplication.getApp().getStateManager().detach(playerStateManager);
     }
 
     /*private void loadSpaseShipRoom(Node scene, Vector3f position, float scale){
-        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/capitanroom/capitanroom.j3o");
+        Spatial spaceShipRoomSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/capitanroom/capitanroom.j3o");
         scene.attachChild(spaceShipRoomSpatial);
         spaceShipRoomSpatial.setLocalTranslation(position);
         spaceShipRoomSpatial.scale(scale);
     }*/
 
     private void loadSpaseShipRoom(Node scene, Vector3f position, float scale){
-        Spatial spaceShipRoomSpatial = GameLauncher.getApp().getAssetManager().loadModel("Models/room/room.j3o");
+        Spatial spaceShipRoomSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/room/room.j3o");
         scene.attachChild(spaceShipRoomSpatial);
         spaceShipRoomSpatial.setLocalTranslation(position);
         spaceShipRoomSpatial.scale(scale);
@@ -215,11 +198,11 @@ public class SpaceshipScene implements Observer {
         gridSurfaceSpatial.rotate(rotation.getX(), rotation.getY(), rotation.getZ());
 
         // загрузка текстуры сетки и режима "повторение"
-        gridSurfaceTexture = GameLauncher.getApp().getAssetManager().loadTexture("Textures/UNTITLED.png");
+        gridSurfaceTexture = GlobalSimpleApplication.getApp().getAssetManager().loadTexture("Textures/UNTITLED.png");
         gridSurfaceTexture.setWrap(Texture.WrapMode.Repeat);
 
         // загрузка материала с текстурой, установка режима альфа канала
-        gridSurfaceMaterial = new Material(GameLauncher.getApp().getAssetManager(),
+        gridSurfaceMaterial = new Material(GlobalSimpleApplication.getApp().getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
         gridSurfaceMaterial.setTexture("ColorMap", gridSurfaceTexture);
         gridSurfaceMaterial.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
@@ -249,7 +232,7 @@ public class SpaceshipScene implements Observer {
         Box testingBoxShape = new Box(1, 1, 1);
         Geometry testingBoxGeometry = new Geometry("testingBox2Geometry", testingBoxShape);
         testingBoxGeometry.move(4, 10, 25);
-        Material testingBoxMaterial = new Material(GameLauncher.getApp().getAssetManager(),
+        Material testingBoxMaterial = new Material(GlobalSimpleApplication.getApp().getAssetManager(),
                 "Common/MatDefs/Misc/ShowNormals.j3md");
         //testingBoxMaterial.setColor("Color", ColorRGBA.Magenta);
         testingBoxMaterial.getAdditionalRenderState().setWireframe(true);

@@ -1,5 +1,7 @@
 package com.carbonara.game.gui.menu.pages;
 
+import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.managers.SoundManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -46,6 +48,7 @@ public class SettingsPage extends BaseAppState {
             button.setTextHAlignment(HAlignment.Center);
             button.setTextVAlignment(VAlignment.Center);
             button.setFontSize(20.0f);
+            button.addClickCommands(GUIManager.getclickSoundCommand());
         }
 
         this.myWindow = myWindow;
@@ -53,6 +56,7 @@ public class SettingsPage extends BaseAppState {
         Button button = buttons.get(3);
         if (button.getText().equals("Back to menu")) {
             button.addClickCommands(button1 -> {
+                SoundManager.click_button();
                 application.getStateManager().getState(MainMenuPage.class).setEnabled(true);
                 setEnabled(false);
             });

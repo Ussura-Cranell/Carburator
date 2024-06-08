@@ -1,6 +1,7 @@
 package testing.spaceshipsystemstest;
 
 import com.carbonara.game.managers.CameraManager;
+import com.carbonara.game.object.other.EvilClass;
 import com.carbonara.game.object.other.spaceship.CreateTestSpaceShip;
 import com.carbonara.game.object.other.spaceship.components.engine.Engine;
 import com.carbonara.game.object.other.spaceship.components.reactor.Reactor;
@@ -35,6 +36,9 @@ public class CreateScene extends BaseAppState {
 
     @Override
     protected void initialize(Application application) {
+
+        EvilClass.initialize();
+
         this.app = (SimpleApplication) application;
 
         CameraManager.cameraUnlock(true);
@@ -56,20 +60,16 @@ public class CreateScene extends BaseAppState {
 
     private void registerSystems(){
         // добавление системы реактора
-        testSpaceShipAppState.getMainControlSystem().registerSystem(
-                ReactorControlSystem.class, new ReactorControlSystem());
+        testSpaceShipAppState.getMainControlSystem().registerSystem(new ReactorControlSystem());
 
         // добавление системы двигателей
-        testSpaceShipAppState.getMainControlSystem().registerSystem(
-                FlightControlSystem.class, new FlightControlSystem());
+        testSpaceShipAppState.getMainControlSystem().registerSystem(new FlightControlSystem());
 
         // добавление системы орудий
-        testSpaceShipAppState.getMainControlSystem().registerSystem(
-                WeaponControlSystem.class, new WeaponControlSystem());
+        testSpaceShipAppState.getMainControlSystem().registerSystem(new WeaponControlSystem());
 
         // добавление системы щитов
-        testSpaceShipAppState.getMainControlSystem().registerSystem(
-                ShieldControlSystem.class, new ShieldControlSystem());
+        testSpaceShipAppState.getMainControlSystem().registerSystem(new ShieldControlSystem());
 
         // добавляем к кораблю кучу реакторов
         testSpaceShipAppState.getMainControlSystem().registerSystemComponent(new Reactor());

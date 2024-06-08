@@ -1,7 +1,7 @@
 package com.carbonara.game.object.gameobjects.categories.player.controls;
 
+import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.object.gameobjects.states.TESTINGACTION.interaction.AbstractInteraction;
-import com.carbonara.game.main.GameLauncher;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.PauseGameManager;
 import com.carbonara.game.object.gameobjects.categories.player.general.InteractionControl;
@@ -27,7 +27,7 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
     // подприложение отвечающее за взаимодействие
     // летающа камера может взаимодействовать с выбранным подпростанством
 
-    private Logger logger = Logger.getLogger(CameraInteraction.class.getName());
+    private final Logger logger = Logger.getLogger(CameraInteraction.class.getName());
     private Node space;
     private Container cameraDirectionPoint;
 
@@ -56,14 +56,14 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
                 (float) GameSettings.getAppSettings().getWidth() /2 - size /2,
                 (float) GameSettings.getAppSettings().getHeight() /2 + size /2,
                 1);
-        GameLauncher.getApp().getGuiNode().attachChild(cameraDirectionPoint);
+        GlobalSimpleApplication.getApp().getGuiNode().attachChild(cameraDirectionPoint);
 
         // панель доступных действиий для игрока
         objectActionPanel = new Container();
         // objectActionPanel.setLocalTranslation(new Vector3f(500, 500, 1));
         objectActionPanel.setPreferredSize(new Vector3f(300, 300, 1));
         // objectActionPanel.setSize(new Vector3f(300, 20, 1));
-        GameLauncher.getApp().getGuiNode().attachChild(objectActionPanel);
+        GlobalSimpleApplication.getApp().getGuiNode().attachChild(objectActionPanel);
 
         application.getInputManager().addMapping("InteractionWithObject1", new KeyTrigger(KeyInput.KEY_1));
         application.getInputManager().addMapping("InteractionWithObject2", new KeyTrigger(KeyInput.KEY_2));
@@ -87,7 +87,7 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
                 "InteractionWithObject9");
     }
 
-    private InputListener inputListener = (ActionListener) (s, b, v) -> {
+    private final InputListener inputListener = (ActionListener) (s, b, v) -> {
         if (s.equals("InteractionButton") && b){
 
             // если игрок нажмён на взаимодействие когда меню открыто, оно закроется
@@ -97,7 +97,7 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
         }
     };
 
-    private InputListener interactionWithObjectListener = (ActionListener) (s, b, v) -> {
+    private final InputListener interactionWithObjectListener = (ActionListener) (s, b, v) -> {
         // по последней цифре в названии
         if (flag_interactOnObject && !b) { // есть активный объект и кнопка отжата
             int i = Character.getNumericValue(s.charAt(s.length()-1));
@@ -110,8 +110,8 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
 
     @Override
     protected void cleanup(Application application) {
-        GameLauncher.getApp().getGuiNode().detachChild(cameraDirectionPoint);
-        GameLauncher.getApp().getGuiNode().detachChild(objectActionPanel);
+        GlobalSimpleApplication.getApp().getGuiNode().detachChild(cameraDirectionPoint);
+        GlobalSimpleApplication.getApp().getGuiNode().detachChild(objectActionPanel);
     }
 
     @Override

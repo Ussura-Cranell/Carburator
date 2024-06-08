@@ -2,11 +2,10 @@ package com.carbonara.game.main;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.logic.CheckMemory;
-import com.carbonara.game.logic.NewSceneGuardian;
 import com.carbonara.game.managers.CameraManager;
-import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
+import com.carbonara.game.tools.audio.AudioInitializer;
 import com.jme3.app.SimpleApplication;
 
 public class GameLauncher extends SimpleApplication {
@@ -25,12 +24,15 @@ public class GameLauncher extends SimpleApplication {
     }
     @Override
     public void simpleInitApp() {
+        // инициализация звуков
+        (new AudioInitializer()).initialize(assetManager);
 
         guiManager = new GUIManager(this);
         cameraManager = new CameraManager(this);
 
-        // stateManager.attach(new MainMenuPageManager());
-        stateManager.attach(new NewSceneGuardian());
+        stateManager.attach(new MainMenuPageManager());
+        // stateManager.attach(new NewSceneGuardian());\
+        // stateManager.attach(new NewGamePage());
         // stateManager.attach(new IntroPlayer());
     }
 

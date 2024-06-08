@@ -1,14 +1,20 @@
 package com.carbonara.game.gui.menu.pages;
 
+import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
+import com.carbonara.game.managers.GUIManager;
+import com.carbonara.game.managers.GameSavesManager;
+import com.carbonara.game.managers.SoundManager;
 import com.carbonara.game.settings.GameSettings;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.audio.AudioNode;
 import com.jme3.math.Vector3f;
 import com.simsilica.lemur.*;
 import com.simsilica.lemur.component.SpringGridLayout;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class MainMenuPage extends BaseAppState {
@@ -18,6 +24,8 @@ public class MainMenuPage extends BaseAppState {
 
     @Override
     protected void initialize(Application application) {
+
+        SoundManager.get("main_music").ifPresent(AudioNode::play);
 
         Container myWindow = getContainer();
 
@@ -47,11 +55,33 @@ public class MainMenuPage extends BaseAppState {
             button.setTextHAlignment(HAlignment.Center);
             button.setTextVAlignment(VAlignment.Center);
             button.setFontSize(20.0f);
+            button.addClickCommands(GUIManager.getclickSoundCommand());
         }
 
-        Button button = buttons.get(1);
+        Button button = buttons.get(0);
+        if (button.getText().equals("Continue")) {
+            button.addClickCommands(button1 -> {
+                SoundManager.click_button();
+                Optional<String> savepointName = GameSavesManager.getLatestSaveFileName();
+
+                savepointName.ifPresentOrElse(
+                        s -> {
+                            // System.out.println("found: " + s);
+                            // логика загрузки последнего сохранения
+                            GameSavesManager.load(savepointName.get());
+                            GameSavesManager.setLoadSavePoint(true);
+                            application.getStateManager().attach(new LoadingPage());
+                            application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));
+                            setEnabled(false);
+                            },
+                        () -> logger.warning("No saves found!"));
+            });
+        } else logger.warning("invalid button name");
+
+        button = buttons.get(1);
         if (button.getText().equals("New Game")) {
             button.addClickCommands(button1 -> {
+                GameSavesManager.setLoadSavePoint(false);
                 application.getStateManager().getState(NewGamePage.class).setEnabled(true);
                 setEnabled(false);
             });
@@ -95,7 +125,9 @@ public class MainMenuPage extends BaseAppState {
 
     @Override
     protected void cleanup(Application application) {
+
         logger.info("cleanup");
+        SoundManager.get("main_music").ifPresent(AudioNode::stop);
     }
 
     @Override
