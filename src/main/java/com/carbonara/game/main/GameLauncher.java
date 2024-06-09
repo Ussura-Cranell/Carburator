@@ -2,6 +2,7 @@ package com.carbonara.game.main;
 
 import com.carbonara.game.gui.menu.managers.MainMenuPageManager;
 import com.carbonara.game.logic.CheckMemory;
+import com.carbonara.game.logic.NewSceneGuardian;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIManager;
 import com.carbonara.game.settings.GameSettings;
@@ -30,8 +31,8 @@ public class GameLauncher extends SimpleApplication {
         guiManager = new GUIManager(this);
         cameraManager = new CameraManager(this);
 
-        stateManager.attach(new MainMenuPageManager());
-        // stateManager.attach(new NewSceneGuardian());\
+        // stateManager.attach(new MainMenuPageManager());
+        stateManager.attach(new NewSceneGuardian());
         // stateManager.attach(new NewGamePage());
         // stateManager.attach(new IntroPlayer());
     }

@@ -31,21 +31,30 @@ public class NewPauseGameManager extends Observable {
         addListener();
     }
 
-    HashSet<String> namesMapping = new HashSet<>();
-    InputListener inputListener = (ActionListener) (s, b, v) -> {
-        if (s.equals("Exit") && b){
-            gamePause = !gamePause;
-            CameraManager.cameraUnlock(gamePause);
-            GUIManager.setCursorVisible(!gamePause);
+    private final HashSet<String> namesMapping = new HashSet<>();
 
-            switchPageLogic(!gamePause);
+    private boolean isReportManagerPauseCloseStoryGUITerminal = false; // разработчик оставил сдесь свои костыли
 
-            setChanged();
-            notifyObservers(gamePause);
-        }
+    public void reportManagerPauseCloseStoryGUITerminal(boolean hidePage) {
+        isReportManagerPauseCloseStoryGUITerminal = hidePage;
+    }
+
+    private final InputListener inputListener = (ActionListener) (s, b, v) -> {
+        if (isReportManagerPauseCloseStoryGUITerminal) isReportManagerPauseCloseStoryGUITerminal = false;
+        else
+            if (s.equals("Exit") && b){
+                gamePause = !gamePause;
+                CameraManager.cameraUnlock(gamePause);
+                GUIManager.setCursorVisible(!gamePause);
+
+                switchPageLogic(!gamePause);
+
+                setChanged();
+                notifyObservers(gamePause);
+            }
     };
     private void addListener(){
-        // отключаем стандартную клавишу вызода из приложения
+        // отключаем стандартную клавишу выхода из приложения
 
         GlobalSimpleApplication.getApp().getInputManager().deleteMapping(SimpleApplication.INPUT_MAPPING_EXIT);
 
@@ -100,5 +109,9 @@ public class NewPauseGameManager extends Observable {
             GlobalSimpleApplication.getApp().getStateManager().detach(selectedPage);
             selectedPage = null;
         }
+    }
+
+    public InputListener getInputListener() {
+        return inputListener;
     }
 }

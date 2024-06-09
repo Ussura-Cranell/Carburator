@@ -39,6 +39,7 @@ public class LoadingPage extends BaseAppState {
 
         // включение анимации загрузки
 
+
         myPage = new Container();
         myPage.setPreferredSize(new Vector3f(GameSettings.getAppSettings().getWidth(),
                 GameSettings.getAppSettings().getHeight(), 1));

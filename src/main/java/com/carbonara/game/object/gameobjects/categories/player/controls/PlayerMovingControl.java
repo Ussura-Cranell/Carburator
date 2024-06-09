@@ -107,7 +107,7 @@ public class PlayerMovingControl implements Control {
             if (right) playerWalkDirectionVector.addLocal(camLeft.negate());
 
             // временно отключили прыжок
-            // if (jump && playerCharacterControl.onGround()) playerCharacterControl.jump();
+            if (jump && playerCharacterControl.onGround()) playerCharacterControl.jump();
 
             // characterCamera(flagSwitchCameraCharacter);
 

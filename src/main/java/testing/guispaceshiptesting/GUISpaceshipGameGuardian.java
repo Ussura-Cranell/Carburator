@@ -43,6 +43,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
     private final Node screenNodes = new Node("screenNodes");
     private SimpleApplication app;
     private AbstractSpaceShip spaceship;
+    private ScreenPageKeeper screenPageKeeper; // отвечает за терминалы
 
     @Override
     protected void initialize(Application application) {
@@ -105,7 +106,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
         app.getRootNode().attachChild(node8);
 
         // создаём хранилище экранов и инициализируем их
-        ScreenPageKeeper screenPageKeeper = new ScreenPageKeeper(1.0f,
+        screenPageKeeper = new ScreenPageKeeper(1.0f,
                 node1, node2, node3, node4, node5, node6, node7, node8);
 
         // достаём графический интерфейс для системы управления полётом

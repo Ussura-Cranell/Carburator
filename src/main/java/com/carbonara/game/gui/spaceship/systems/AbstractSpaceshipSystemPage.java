@@ -1,9 +1,11 @@
 package com.carbonara.game.gui.spaceship.systems;
 
+import com.carbonara.game.settings.GameSettings;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
+import com.simsilica.lemur.Panel;
 
 import java.util.logging.Logger;
 
@@ -45,7 +47,16 @@ public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPa
         if (!isGUI) {
             isGUI = true;
             // добавляет интерфейс на экран игрока
-            this.screen.setLocalTranslation(new Vector3f(0f,sizeY,1f).add(position));
+
+            float width2Window = (float) GameSettings.getAppSettings().getWindowWidth() / 2;
+            float height2Window = (float) GameSettings.getAppSettings().getWindowHeight() / 2;
+
+            float width2Page = sizeX / 2;
+            float height2Page = sizeY / 2;
+
+            this.screen.setLocalTranslation(new Vector3f(
+                    width2Window - width2Page,
+                    height2Window + height2Page,1f).add(position));
             return this.screen;
         }
         logger.warning("Already taken for the GUI");
@@ -69,6 +80,7 @@ public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPa
 
     @Override
     public void cleanup() {
+        pullScreenBack();
         point.detachChild(this.screen);
     }
 

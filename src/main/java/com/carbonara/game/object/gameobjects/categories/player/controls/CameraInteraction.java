@@ -17,9 +17,11 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.simsilica.lemur.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 public class CameraInteraction extends AbstractInteraction implements Observer {
@@ -36,11 +38,20 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
     private InteractionControl interactionControlObject; // объект с которым взаимодействует игрок
     private boolean flag_interactOnObject = false; // игрок сейчас взаимодействует с объектом?
 
-    CameraInteraction(Node space){
+    private boolean flag_gamePause = false;
+    private void setFlagGamePause(boolean flag){
+        flag_gamePause = flag;
+
+        if (flag_gamePause && flag_interactOnObject) {
+            defeatPurposeInteraction(); // если игра на паузе, скрыть панель взаимодействия
+        }
+    }
+
+    public CameraInteraction(Node space){
         this.space = space;
     }
 
-    ArrayList<String> availableActionsDescriptions;
+    private ArrayList<String> availableActionsDescriptions;
 
     @Override
     protected void initialize(Application application) {
@@ -89,11 +100,11 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
 
     private final InputListener inputListener = (ActionListener) (s, b, v) -> {
         if (s.equals("InteractionButton") && b){
-
             // если игрок нажмён на взаимодействие когда меню открыто, оно закроется
 
-            if (flag_interactOnObject) defeatPurposeInteraction();
-            else testing();
+            if (!flag_gamePause) // проверка на паузу (на паузе нельзя взаимодействовать
+                if (flag_interactOnObject) defeatPurposeInteraction();
+                else testing();
         }
     };
 
@@ -116,12 +127,14 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
 
     @Override
     protected void onEnable() {
-
+        // временная реализация
+        setFlagGamePause(false);
     }
 
     @Override
     protected void onDisable() {
-
+        // временная реализация
+        setFlagGamePause(true);
     }
 
     private void testing(){
@@ -142,6 +155,14 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
 
         // Проверка, висит ли контроллер взаимодействия и можно ли вообще взаимодействовать с ним сейчас
         if (interactionControl != null && interactionControl.isCanInteract()) {
+
+            // если объект имеет моментальную команду "execute"
+            if (interactionControl.getAvailableActionsDescriptions().contains("execute")){
+                interactionControl.interact("execute");
+                return;
+            }
+
+            // иначе ...
 
             interactionControlObject = interactionControl; // класс управления действиями
             flag_interactOnObject = true; // игрок в данный момент взаимодействует с этим объектом
@@ -191,14 +212,7 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
         return this;
     }
 
-    private boolean flag_gamePause = false;
-    private void setFlagGamePause(boolean flag){
-        flag_gamePause = flag;
 
-        if (flag_gamePause && flag_interactOnObject) {
-            defeatPurposeInteraction(); // если игра на паузе, скрыть панель взаимодействия
-        }
-    }
 
     @Override
     public void update(float tpf) {
@@ -250,5 +264,6 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof PauseGameManager) setFlagGamePause((boolean) arg);
+        // else if (o instanceof PauseGameManager) setFlagGamePause((boolean) arg);
     }
 }

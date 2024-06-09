@@ -2,6 +2,7 @@ package com.carbonara.game.gui.spaceship.systems;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
@@ -31,6 +32,12 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage{
 
         labelContainer.addChild(label);
         this.screen.addChild(labelContainer);
+
+        // InteractionControl interactionControl = new InteractionControl();
+        // int i = 0;
+        // for (Spatial child: this.screen.getChildren()){
+        //     System.out.printf("[%d] child: %s class %s hashL %d\n", ++i, child.getName(), child.getClass(), child.hashCode());
+        // }
     }
 
 }

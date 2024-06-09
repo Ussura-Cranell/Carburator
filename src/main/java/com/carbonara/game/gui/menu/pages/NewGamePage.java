@@ -117,8 +117,10 @@ public class NewGamePage extends BaseAppState {
                 //logger.warning("GameController is deprecated!");
                 // application.getStateManager().attach(new SceneGuardian());
                 if (selectDifficulty){
-                application.getStateManager().attach(new LoadingPage());
-                application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));}
+                    application.getStateManager().attach(new LoadingPage());
+                    application.getStateManager().detach(application.getStateManager().getState(MainMenuPageManager.class));
+                    setEnabled(false);
+                }
                 else {
                     logger.info("The game difficulty is not selected!");
                 }

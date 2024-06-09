@@ -37,6 +37,7 @@ public class SpaceshipScene implements Observer {
     private PlayerStateManager playerStateManager;
     private Node scene;
     private Node screenNodes;
+    private ScreenPageKeeper screenPageKeeper; // для терминала
 
     public Node createScene(){
 
@@ -87,7 +88,7 @@ public class SpaceshipScene implements Observer {
         8. 0.987689f 0.346177f | 0.987689f / 2 = 0.4938445f | 0.346177f / 2 = 0.1730885f
         */
 
-        ScreenPageKeeper screenPageKeeper = new ScreenPageKeeper(scale,
+        screenPageKeeper = new ScreenPageKeeper(scale,
                 ((Node)screenNodes.getChild("Screen_1")),
                 ((Node)screenNodes.getChild("Screen_2")),
                 ((Node)screenNodes.getChild("Screen_3")),
@@ -102,6 +103,12 @@ public class SpaceshipScene implements Observer {
         screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).addScreenToNode();
         screenPageKeeper.getSpaceshipSystemPage(FlightControlSystemPage.class).addScreenToNode();
         screenPageKeeper.getSpaceshipSystemPage(TerminalControlSystemPage.class).addScreenToNode();
+
+        screenPageKeeper.getSpaceshipSystemPage(WeaponControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(ShieldControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(StorageControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(RepairControlSystemPage.class).addScreenToNode();
+        screenPageKeeper.getSpaceshipSystemPage(ReactorControlSystemPage.class).addScreenToNode();
         //screenPageKeeper.getSpaceshipSystemPage(ScanningControlSystemPage.class).pullScreenBack();
 
         return scene;
@@ -151,6 +158,9 @@ public class SpaceshipScene implements Observer {
     }*/
 
     public void cleanup(){
+
+        screenPageKeeper.cleanup();
+
         GlobalSimpleApplication.getApp().getStateManager().detach(bulletAppState);
         bulletAppState = null;
         scene = null;
@@ -167,6 +177,8 @@ public class SpaceshipScene implements Observer {
 
     private void loadSpaseShipRoom(Node scene, Vector3f position, float scale){
         Spatial spaceShipRoomSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/room/room.j3o");
+        spaceShipRoomSpatial.setName("room");
+        logger.info("The “room” object is loaded and hash: " + spaceShipRoomSpatial.hashCode());
         scene.attachChild(spaceShipRoomSpatial);
         spaceShipRoomSpatial.setLocalTranslation(position);
         spaceShipRoomSpatial.scale(scale);
