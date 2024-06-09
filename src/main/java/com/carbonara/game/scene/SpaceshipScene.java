@@ -115,7 +115,7 @@ public class SpaceshipScene implements Observer {
     }
 
     private void loadBarrier(Node scene, Vector3f position, float scale){
-        Spatial barrierSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/capitanroom/barrier/barrier.j3o");
+        Spatial barrierSpatial = GlobalSimpleApplication.getApp().getAssetManager().loadModel("Models/capitanroom/barrier/barrier32.j3o");
         scene.attachChild(barrierSpatial);
         barrierSpatial.setLocalTranslation(position);
         barrierSpatial.scale(scale);
