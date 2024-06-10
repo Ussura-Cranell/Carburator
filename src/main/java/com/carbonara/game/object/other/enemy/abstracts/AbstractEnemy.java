@@ -95,7 +95,7 @@ public class AbstractEnemy implements ITakeDamage {
     }
 
     private float desiredDistance = 100.0f; // Желаемое расстояние до корабля
-    private float speed = 10.0f; // Скорость движения врага
+    private float speed = 8.0f; // Скорость движения врага
     private float mapBoundary = 500.0f; // Пределы карты
 
     public void moving(float tpf) {

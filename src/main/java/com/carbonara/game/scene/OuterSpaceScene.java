@@ -43,10 +43,10 @@ public class OuterSpaceScene {
         testingBoxGeometry.setMaterial(testingBoxMaterial);
         return testingBoxGeometry;
     }
-    private static Spatial spaceshipSpatial;
+
     private void initializeSpaceshipSystems(){
 
-        spaceshipSpatial = loadSpaceshipSpatial();
+        Spatial spaceshipSpatial = loadSpaceshipSpatial();
 
         AbstractSpaceship spaceship = new CreateTestSpaceship(
                 spaceshipSpatial,
@@ -65,10 +65,6 @@ public class OuterSpaceScene {
     public void cleanup(){
         AbstractSpaceship.getAbstractSpaceShip().cleanup();
         EvilClass.cleanup();
-    }
-
-    public static Spatial getSpaceshipSpatial() {
-        return spaceshipSpatial;
     }
 }
 

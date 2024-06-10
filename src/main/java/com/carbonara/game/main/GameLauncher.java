@@ -32,9 +32,9 @@ public class GameLauncher extends SimpleApplication {
         cameraManager = new CameraManager(this);
 
         // stateManager.attach(new MainMenuPageManager());
-        stateManager.attach(new NewSceneGuardian());
+        // stateManager.attach(new NewSceneGuardian());
         // stateManager.attach(new NewGamePage());
-        // stateManager.attach(new IntroPlayer());
+        stateManager.attach(new IntroPlayer());
     }
 
     private static void setManualSetting(SimpleApplication app, boolean value){

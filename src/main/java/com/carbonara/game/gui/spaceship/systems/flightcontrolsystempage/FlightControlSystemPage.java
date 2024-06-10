@@ -5,14 +5,13 @@ import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.carbonara.game.object.other.spaceship.systems.commands.flight.MoveDirectionCommand;
 import com.carbonara.game.object.other.spaceship.systems.commands.flight.StopDirectionCommand;
-import com.carbonara.game.scene.OuterSpaceScene;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.ui.Picture;
 import com.simsilica.lemur.*;
 
 import java.util.Arrays;
@@ -32,6 +31,17 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
         this.screen = new Container();
         this.screen.setPreferredSize(new Vector3f(sizeX, sizeY, 1f));
 
+
+
+        addBigBorders();
+        addLeftBorders();
+        addRightBorders();
+
+        addRightPanelPosition();
+        addRightPanelVector();
+        addRightPanelField();
+        addRightPanelButtons();
+
         Container labelContainer = new Container();
         labelContainer.setPreferredSize(new Vector3f(100, 50, 1));
 
@@ -42,15 +52,6 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
 
         labelContainer.addChild(label);
         this.screen.addChild(labelContainer);
-
-        addBigBorders();
-        addLeftBorders();
-        addRightBorders();
-
-        addRightPanelPosition();
-        addRightPanelVector();
-        addRightPanelField();
-        addRightPanelButtons();
     }
 
     private Container rightPanel = new Container();
@@ -100,6 +101,20 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
         var value = (sizeY-sizeY*scaleY) / 2;
         posX += value;
         posy -= value;
+
+        // Container photoContainer = new Container();
+        // photoContainer.setSize(new Vector3f(sizeX*scaleX, sizeY*scaleY, 1.0f));
+        // photoContainer.move(posX, posy, 1.0f);
+
+        Picture picture = new Picture("cat picture");
+        picture.setImage(GlobalSimpleApplication.getApp().getAssetManager(),
+                "Textures/cat/MEOW.jpg", true);
+        picture.setWidth(sizeX*scaleX);
+        picture.setHeight(sizeY*scaleY);
+        picture.setLocalTranslation(posX, -sizeY*scaleY-value, 0.0f);
+        this.screen.attachChild(picture);
+
+        // this.screen.attachChild(photoContainer);
 
         // верхняя граница
         line = new Geometry("line", new Box(sizeX*scaleX/2, 2.0f, 1));
@@ -412,7 +427,7 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
             // прекращение движения
             // сброс вектора направления
 
-            AbstractSpaceship.getAbstractSpaceShip().getMainControlSystem().executeCommand(new MoveDirectionCommand(direction));
+            AbstractSpaceship.getAbstractSpaceShip().getMainControlSystem().executeCommand(new StopDirectionCommand());
 
         });
         positionContainer.addChild(button2);
@@ -424,7 +439,7 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
         button3.move(sizeX*scaleX*3/3-value, 0, 1.0f);
         button3.addClickCommands(button -> {
             // запуск команды для движения
-
+            AbstractSpaceship.getAbstractSpaceShip().getMainControlSystem().executeCommand(new MoveDirectionCommand(direction));
 
         });
         positionContainer.addChild(button3);
@@ -469,9 +484,7 @@ public class FlightControlSystemPage extends AbstractSpaceshipSystemPage {
     @Override
     public void update(float tpf) {
 
-        Spatial spaceship = OuterSpaceScene.getSpaceshipSpatial();
-        if (spaceship != null)  positionLabel.setText(String.valueOf(spaceship.getLocalTranslation()));
-        else logger.info("null!");
+        positionLabel.setText(String.valueOf(AbstractSpaceship.getAbstractSpaceShip().getSpaceShipSpatial().getLocalTranslation()));
         directionLabel.setText(direction.toString());
     }
 }

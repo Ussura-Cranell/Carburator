@@ -24,20 +24,13 @@ public class FlightControlSystem extends AbstractSystem {
     }
 
     private Vector3f direction = Vector3f.ZERO;
-    private float speed = 1.0f;
+    private float speed = 15.0f;
     public void setDirection(Vector3f direction) {
         this.direction = direction;
     }
 
     public void moveDirection(Vector3f direction, float tpf){
-        // logger.info("1");
-        Spatial spaceship = OuterSpaceScene.getSpaceshipSpatial();
-        if (spaceship != null) {
-            var way = AbstractSpaceship.getAbstractSpaceShip().getSpaceShipSpatial()
-                    .getLocalTranslation().add(direction.normalize().mult(tpf * speed));
-
-            spaceship.setLocalTranslation(way);
-        }
+        spatial.setLocalTranslation(spatial.getLocalTranslation().add(direction.normalize().mult(tpf * speed)));
     }
 
     @Override

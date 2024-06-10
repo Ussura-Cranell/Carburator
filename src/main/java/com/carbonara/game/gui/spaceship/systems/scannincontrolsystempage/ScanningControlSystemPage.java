@@ -80,7 +80,7 @@ public class ScanningControlSystemPage extends AbstractSpaceshipSystemPage {
             // System.out.println("not a null");
             radar.updateTargets(spaceship.getSpaceShipSpatial().getLocalTranslation(),
                     vaultEnemies.getEnemySet(),
-                    100.0f,
+                    250.0f,
                     1.0f
             );
 

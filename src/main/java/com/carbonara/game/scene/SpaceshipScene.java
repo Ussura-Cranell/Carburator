@@ -116,7 +116,7 @@ public class SpaceshipScene implements Observer {
     }
     public void initialize(){
         bulletAppState = new BulletAppState();
-        bulletAppState.setDebugEnabled(true);
+        bulletAppState.setDebugEnabled(false);
         GlobalSimpleApplication.getApp().getStateManager().attach(bulletAppState);
 
         ServiceLocatorManagers.getNewPauseGameManager().addObserver(this);
@@ -133,7 +133,7 @@ public class SpaceshipScene implements Observer {
         Material testingBarrierMaterial = GlobalSimpleApplication.getApp().getAssetManager().loadMaterial("Common/Materials/RedColor.j3m");
         //testingBoxMaterial.setColor("Color", ColorRGBA.Magenta);
         testingBarrierMaterial.getAdditionalRenderState().setWireframe(true);
-        testingBarrierMaterial.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.Off);
+        testingBarrierMaterial.getAdditionalRenderState().setFaceCullMode(RenderState.FaceCullMode.FrontAndBack);
         barrierSpatial.setMaterial(testingBarrierMaterial);
 
         CollisionShape gridSurfaceCollisionShape = CollisionShapeFactory.createMeshShape(barrierSpatial);
