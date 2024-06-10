@@ -1,5 +1,6 @@
 package com.carbonara.game.scene;
 import com.carbonara.game.gui.spaceship.systems.*;
+import com.carbonara.game.gui.spaceship.systems.flightcontrolsystempage.FlightControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.carbonara.game.main.GlobalSimpleApplication;

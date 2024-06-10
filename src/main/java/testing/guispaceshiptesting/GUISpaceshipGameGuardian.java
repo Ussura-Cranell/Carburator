@@ -1,6 +1,6 @@
 package testing.guispaceshiptesting;
 
-import com.carbonara.game.gui.spaceship.systems.FlightControlSystemPage;
+import com.carbonara.game.gui.spaceship.systems.flightcontrolsystempage.FlightControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.ScreenPageKeeper;
 import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
@@ -32,7 +32,6 @@ import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;

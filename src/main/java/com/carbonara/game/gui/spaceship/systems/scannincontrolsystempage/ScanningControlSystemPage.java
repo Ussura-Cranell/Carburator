@@ -2,7 +2,6 @@ package com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage;
 
 import com.carbonara.game.gui.spaceship.systems.AbstractSpaceshipSystemPage;
 import com.carbonara.game.object.other.EvilClass;
-import com.carbonara.game.object.other.enemy.abstracts.AbstractEnemy;
 import com.carbonara.game.object.other.enemy.abstracts.VaultEnemies;
 import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.jme3.math.Vector2f;

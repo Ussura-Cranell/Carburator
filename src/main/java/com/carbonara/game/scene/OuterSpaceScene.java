@@ -7,6 +7,7 @@ import com.carbonara.game.object.other.EvilClass;
 import com.carbonara.game.object.other.spaceship.CreateTestSpaceship;
 import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.carbonara.game.object.other.spaceship.managers.SpaceShipServiceLocator;
+import com.carbonara.game.object.other.spaceship.systems.FlightControlSystem;
 import com.carbonara.game.object.other.spaceship.systems.ScanningControlSystem;
 import com.carbonara.game.object.other.spaceship.systems.TerminalControlSystem;
 import com.jme3.material.Material;
@@ -42,10 +43,10 @@ public class OuterSpaceScene {
         testingBoxGeometry.setMaterial(testingBoxMaterial);
         return testingBoxGeometry;
     }
-
+    private static Spatial spaceshipSpatial;
     private void initializeSpaceshipSystems(){
 
-        Spatial spaceshipSpatial = loadSpaceshipSpatial();
+        spaceshipSpatial = loadSpaceshipSpatial();
 
         AbstractSpaceship spaceship = new CreateTestSpaceship(
                 spaceshipSpatial,
@@ -53,6 +54,7 @@ public class OuterSpaceScene {
 
         spaceship.getMainControlSystem().registerSystem(new TerminalControlSystem());
         spaceship.getMainControlSystem().registerSystem(new ScanningControlSystem());
+        spaceship.getMainControlSystem().registerSystem(new FlightControlSystem());
 
         // УПРАВЛЕНИЕ ТЕРМИНАЛОМ
         ScreenPageKeeper pageKeeper = SpaceShipServiceLocator.getPageKeeper();
@@ -63,6 +65,10 @@ public class OuterSpaceScene {
     public void cleanup(){
         AbstractSpaceship.getAbstractSpaceShip().cleanup();
         EvilClass.cleanup();
+    }
+
+    public static Spatial getSpaceshipSpatial() {
+        return spaceshipSpatial;
     }
 }
 

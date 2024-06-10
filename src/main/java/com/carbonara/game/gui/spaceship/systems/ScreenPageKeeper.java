@@ -1,6 +1,7 @@
 package com.carbonara.game.gui.spaceship.systems;
 
 import com.carbonara.game.gui.spaceship.systems.commnads.DisplaySystemGUICommand;
+import com.carbonara.game.gui.spaceship.systems.flightcontrolsystempage.FlightControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.ScanningControlSystemPage;
 import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.carbonara.game.main.GlobalSimpleApplication;
@@ -14,7 +15,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 public class ScreenPageKeeper {
     private final HashMap< Class<? extends AbstractSpaceshipSystemPage>, AbstractSpaceshipSystemPage> screenPages = new HashMap<>();
