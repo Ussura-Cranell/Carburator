@@ -5,6 +5,7 @@ import com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage.Scannin
 import com.carbonara.game.gui.spaceship.systems.terminalcontrolsystempage.TerminalControlSystemPage;
 import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.object.gameobjects.categories.player.general.InteractionControl;
+import com.carbonara.game.object.other.spaceship.managers.SpaceShipServiceLocator;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.Vector3f;
@@ -13,6 +14,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 public class ScreenPageKeeper {
     private final HashMap< Class<? extends AbstractSpaceshipSystemPage>, AbstractSpaceshipSystemPage> screenPages = new HashMap<>();
@@ -76,6 +78,8 @@ public class ScreenPageKeeper {
                 new FlightControlSystemPage(screenNodes[7], scale));
         addInteractionPanel(screenNodes[7], screenPages.get(FlightControlSystemPage.class),
                 new Vector3f(0.987689f, 0.346177f, 1.0f).divide(scale * 0.000285f));
+
+        SpaceShipServiceLocator.setPageKeeper(this);
     }
 
     public void addSpaceshipSystemPage(
@@ -122,6 +126,6 @@ public class ScreenPageKeeper {
 
     public void cleanup(){
         screenPages.values().forEach(AbstractSpaceshipSystemPage::cleanup);
+        SpaceShipServiceLocator.setPageKeeper(null);
     }
-
 }

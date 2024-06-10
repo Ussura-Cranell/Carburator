@@ -1,5 +1,6 @@
 package com.carbonara.game.object.other.spaceship.systems.abstracts;
 
+import com.carbonara.game.managers.NewPauseGameManager;
 import com.carbonara.game.object.other.spaceship.components.abstracts.AbstractSystemComponent;
 import com.carbonara.game.object.other.spaceship.systems.interfaces.ISystem;
 import com.jme3.export.JmeExporter;
@@ -11,10 +12,12 @@ import com.jme3.scene.control.Control;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public abstract class AbstractSystem implements Control, ISystem {
+public abstract class AbstractSystem implements Control, ISystem, Observer {
     protected Logger logger;
 
     protected Spatial spatial;
@@ -100,5 +103,15 @@ public abstract class AbstractSystem implements Control, ISystem {
         for (AbstractSystemComponent component : this.getSystemComponents()){
             component.update(v);
         }
+    }
+    private boolean gamePause = false;
+
+    protected boolean getGamePause() {
+        return gamePause;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof NewPauseGameManager) gamePause = (boolean) arg;
     }
 }

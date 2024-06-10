@@ -108,6 +108,10 @@ public class CameraInteraction extends AbstractInteraction implements Observer {
         }
     };
 
+    public InputListener getInputListener() {
+        return inputListener;
+    }
+
     private final InputListener interactionWithObjectListener = (ActionListener) (s, b, v) -> {
         // по последней цифре в названии
         if (flag_interactOnObject && !b) { // есть активный объект и кнопка отжата

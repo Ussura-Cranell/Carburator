@@ -8,9 +8,10 @@ import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIDebugManager;
 import com.carbonara.game.managers.GUIManager;
-import com.carbonara.game.object.other.spaceship.CreateTestSpaceShip;
-import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceShip;
-import com.carbonara.game.object.other.spaceship.managers.testing.Enemy;
+import com.carbonara.game.object.other.enemy.abstracts.AbstractEnemy;
+import com.carbonara.game.object.other.enemy.abstracts.Enemy;
+import com.carbonara.game.object.other.spaceship.CreateTestSpaceship;
+import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.carbonara.game.object.other.spaceship.systems.FlightControlSystem;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -42,7 +43,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
     private final Node outerSpaceScene = GUISpaceshipScene.createScene();
     private final Node screenNodes = new Node("screenNodes");
     private SimpleApplication app;
-    private AbstractSpaceShip spaceship;
+    private AbstractSpaceship spaceship;
     private ScreenPageKeeper screenPageKeeper; // отвечает за терминалы
 
     @Override
@@ -73,7 +74,7 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
 
     private void spaceshipInit(){
         // создание корабля
-        spaceship = new CreateTestSpaceShip(
+        spaceship = new CreateTestSpaceship(
                 GUISpaceshipScene.createTestingCube(),
                 outerSpaceScene);
         // добавляем корабль как отдельное подприложение
@@ -135,13 +136,13 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
         // создаём тестовых врагов
         enemySet  = new HashSet<>();
         for (int i = 0; i <= 25; i++) {
-            Enemy enemy = new Enemy(createSpatial());
+            Enemy enemy = new Enemy();
             //enemy.getModel().setLocalTranslation(0, 0,0);
-            app.getRootNode().attachChild(enemy.getModel());
+            // app.getRootNode().attachChild(enemy.get);
             enemySet.add(enemy);
         }
     }
-    Set<Enemy> enemySet;
+    private Set<AbstractEnemy> enemySet;
     private Random random = new Random();
     private Spatial createSpatial(){
         Spatial spatial = new Geometry("box", new Box(1.0f, 1.0f, 1.0f));
@@ -260,12 +261,12 @@ public class GUISpaceshipGameGuardian extends BaseAppState {
                     enemySet,
                     250.0f - 25.0f,
                     3.0f);
-            List<Enemy> enemies = enemySet.stream().sorted((o1, o2) -> (int) (o1.getModel().getLocalTranslation().distance(app.getCamera().getLocation()) -
-                                o2.getModel().getLocalTranslation().distance(app.getCamera().getLocation()))
-                    ).toList();
+            /*List<AbstractEnemy> enemies = enemySet.stream().sorted((o1, o2) -> (int) (o1.getPosition().distance(app.getCamera().getLocation()) -
+                                o2.getPosition().distance(app.getCamera().getLocation()))
+                    ).toList();*/
             scanningControlSystemPage.getTargetPanel().updateTargets(
                     app.getCamera().getLocation(),
-                    enemies);
+                    enemySet.stream().toList());
         }
 
         if (flag_debugLabelCamera){

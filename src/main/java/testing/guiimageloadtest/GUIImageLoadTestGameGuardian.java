@@ -2,7 +2,7 @@ package testing.guiimageloadtest;
 
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.managers.GUIManager;
-import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceShip;
+import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -17,7 +17,7 @@ public class GUIImageLoadTestGameGuardian extends BaseAppState {
     private final Node outerSpaceScene = GUISpaceshipScene.createScene();
     private final Node screenNodes = new Node("screenNodes");
     private SimpleApplication app;
-    private AbstractSpaceShip spaceship;
+    private AbstractSpaceship spaceship;
 
     @Override
     protected void initialize(Application application) {

@@ -20,4 +20,8 @@ public class EvilClass {
         if (vaultEnemies == null) logger.warning("The class is not initialized!");
         return vaultEnemies;
     }
+
+    public static void cleanup() {
+        vaultEnemies = null;
+    }
 }

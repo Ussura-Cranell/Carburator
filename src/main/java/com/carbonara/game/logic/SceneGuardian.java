@@ -53,10 +53,10 @@ public class SceneGuardian extends BaseAppState {
             GUIDebugManager.setEnable(true);
 
         // outer space
-            OuterSpaceCreate outerSpaceCreate = new OuterSpaceCreate(new Node("outerSpace"));
-            this.outerSpace = outerSpaceCreate.getOuterSpace();
-
-            ((SimpleApplication)application).getRootNode().attachChild(this.outerSpace);
+            // OuterSpaceCreate outerSpaceCreate = new OuterSpaceCreate(new Node("outerSpace"));
+            // this.outerSpace = outerSpaceCreate.getOuterSpace();
+//
+            // ((SimpleApplication)application).getRootNode().attachChild(this.outerSpace);
     }
 
     @Override

@@ -296,4 +296,12 @@ public class SpaceshipScene implements Observer {
             logger.info("NewPauseGameManager arg: " + arg);
         }
     }
+
+    public ScreenPageKeeper getScreenPageKeeper() {
+        return screenPageKeeper;
+    }
+
+    public void setScreenPageKeeper(ScreenPageKeeper screenPageKeeper) {
+        this.screenPageKeeper = screenPageKeeper;
+    }
 }

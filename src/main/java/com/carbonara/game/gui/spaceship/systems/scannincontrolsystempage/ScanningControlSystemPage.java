@@ -1,38 +1,35 @@
 package com.carbonara.game.gui.spaceship.systems.scannincontrolsystempage;
 
 import com.carbonara.game.gui.spaceship.systems.AbstractSpaceshipSystemPage;
-import com.carbonara.game.main.GlobalSimpleApplication;
-import com.carbonara.game.object.other.spaceship.managers.testing.Enemy;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
+import com.carbonara.game.object.other.EvilClass;
+import com.carbonara.game.object.other.enemy.abstracts.AbstractEnemy;
+import com.carbonara.game.object.other.enemy.abstracts.VaultEnemies;
+import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Line;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.VAlignment;
-import testing.guispaceshiptesting.GUISpaceshipTest;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class ScanningControlSystemPage extends AbstractSpaceshipSystemPage {
     private Radar radar;
     private TargetPanel targetPanel;
 
-    public ScanningControlSystemPage(Node point, float scale) {
-        super(point, scale);
-    }
+    public ScanningControlSystemPage(Node point, float scale) { super(point, scale); }
+
+    private VaultEnemies vaultEnemies;
+    private AbstractSpaceship spaceship;
 
     @Override
     public void initialize() {
+
+        vaultEnemies = EvilClass.getVaultEnemies();
+        spaceship = AbstractSpaceship.getAbstractSpaceShip();
+
         sizeX = 0.797655f * mul;
         sizeY = 0.563830f * mul;
 
@@ -66,6 +63,37 @@ public class ScanningControlSystemPage extends AbstractSpaceshipSystemPage {
     }
 
     public TargetPanel getTargetPanel() {
+        // System.out.println("get target panel");
         return targetPanel;
+    }
+
+    private float timer  = 0.0f;
+   @Override
+    public void update(float tpf) {
+       // System.out.println("update");
+      //  System.out.println("update");
+
+       timer += tpf;
+
+        if (timer >= 0.25 && spaceship != null) {
+            timer = 0.0f;
+            // System.out.println("update 1");
+            // System.out.println("not a null");
+            radar.updateTargets(spaceship.getSpaceShipSpatial().getLocalTranslation(),
+                    vaultEnemies.getEnemySet(),
+                    100.0f,
+                    1.0f
+            );
+
+            targetPanel.updateTargets(spaceship.getSpaceShipSpatial().getLocalTranslation(),
+                    vaultEnemies.getEnemySet().stream().sorted((o1, o2) -> {
+                        float o1dis = o1.getPosition().distance(spaceship.getSpaceShipSpatial().getLocalTranslation());
+                        float o2dis = o1.getPosition().distance(spaceship.getSpaceShipSpatial().getLocalTranslation());
+                        return (int) (o1dis-o2dis);
+                    }).toList());
+
+        } else
+            // System.out.println("update 2");
+            spaceship = AbstractSpaceship.getAbstractSpaceShip();
     }
 }

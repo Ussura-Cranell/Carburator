@@ -15,9 +15,9 @@ import com.jme3.scene.Spatial;
 
 import java.util.logging.Logger;
 
-public class AbstractSpaceShip implements AppState, ITakeDamage {
+public class AbstractSpaceship implements AppState, ITakeDamage {
     // двух подприложений AbstractSpaceShip не может быть в игре!
-    protected static final Logger logger = Logger.getLogger(AbstractSpaceShip.class.getName());
+    protected static final Logger logger = Logger.getLogger(AbstractSpaceship.class.getName());
     protected Spatial SpaceShipSpatial;       // модель корабля
     protected Node spaceNode;                 // пространство в котором расположен корабль
     protected AppStateManager appStateManager;        // менеджер подприложений
@@ -28,11 +28,11 @@ public class AbstractSpaceShip implements AppState, ITakeDamage {
     // protected HashMap <String, AbstractSystem> spaceShipSystems = new HashMap<>();
     protected boolean isInitialized = false;
     protected boolean isEnabled = false;
-    protected final String Id = String.valueOf(AbstractSpaceShip.class.hashCode());
+    protected final String Id = String.valueOf(AbstractSpaceship.class.hashCode());
 
-    private static AbstractSpaceShip abstractSpaceShip;
+    private static AbstractSpaceship abstractSpaceShip;
 
-    public AbstractSpaceShip(Spatial SpaceShipSpatial, Node spaceNode){
+    public AbstractSpaceship(Spatial SpaceShipSpatial, Node spaceNode){
 
         if (abstractSpaceShip!=null) throw new RuntimeException("You can't create a second player ship!");
 
@@ -62,6 +62,7 @@ public class AbstractSpaceShip implements AppState, ITakeDamage {
     @Override
     public void update(float v) {
         // игровой цикл
+
     }
 
     protected void onEnable() {
@@ -75,6 +76,7 @@ public class AbstractSpaceShip implements AppState, ITakeDamage {
     @Override
     public void cleanup() {
         // очистка ресурсов при выходе
+        abstractSpaceShip = null;
     }
 
     @Override
@@ -138,7 +140,7 @@ public class AbstractSpaceShip implements AppState, ITakeDamage {
         return String.valueOf(s);
     }
 
-    public static AbstractSpaceShip getAbstractSpaceShip() {
+    public static AbstractSpaceship getAbstractSpaceShip() {
         if (abstractSpaceShip == null) logger.warning("The class is not initialized!");
         return abstractSpaceShip;
     }
@@ -148,10 +150,10 @@ public class AbstractSpaceShip implements AppState, ITakeDamage {
     @Override
     public void takeDamage(AbstractWeapon weapon) {
         float damage = weapon.getDamage();
-        String message = "";
+        /*String message = "";
         message += "weapon_id: " + weapon.hashCode() + " inflicted " + damage + " damage to the spaceship";
 
-        System.out.println(message);
+        System.out.println(message);*/
     }
 
     public void addShipResources(float shipResources) {

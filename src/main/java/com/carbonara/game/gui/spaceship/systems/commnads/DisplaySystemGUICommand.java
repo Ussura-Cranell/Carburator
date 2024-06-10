@@ -22,7 +22,9 @@ public class DisplaySystemGUICommand implements IActionCommand {
 
     @Override
     public void execute() {
-        System.out.println("display GUI!");
+        // System.out.println("display GUI!");
+
+        removeListeners();
 
         // типо ставим на паузу обработчик взаимодействия у персонажа
         GlobalSimpleApplication.getApp().getGuiNode().attachChild(systemPage.getScreenForGUI());
@@ -71,6 +73,31 @@ public class DisplaySystemGUICommand implements IActionCommand {
 
             GlobalSimpleApplication.getApp().getStateManager().getState(PlayerStateManager.class)
                     .getPlayerCharacter().getPlayerCharacterControl().setEnabled(true);
+
+            addListeners();
         }
     };
+
+    private void removeListeners(){
+        InputListener listener = GlobalSimpleApplication.getApp().getStateManager()
+                .getState(PlayerStateManager.class).getCameraInteraction().getInputListener();
+        GlobalSimpleApplication.getApp().getInputManager().removeListener(listener);
+
+        listener = GlobalSimpleApplication.getApp().getStateManager()
+                .getState(PlayerStateManager.class).getInputListener();
+        GlobalSimpleApplication.getApp().getInputManager().removeListener(listener);
+    }
+
+    private void addListeners(){
+        InputListener listener = GlobalSimpleApplication.getApp().getStateManager()
+                .getState(PlayerStateManager.class).getCameraInteraction().getInputListener();
+        GlobalSimpleApplication.getApp().getInputManager().addListener(listener, "InteractionButton");
+
+        listener = GlobalSimpleApplication.getApp().getStateManager()
+                .getState(PlayerStateManager.class).getInputListener();
+        GlobalSimpleApplication.getApp().getInputManager().addListener(
+                listener,
+                "flag_FollowingCameraHead",
+                "setPlayerToStartingPosition");
+    }
 }

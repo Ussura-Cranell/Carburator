@@ -27,6 +27,7 @@ import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
 
+@Deprecated
 public class DebugRoom{
     private Node debugSpace;
 

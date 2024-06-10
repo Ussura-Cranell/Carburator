@@ -15,7 +15,7 @@ public abstract class AbstractWeapon extends AbstractSystemComponent {
         return WeaponControlSystem.class;
     }
 
-    protected Optional<AbstractEnemy> target = EvilClass.getVaultEnemies().getClosestEnemy();     /* - установка цели для конкретного орудия
+    protected Optional<AbstractEnemy> target = Optional.empty();     /* - установка цели для конкретного орудия
     ЕСЛИ ОРУДИЕ ДОБАВИЛИ ДО ИНИЦИАЛИЗАЦИИ, МОЖЕТ ПРОИЗОЙТИ ОШИБКА
     */
     protected float speed = 1.0f;       // - скорость

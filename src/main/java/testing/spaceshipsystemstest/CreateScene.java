@@ -2,7 +2,7 @@ package testing.spaceshipsystemstest;
 
 import com.carbonara.game.managers.CameraManager;
 import com.carbonara.game.object.other.EvilClass;
-import com.carbonara.game.object.other.spaceship.CreateTestSpaceShip;
+import com.carbonara.game.object.other.spaceship.CreateTestSpaceship;
 import com.carbonara.game.object.other.spaceship.components.engine.Engine;
 import com.carbonara.game.object.other.spaceship.components.reactor.Reactor;
 import com.carbonara.game.object.other.spaceship.components.shield.Shield;
@@ -31,13 +31,13 @@ public class CreateScene extends BaseAppState {
 
     private SimpleApplication app;
     private Node spaceShipScene = new Node("SpaceShipNode");
-    private CreateTestSpaceShip testSpaceShipAppState;
+    private CreateTestSpaceship testSpaceShipAppState;
 
 
     @Override
     protected void initialize(Application application) {
 
-        EvilClass.initialize();
+        // EvilClass.initialize();
 
         this.app = (SimpleApplication) application;
 
@@ -46,7 +46,7 @@ public class CreateScene extends BaseAppState {
 
         // создаём корабль и сразу прекрипляем его к сцене
         spaceShipSpatial = createSpaceShipSpatial();
-        testSpaceShipAppState = new CreateTestSpaceShip(spaceShipSpatial, spaceShipScene);
+        testSpaceShipAppState = new CreateTestSpaceship(spaceShipSpatial, spaceShipScene);
         app.getStateManager().attach(testSpaceShipAppState);
 
         // тестовый куб для тестирования коммандера

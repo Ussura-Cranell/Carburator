@@ -9,7 +9,7 @@ import com.simsilica.lemur.Panel;
 
 import java.util.logging.Logger;
 
-public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPage {
+public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPage{
     protected final Logger logger = Logger.getLogger(getClass().getName());
     protected Container screen; // контейнер для GUI
     protected Node point;       // точка к которой прикпепляется контейнер
@@ -85,7 +85,7 @@ public abstract class AbstractSpaceshipSystemPage implements ISpaceshipSystemsPa
     }
 
     @Override
-    public void update() {
+    public void update(float tpf) {
 
     }
 }

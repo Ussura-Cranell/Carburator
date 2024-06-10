@@ -1,7 +1,9 @@
 package com.carbonara.game.logic;
 
 import com.carbonara.game.gui.menu.pages.LoadingPage;
+import com.carbonara.game.gui.spaceship.systems.commnads.CreateOneRandomEnemyCommand;
 import com.carbonara.game.managers.*;
+import com.carbonara.game.object.other.EvilClass;
 import com.carbonara.game.scene.OuterSpaceScene;
 import com.carbonara.game.scene.SpaceshipScene;
 import com.jme3.app.Application;
@@ -22,8 +24,9 @@ public class NewSceneGuardian extends BaseAppState {
     private static Logger logger = Logger.getLogger(NewSceneGuardian.class.getName());
     private NewPauseGameManager newPauseGameManager;                    // менеджер для паузы игры
     private SpaceshipScene spaceshipScene;                              // пространство игрока
+    private OuterSpaceScene outerSpaceScene;                            // пространство корабля
     private Node spaceshipSceneNode;
-    private final Node outerSpaceScene = OuterSpaceScene.createScene(); // простанство кораблей
+    private Node outerSpaceSceneNode;
 
     private SimpleApplication app;
 
@@ -44,18 +47,28 @@ public class NewSceneGuardian extends BaseAppState {
         newPauseGameManager = ServiceLocatorManagers.getNewPauseGameManager();
         newPauseGameManager.initialize();
 
-        // добавление физики
+        EvilClass.initialize(); // логика обработки врагов
+
+        // ---
         spaceshipScene = new SpaceshipScene();
         spaceshipScene.initialize();
-
         spaceshipSceneNode = spaceshipScene.createScene();
 
+        // ---
+        outerSpaceScene = new OuterSpaceScene();
+        outerSpaceScene.initialize();
+        outerSpaceSceneNode = outerSpaceScene.createScene();
+
         app.getRootNode().attachChild(spaceshipSceneNode);
-        app.getRootNode().attachChild(outerSpaceScene);
+        app.getRootNode().attachChild(outerSpaceSceneNode);
 
         app.getStateManager().detach(app.getStateManager().getState(LoadingPage.class));
 
         SoundManager.get("main_environment").ifPresent(AudioNode::play);
+
+        (new CreateOneRandomEnemyCommand()).execute();
+        (new CreateOneRandomEnemyCommand()).execute();
+        (new CreateOneRandomEnemyCommand()).execute();
     }
 
     @Override
@@ -66,12 +79,13 @@ public class NewSceneGuardian extends BaseAppState {
         logger.info("cleanup");
 
         app.getRootNode().detachChild(spaceshipSceneNode);
-        app.getRootNode().detachChild(outerSpaceScene);
+        app.getRootNode().detachChild(outerSpaceSceneNode);
 
         newPauseGameManager.cleanup();
 
         // удаление физики
         spaceshipScene.cleanup();
+        outerSpaceScene.cleanup();
     }
 
     @Override
@@ -87,6 +101,9 @@ public class NewSceneGuardian extends BaseAppState {
     @Override
     public void update(float tpf) {
         newPauseGameManager.update(tpf);
+
+        // логика обработки врагов
+        EvilClass.getVaultEnemies().update(tpf);
     }
 }
 

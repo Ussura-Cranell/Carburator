@@ -143,6 +143,10 @@ public class PlayerStateManager extends BaseAppState {
         }
     };
 
+    public InputListener getInputListener() {
+        return inputListener;
+    }
+
     Spatial positionPoinCameraSparial;
     private Spatial createPointCameraSpatial(){
         Sphere sphere = new Sphere(5, 5, 0.05f);

@@ -1,17 +1,15 @@
 package testing.completespaceshipassemblytest;
 
-import com.carbonara.game.main.GlobalSimpleApplication;
 import com.carbonara.game.object.other.EvilClass;
 import com.carbonara.game.object.other.enemy.abstracts.Enemy;
-import com.carbonara.game.object.other.spaceship.CreateTestSpaceShip;
-import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceShip;
+import com.carbonara.game.object.other.spaceship.CreateTestSpaceship;
+import com.carbonara.game.object.other.spaceship.abstracts.AbstractSpaceship;
 import com.carbonara.game.object.other.spaceship.components.reactor.Reactor;
 import com.carbonara.game.object.other.spaceship.components.shield.Shield;
 import com.carbonara.game.object.other.spaceship.components.weapon.Weapon;
 import com.carbonara.game.object.other.spaceship.systems.ReactorControlSystem;
 import com.carbonara.game.object.other.spaceship.systems.ShieldControlSystem;
 import com.carbonara.game.object.other.spaceship.systems.WeaponControlSystem;
-import com.carbonara.game.object.other.spaceship.systems.abstracts.AbstractSystem;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
@@ -22,7 +20,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.logging.Logger;
 
 public class CSASGameGuardian extends BaseAppState {
@@ -36,7 +33,7 @@ public class CSASGameGuardian extends BaseAppState {
     protected void initialize(Application application) {
         app = (SimpleApplication) application;
 
-        EvilClass.initialize();
+        // EvilClass.initialize();
 
         spaceNode = CSAScene.createScene();
 
@@ -82,7 +79,7 @@ public class CSASGameGuardian extends BaseAppState {
         Spatial spaceshipSpatial = CSAScene.getSpaceshipSpatial();
 
         // создали корабль
-        AbstractSpaceShip testSpaceShip = new CreateTestSpaceShip(spaceshipSpatial, spaceNode);
+        AbstractSpaceship testSpaceShip = new CreateTestSpaceship(spaceshipSpatial, spaceNode);
         app.getStateManager().attach(testSpaceShip);
 
         // добавили системы вместе с компонентами
@@ -113,7 +110,7 @@ public class CSASGameGuardian extends BaseAppState {
 
         // вывести все компонеты систем
         System.out.println("Component list:");
-        AbstractSpaceShip.getAbstractSpaceShip().getMainControlSystem().getSystems().values()
+        AbstractSpaceship.getAbstractSpaceShip().getMainControlSystem().getSystems().values()
                 .forEach(abstractSystem -> abstractSystem.getSystemComponents().forEach(System.out::println));
 
         // вывести всех противников
@@ -129,7 +126,7 @@ public class CSASGameGuardian extends BaseAppState {
         }
     };
 
-    private void addWeaponControlSystem(AbstractSpaceShip spaceship){
+    private void addWeaponControlSystem(AbstractSpaceship spaceship){
         spaceship.getMainControlSystem().registerSystem(new WeaponControlSystem());
         // меняем размерность вместимости системы на 2 единицы
         var spaceshipControlSystem = spaceship.getMainControlSystem().getSystem(WeaponControlSystem.class);
@@ -138,7 +135,7 @@ public class CSASGameGuardian extends BaseAppState {
         spaceship.getMainControlSystem().registerSystemComponent(new Weapon());
         spaceship.getMainControlSystem().registerSystemComponent(new Weapon());
     }
-    private void addShieldControlSystem(AbstractSpaceShip spaceship){
+    private void addShieldControlSystem(AbstractSpaceship spaceship){
         spaceship.getMainControlSystem().registerSystem(new ShieldControlSystem());
         // меняем размерность вместимости системы на 2 единицы
         var spaceshipControlSystem = spaceship.getMainControlSystem().getSystem(ShieldControlSystem.class);
@@ -147,7 +144,7 @@ public class CSASGameGuardian extends BaseAppState {
         spaceship.getMainControlSystem().registerSystemComponent(new Shield());
         spaceship.getMainControlSystem().registerSystemComponent(new Shield());
     }
-    private void addReactorControlSystem(AbstractSpaceShip spaceship){
+    private void addReactorControlSystem(AbstractSpaceship spaceship){
         spaceship.getMainControlSystem().registerSystem(new ReactorControlSystem());
         // меняем размерность вместимости системы на 2 единицы
         var spaceshipControlSystem = spaceship.getMainControlSystem().getSystem(ReactorControlSystem.class);
